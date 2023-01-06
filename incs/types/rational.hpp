@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/06 22:46:15 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/06 22:56:06 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,22 @@ class Rational {
 	public:
 		Rational();
 		explicit Rational(long double x);
-		Rational(const Rational& x);
 		Rational(const std::string&& buf);
 		virtual ~Rational();
-		Rational&	operator=(const Rational& rhs);
-		Rational&	operator=(long double rhs);
+		Rational&		operator=(long double rhs);
 
-		long double	getVal() const;
-
+		long double		getVal() const;
 		operator long double() const;
 		
 	private:
 		long double	_val;
 };
 
-bool			operator==(const Rational& x, const Rational& y);
-bool			operator<(const Rational& x, const Rational& y);
-bool			operator!=(const Rational& x, const Rational& y);
-bool			operator<=(const Rational& x, const Rational& y);
-bool			operator>(const Rational& x, const Rational& y);
-bool			operator>=(const Rational& x, const Rational& y);
-
-std::ostream&	operator<<(std::ostream& o, const Rational& x);
+bool			operator==(const Rational& x, const long double& y);
+bool			operator<(const Rational& x, const long double& y);
+bool			operator!=(const Rational& x, const long double& y);
+bool			operator<=(const Rational& x, const long double& y);
+bool			operator>(const Rational& x, const long double& y);
+bool			operator>=(const Rational& x, const long double& y);
 
 #endif
