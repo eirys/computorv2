@@ -6,7 +6,7 @@
 #    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/01/06 18:49:45 by eli              ###   ########.fr        #
+#    Updated: 2023/01/06 21:17:14 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,12 @@ CC		= c++
 CFLAGS	= -Wall -Werror -Wextra -g -std=c++11
 INC		= -I./incs/types -I./incs/tools -I./incs/polynomial
 
-SRCS	= rational.cpp
+SRCS	= rational.cpp \
+			complex.cpp \
+			matrix.cpp \
+			function.cpp \
+			main.cpp
+
 OBJS	= $(SRCS:.cpp=.o)
 
 SRC		= $(addprefix src/, $(SRCS))
