@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/01/06 18:50:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/07 23:53:25 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace utils {
 			std::cout << std::endl;
 		}
 
-
+	//TODO
 	template <typename T, typename U>
 		inline bool irreducible(T& a, U& b) {
 			(void)a;

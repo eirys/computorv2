@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/06 22:50:55 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/07 21:36:52 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "rational.hpp"
 #include "complex.hpp"
 #include "utils.hpp"
+#include "math.hpp"
 
 int main() {
 	Complex a;
@@ -32,4 +33,7 @@ int main() {
 
 	c = d;
 	std::cout << c << NL;
+
+	std::cout << math::sqrt(499) << NL;
+	return 0;
 }

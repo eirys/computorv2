@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/06 18:50:48 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/07 21:47:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 # include <cstddef>
 # include <string>
 # include <type_traits>
+# include "rational.hpp"
 
-# define SQRT_DEPTH 20 // Bigger = better precision
+# define SQRT_DEPTH 15
+# define SQRT_10 3.16227766017
 
 namespace math {
-
-	using std::cout;
 
 	/* -- PROTOTYPE ----------------------------------------------- */
 
@@ -30,22 +30,23 @@ namespace math {
 		T abs(const T& x);
 
 	template <typename T, typename U>
-		double binomial_coefficient(const T& n, const U& p);
+		long double binomial_coefficient(const T& n, const U& p);
 
 	template <typename T>
 		T factorial(const T& n);
 
 	template <typename T, typename U>
-		double pow(const T& n, const U& exp);
+		long double pow(const T& n, const U& exp);
 
 	template <typename T>
-		double sqrt(const T& x);
+		long double sqrt(const T& x);
+	inline Rational sqrt(const Rational& val);
 
 	template <typename T, typename U>
 		long long int quotient(const T& a, const U& b);
 
 	template <typename T, typename U>
-		double remainder(const T& a, const U& b);
+		long double remainder(const T& a, const U& b);
 
 	bool isPrime(const long long int& n);
 
@@ -69,13 +70,23 @@ namespace math {
 	 **  n ^ exp
 	 */
 	template <typename T, typename U>
-		inline double pow(const T& n, const U& exp) {
+		inline long double pow(const T& n, const U& exp) {
 			if (exp == 0 || n == 1)
 				return 1;
 			else if (n == 0)
 				return 0;
 			else
-				return n * pow(n, exp - 1);
+				return n * pow(n, exp + (exp < 0 ? 1 : -1));
+		}
+
+	template <typename U>
+		inline Rational pow(Rational n, const U& exp) {
+			if (exp == 0 || n.getVal() == 1)
+				return Rational(1);
+			else if (n.getVal() == 0)
+				return Rational(0);
+			else
+				return n * Rational(pow(n, exp - 1));
 		}
 
 	/*   square root
@@ -84,19 +95,37 @@ namespace math {
 	 **            (1 + x) ^ .5 = sum(binomial_coef(.5, k) * x ^ k) for k = [0, inf[
 	 */
 	template <typename T>
-		inline double sqrt(const T& val) {
-			const size_t	exponent = std::to_string(static_cast<long long>(val)).size();
-			const double	x = (val / pow(10, exponent)) - 1;
-			double			sum = 0;
+		inline long double sqrt(const T& val) {
+			if (val == 0 || val == 1)
+				return val;
 
-			for (T i = 0; i < SQRT_DEPTH; ++i)
+			const size_t		exponent = std::to_string(static_cast<long long>(val)).size();
+			const long double	x = (val / pow(10, exponent)) - 1;
+			long double			sum = 0;
+
+			for (int i = 0; i < SQRT_DEPTH; ++i)
 				sum += binomial_coefficient(.5, i) * pow(x, i);
 			if (exponent % 2 == 0)
 				return sum * pow(10, exponent * .5);
 			else
-				return sum * 3.16227766017 * pow(10, (exponent - 1) * .5);
+				return sum * SQRT_10 * pow(10, (exponent - 1) * .5);
 		}
 
+	inline Rational sqrt(const Rational& val) {
+		if (val == 0 || val == 1)
+			return val;
+
+		const size_t		exponent = std::to_string(static_cast<long long>(val.getVal())).size();
+		const long double	x = (val.getVal() / pow(10, exponent)) - 1;
+		long double			sum = 0;
+
+		for (int i = 0; i < SQRT_DEPTH; ++i)
+			sum += binomial_coefficient(.5, i) * pow(x, i);
+		if (exponent % 2 == 0)
+			return Rational(sum * pow(10, exponent * .5));
+		else
+			return Rational(sum * SQRT_10 * pow(10, (exponent - 1) * .5));
+	}
 
 	// ARITHMETIC UTILS ==========================
 
@@ -106,7 +135,7 @@ namespace math {
 	 **  \ p /       p!(n - p)!
 	 */
 	template <typename T, typename U>
-		inline double binomial_coefficient(const T& n, const U& p) {
+		inline long double binomial_coefficient(const T& n, const U& p) {
 			const T denominator = factorial(p);
 
 			T numerator = 1;
@@ -142,7 +171,7 @@ namespace math {
 	 **	 a = q * b + r
 	 */
 	template <typename T, typename U>
-		inline double remainder(const T& a, const U& b) {
+		inline long double remainder(const T& a, const U& b) {
 			const long long int	q = quotient(a, b);
 
 			return a - (q * b);

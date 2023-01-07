@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/06 22:07:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/07 23:51:27 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,30 @@
 class Complex {
 	public:
 		Complex();
-		Complex(const std::string&& buf);
 		virtual ~Complex();
-		Complex(const Complex& x);
-		Complex& operator=(const Complex& rhs);
 
+		Complex(long double x);
+		Complex(long double x, long double y);
+		Complex(const Complex& x);
+		explicit Complex(const std::string&& buf);
+
+		Complex& 		operator=(long double rhs);
+		Complex& 		operator=(const Complex& rhs);
+
+		// Arith. operators
+		Complex&		operator+=(const Complex& rhs);
+		Complex			operator+(const Complex& rhs);
+
+		Complex&		operator-=(const Complex& rhs);
+		Complex			operator-(const Complex& rhs);
+
+		Complex&		operator*=(const Complex& rhs);
+		Complex			operator*(const Complex& rhs);
+		
+		Complex&		operator/=(const Complex& rhs);
+		Complex			operator/(const Complex& rhs);
+
+		// Getter
 		const Rational&	getReal() const;
 		const Rational& getImaginary() const;
 
@@ -30,8 +49,8 @@ class Complex {
 		bool			isImaginary() const;
 
 	private:
-		Rational	_re;
-		Rational	_im;
+		Rational		_re;
+		Rational		_im;
 };
 
 bool			operator==(const Complex& x, const Complex& y);
