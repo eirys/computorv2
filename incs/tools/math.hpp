@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/07 21:47:20 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/08 01:27:57 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ namespace math {
 
 	template <typename T>
 		T abs(const T& x);
+	Rational abs(const Rational& x);
 
 	template <typename T, typename U>
 		long double binomial_coefficient(const T& n, const U& p);
@@ -40,7 +41,7 @@ namespace math {
 
 	template <typename T>
 		long double sqrt(const T& x);
-	inline Rational sqrt(const Rational& val);
+	Rational sqrt(const Rational& val);
 
 	template <typename T, typename U>
 		long long int quotient(const T& a, const U& b);

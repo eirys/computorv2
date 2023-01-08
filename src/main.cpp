@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/07 21:36:52 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/08 01:10:27 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,17 @@
 #include "utils.hpp"
 #include "math.hpp"
 
+
+using std::cout;
+
 int main() {
-	Complex a;
-	Complex b;
+	// Complex a = Complex(20, -4);
+	// Complex d = Complex(3, 2);
+	Complex a(2, 3);
+	Complex d(0, 4);
+	cout <<a<<NL;
+	cout <<d<<NL;
 
-	Rational c("236.66");
-	Rational d(499.0);
-
-	std::cout << (a == b) << NL;
-	std::cout << c.getVal() << NL;
-
-	c = 200.025l;
-	std::cout << c << NL;
-
-	c = d;
-	std::cout << c << NL;
-
-	std::cout << math::sqrt(499) << NL;
+	cout << (a/d) << NL;
 	return 0;
 }

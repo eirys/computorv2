@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/07 22:47:47 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/08 01:18:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ Rational Rational::operator++(int) {
 	return tmp;
 }
 
-Rational Rational::operator+(const Rational& rhs) {
+Rational Rational::operator+(const Rational& rhs) const {
 	Rational tmp(*this);
 
 	tmp.operator+=(rhs);
@@ -99,11 +99,15 @@ Rational Rational::operator--(int) {
 	return tmp;
 }
 
-Rational Rational::operator-(const Rational& rhs) {
+Rational Rational::operator-(const Rational& rhs) const {
 	Rational tmp(*this);
 
 	tmp.operator-=(rhs);
 	return tmp;
+}
+
+Rational Rational::operator-() const {
+	return Rational(-this->getVal());
 }
 
 Rational& Rational::operator*=(const Rational& rhs) {
@@ -111,7 +115,7 @@ Rational& Rational::operator*=(const Rational& rhs) {
 	return *this;
 }
 
-Rational Rational::operator*(const Rational& rhs) {
+Rational Rational::operator*(const Rational& rhs) const {
 	Rational tmp(*this);
 
 	tmp.operator*=(rhs);
@@ -123,7 +127,7 @@ Rational& Rational::operator/=(const Rational& rhs) {
 	return *this;
 }
 
-Rational Rational::operator/(const Rational& rhs) {
+Rational Rational::operator/(const Rational& rhs) const {
 	Rational tmp(*this);
 
 	tmp.operator/=(rhs);

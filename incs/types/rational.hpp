@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/07 23:25:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/08 01:16:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,19 @@ class Rational {
 		Rational&		operator+=(const Rational& rhs);
 		Rational&		operator++();
 		Rational		operator++(int);
-		Rational		operator+(const Rational& rhs);
+		Rational		operator+(const Rational& rhs) const;
 
 		Rational&		operator-=(const Rational& rhs);
 		Rational&		operator--();
 		Rational		operator--(int);
-		Rational		operator-(const Rational& rhs);
+		Rational		operator-(const Rational& rhs) const;
+		Rational		operator-() const;
 
 		Rational&		operator*=(const Rational& rhs);
-		Rational		operator*(const Rational& rhs);
+		Rational		operator*(const Rational& rhs) const;
 		
 		Rational&		operator/=(const Rational& rhs);
-		Rational		operator/(const Rational& rhs);
+		Rational		operator/(const Rational& rhs) const;
 
 		// Getter
 		long double		getVal() const;
