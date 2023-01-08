@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/08 01:18:17 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/08 20:56:53 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,6 @@ Rational& Rational::operator=(const Rational& rhs) {
 long double Rational::getVal() const {
 	return _val;
 }
-
-// Rational::operator long double() const {
-// 	return _val;
-// }
-
-// Rational::operator int() const {
-// 	return static_cast<int>(_val);
-// }
 
 /* Relational operators *****************************/
 

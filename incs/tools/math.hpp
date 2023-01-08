@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/08 01:27:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/08 20:43:30 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ namespace math {
 
 	template <typename T>
 		T abs(const T& x);
-	Rational abs(const Rational& x);
 
 	template <typename T, typename U>
 		long double binomial_coefficient(const T& n, const U& p);

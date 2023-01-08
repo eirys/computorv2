@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/01/07 23:53:25 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/08 20:38:24 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <list>
 # include <iostream>
+# include <string>
 
 # define NL std::endl
 
@@ -39,6 +40,10 @@ namespace utils {
 				std::cout << '[' << *it << "] ";
 			std::cout << std::endl;
 		}
+
+	// size_t skipWhitespaces(const std::string&& buf, size_t hint = 0) {
+	// 	return buf.find_first_not_of("\t ", hint);
+	// }
 
 	//TODO
 	template <typename T, typename U>

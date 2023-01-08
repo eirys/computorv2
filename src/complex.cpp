@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/08 01:23:22 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/08 20:41:25 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ Complex::Complex(const Rational& x, const Rational& y):
 	_re(x),
 	_im(y) {}
 
-Complex::Complex(const std::string&& buf):
-	_re(0),
-	_im(0) { (void)buf; }
+Complex::Complex(const std::string&& buf) {
+	_parseBuf(buf);
+}
 
 Complex::Complex(const Complex& x):
 	_re(x.getReal()),
@@ -53,30 +53,6 @@ Complex& Complex::operator=(const Complex& rhs) {
 	_re = rhs._re;
 	_im = rhs._im;
 	return *this;
-}
-
-/* Getters ******************************************/
-
-const Rational& Complex::getReal() const {
-	return _re;
-}
-
-const Rational& Complex::getImaginary() const {
-	return _im;
-}
-
-/* Other ********************************************/
-
-bool	Complex::isComplex() const {
-	return getImaginary().getVal() && getReal().getVal();
-}
-
-bool	Complex::isReal() const {
-	return !getImaginary().getVal();
-}
-
-bool	Complex::isImaginary() const {
-	return !isReal();
 }
 
 /* Relational operators *****************************/
@@ -157,13 +133,47 @@ Complex Complex::operator/(const Complex& rhs) const {
 	return tmp;
 }
 
+/* Getters ******************************************/
+
+const Rational& Complex::getReal() const {
+	return _re;
+}
+
+const Rational& Complex::getImaginary() const {
+	return _im;
+}
+
+/* Other ********************************************/
+
+bool	Complex::isComplex() const {
+	return getImaginary().getVal() && getReal().getVal();
+}
+
+bool	Complex::isReal() const {
+	return !getImaginary().getVal();
+}
+
+bool	Complex::isImaginary() const {
+	return !isReal();
+}
+
+void	Complex::_parseBuf(const std::string& buf) {
+	size_t	pos;
+	long double ld = std::stold(buf, &pos);
+
+	_re = Rational(ld);
+	_im = Rational(std::string(buf.c_str() + pos));
+}
+
 /* Relational operators *****************************/
 
 bool operator==(const Complex& x, const Complex& y) {
 	return x.getReal() == y.getReal() && x.getImaginary() == y.getImaginary();
 }
 
-
+bool operator!=(const Complex& x, const Complex& y) {
+	return !operator==(x,y);
+}
 
 /* I/O stream operator *****************************/
 
