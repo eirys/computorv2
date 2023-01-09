@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 10:27:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 15:54:28 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ class Rational {
 		Rational();
 		virtual ~Rational();
 
-		Rational(long double x);
+		Rational(long int x, long int y = 1);
 		Rational(const Rational& x);
 		explicit Rational(const std::string&& buf);
 		
@@ -49,6 +49,14 @@ class Rational {
 		// Getter
 		long double		getVal() const;
 
+		// Exception
+		class divide_by_zero: public std::exception {
+			public:
+				virtual const char* what() const throw() {
+					return "Division by zero";
+				}
+		};
+		
 	private:
 		long double		_val;
 };

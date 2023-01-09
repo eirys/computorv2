@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 14:19:16 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 15:47:56 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,41 @@ class Matrix {
 		virtual ~Matrix();
 		
 		Matrix(const Matrix& x);
-		explicit Matrix(size_t n);
+		explicit Matrix(size_t n, const Rational& lambda = Rational(1));
 		explicit Matrix(size_t n, size_t p);
 
 		Matrix&				operator=(const Matrix& rhs);
 
-		line&				operator[](size_t index);
-		const line&			operator[](size_t index) const;
-
-		Matrix&				transpose();
+		// Arith operators
+		Matrix				transpose() const;
 		
 		Matrix&				operator+=(const Matrix& rhs);
+		Matrix				operator+(const Matrix& rhs) const;
+
 		Matrix&				operator-=(const Matrix& rhs);
+		Matrix				operator-(const Matrix& rhs) const;
+		Matrix				operator-() const;
+
 		Matrix&				operator*=(const Matrix& rhs);
+		Matrix&				operator*=(const Rational& rhs);
+		Matrix				operator*(const Matrix& rhs) const;
+		Matrix				operator*(const Rational& rhs) const;
+
+		// Getter
+		line&				operator[](size_t index);
+		const line&			operator[](size_t index) const;
 
 		size_t				getNbRows() const;
 		size_t				getNbLines() const;
 		const matrix&		getMatrix() const;
 
+		// Tools
 		const Rational&		getMin() const;
 		const Rational&		getMax() const;
 
 		bool				isSameSize(const Matrix& rhs) const;
 
+		// Exception
 		class not_same_size: public std::exception {
 			public:
 				virtual const char* what() const throw() {
@@ -69,8 +81,8 @@ class Matrix {
 		};
 
 	private:
-		size_t				_n;
-		size_t				_p;
+		size_t				_n;			// rows
+		size_t				_p;			// lines
 		matrix				_matrix;
 };
 

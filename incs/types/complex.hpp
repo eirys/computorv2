@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 10:28:36 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 15:49:02 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ class Complex {
 		Complex& 		operator=(const Complex& rhs);
 
 		// Arith. operators
-		Complex&		conjugate();
-		Complex&		rationalize();
+		Complex			conjugate() const;
 
 		Complex&		operator+=(const Complex& rhs);
 		Complex			operator+(const Complex& rhs) const;
@@ -51,6 +50,7 @@ class Complex {
 		const Rational&	getReal() const;
 		const Rational& getImaginary() const;
 
+		// Tools
 		bool			isComplex() const;
 		bool			isReal() const;
 		bool			isImaginary() const;

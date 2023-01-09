@@ -6,21 +6,21 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/08 20:56:53 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 15:59:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rational.hpp"
 
-using std::cout;
+//TODO: TOUT REFAIRE!!
 
 Rational::Rational():
 	_val(0) {}
 
 Rational::~Rational() {}
 
-Rational::Rational(long double x):
-	_val(x) {}
+Rational::Rational(long int x, long int y):
+	_val(x / y) {}
 
 Rational::Rational(const Rational& x):
 	_val(x.getVal()) {}
@@ -32,6 +32,13 @@ Rational& Rational::operator=(long double rhs) {
 	if (this->getVal() == rhs)
 		return *this;
 	_val = rhs;
+	return *this;
+}
+
+Rational& Rational::operator=(const Rational&& rhs) {
+	if (this->getVal() == rhs.getVal())
+		return *this;
+	_val = rhs.getVal();
 	return *this;
 }
 
@@ -99,11 +106,14 @@ Rational Rational::operator-(const Rational& rhs) const {
 }
 
 Rational Rational::operator-() const {
-	return Rational(-this->getVal());
+	if (!getVal())
+		return Rational(*this);
+	return Rational(-getVal());
 }
 
 Rational& Rational::operator*=(const Rational& rhs) {
-	_val *= rhs.getVal();
+	if (getVal() != 0)
+		_val *= rhs.getVal();
 	return *this;
 }
 
@@ -115,6 +125,8 @@ Rational Rational::operator*(const Rational& rhs) const {
 }
 
 Rational& Rational::operator/=(const Rational& rhs) {
+	if (rhs.getVal() == 0)
+		throw Rational::divide_by_zero();
 	_val /= rhs.getVal();
 	return *this;
 }

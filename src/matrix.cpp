@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 14:37:04 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 15:38:38 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ Matrix::Matrix(const Matrix& x):
 	_matrix(x.getMatrix()) {}
 
 /*
-**	Identity matrix
+**	Identity matrix / Scalar matrix
 */
-Matrix::Matrix(size_t n):
+Matrix::Matrix(size_t n, const Rational& lambda):
 	_n(n),
 	_p(n),
 	_matrix(n, line(n)) {
 		for (size_t i = 0; i < getNbRows(); ++i) {
-			_matrix[i][i] = 1;
+			_matrix[i][i] = lambda;
 		}
 	}
 
@@ -63,35 +63,76 @@ const Matrix::line&	Matrix::operator[](size_t index) const {
 
 /* Relational operators *****************************/
 
-Matrix& Matrix::transpose() {
-	return *this;
+//TODO
+Matrix Matrix::transpose() const {
+	Matrix	tmp(this->getNbLines(), this->getNbRows());
+	return tmp;
 }
 
 Matrix& Matrix::operator+=(const Matrix& rhs) {
 	if (!isSameSize(rhs))
 		throw Matrix::not_same_size();
-	for (size_t i = 0; i < _n; ++i) {
-		for (size_t j = 0; j < _p; ++j) {
+	for (size_t i = 0; i < getNbRows(); ++i) {
+		for (size_t j = 0; j < getNbLines(); ++j) {
 			_matrix[i][j] += rhs.getMatrix()[i][j];
 		}
 	}
 	return *this;
 }
 
+Matrix Matrix::operator+(const Matrix& rhs) const {
+	Matrix	tmp(*this);
+
+	tmp.operator+=(rhs);
+	return tmp;
+}
+
 Matrix& Matrix::operator-=(const Matrix& rhs) {
 	if (!isSameSize(rhs))
 		throw Matrix::not_same_size();
-	for (size_t i = 0; i < _n; ++i) {
-		for (size_t j = 0; j < _p; ++j) {
+	for (size_t i = 0; i < getNbRows(); ++i) {
+		for (size_t j = 0; j < getNbLines(); ++j) {
 			_matrix[i][j] -= rhs.getMatrix()[i][j];
 		}
 	}
 	return *this;
 }
 
+Matrix Matrix::operator-(const Matrix& rhs) const {
+	Matrix	tmp(*this);
+
+	tmp.operator-=(rhs);
+	return tmp;
+}
+
+Matrix Matrix::operator-() const {
+	Matrix		tmp(*this);
+	Rational	negate(-1);
+	
+	tmp.operator*=(negate);
+	return tmp;
+}
+
+//TODO
 Matrix& Matrix::operator*=(const Matrix& rhs) {
 	(void)rhs;
 	return *this;
+}
+
+Matrix& Matrix::operator*=(const Rational& rhs) {
+	for (size_t i = 0; i < getNbRows(); ++i) {
+		for (size_t j = 0; j < getNbLines(); ++j) {
+			_matrix[i][j] *= rhs;
+		}
+	}
+	return *this;
+}
+
+Matrix Matrix::operator*(const Rational& rhs) const {
+	Matrix	tmp(*this);
+
+	tmp.operator*=(rhs);
+	return tmp;
 }
 
 /* Relational operators *****************************/

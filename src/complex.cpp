@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/08 20:41:25 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 15:13:00 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,11 @@ Complex& Complex::operator=(const Complex& rhs) {
 
 /* Relational operators *****************************/
 
-Complex& Complex::conjugate() {
-	_im.operator-();
-	return *this;
-}
+Complex Complex::conjugate() const {
+	Complex tmp(*this);
 
-Complex& Complex::rationalize() {
-	const Complex tmp(*this);
-
-	_re = tmp.getReal() * tmp.getReal();
-	_im = -(tmp.getImaginary() * tmp.getImaginary());
-	return *this;
+	tmp._im.operator-();
+	return tmp;
 }
 
 Complex& Complex::operator+=(const Complex& rhs) {
@@ -115,8 +109,7 @@ Complex Complex::operator*(const Complex& rhs) const {
 }
 
 Complex& Complex::operator/=(const Complex& rhs) {
-	Complex	conj(rhs);
-	conj.conjugate();
+	Complex	conj = rhs.conjugate();
 
 	Complex	den(rhs * conj);
 	Complex	num(*this * conj);
