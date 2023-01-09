@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 15:49:02 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 00:14:05 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ class Complex {
 		Complex();
 		virtual ~Complex();
 
-		Complex(long double x);
-		Complex(long double x, long double y);
-		Complex(const Rational& x, const Rational& y);
 		Complex(const Complex& x);
-		explicit Complex(const std::string&& buf);
+		Complex(const Rational& x, const Rational& y = Rational(0));
+		Complex(const std::string&& buf);
 
-		Complex& 		operator=(long double rhs);
 		Complex& 		operator=(const Complex& rhs);
+		Complex& 		operator=(const Rational& rhs);
 
 		// Arith. operators
 		Complex			conjugate() const;

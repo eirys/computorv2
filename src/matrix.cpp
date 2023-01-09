@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 22:29:21 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 00:16:38 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ Matrix::Matrix(const Matrix& x):
 	_p(x.getNbLines()),
 	_matrix(x.getMatrix()) {}
 
+/*
+**	Usage:
+**	Matrix m = Matrix::matrix { {...}, ... };
+*/
 Matrix::Matrix(const Matrix::matrix&& x) {
 	if (x.empty()) {
 		_n = 0;
@@ -39,6 +43,7 @@ Matrix::Matrix(const Matrix::matrix&& x) {
 		_p = x[0].size();
 	}
 }
+
 /*
 **	Identity matrix / Scalar matrix
 */
@@ -137,20 +142,27 @@ Matrix Matrix::operator-() const {
 }
 
 //TODO
-Matrix& Matrix::operator*=(const Matrix& rhs) {
+Matrix& Matrix::operator*=(const Matrix rhs) {
 	(void)rhs;
 	if (false)
 		throw Matrix::not_compatible();
 	return *this;
 }
 
-Matrix& Matrix::operator*=(const Rational& rhs) {
+Matrix& Matrix::operator*=(const Rational rhs) {
 	for (size_t i = 0; i < getNbColumns(); ++i) {
 		for (size_t j = 0; j < getNbLines(); ++j) {
 			_matrix[i][j] *= rhs;
 		}
 	}
 	return *this;
+}
+
+Matrix Matrix::operator*(const Matrix& rhs) const {
+	Matrix	tmp(*this);
+
+	tmp.operator*=(rhs);
+	return tmp;
 }
 
 Matrix Matrix::operator*(const Rational& rhs) const {

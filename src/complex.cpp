@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 15:13:00 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 00:14:01 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,24 @@ Complex::Complex():
 
 Complex::~Complex() {}
 
-Complex::Complex(long double x):
-	_re(x),
-	_im(0) {}
-
-Complex::Complex(long double x, long double y):
-	_re(x),
-	_im(y) {}
-
 Complex::Complex(const Rational& x, const Rational& y):
 	_re(x),
-	_im(y) {}
+	_im(y) {
+		LOG("Complex rational");
+}
 
 Complex::Complex(const std::string&& buf) {
+	LOG("Complex buf");
 	_parseBuf(buf);
 }
 
 Complex::Complex(const Complex& x):
 	_re(x.getReal()),
-	_im(x.getImaginary()) {}
+	_im(x.getImaginary()) {
+		LOG("Complex copy");
+}
 
-Complex& Complex::operator=(long double rhs) {
+Complex& Complex::operator=(const Rational& rhs) {
 	if (isReal() && getReal() == rhs)
 		return *this;
 	_re = rhs;
@@ -50,8 +47,8 @@ Complex& Complex::operator=(long double rhs) {
 Complex& Complex::operator=(const Complex& rhs) {
 	if (this == &rhs)
 		return *this;
-	_re = rhs._re;
-	_im = rhs._im;
+	_re = rhs.getReal();
+	_im = rhs.getImaginary();
 	return *this;
 }
 
@@ -91,13 +88,16 @@ Complex Complex::operator-(const Complex& rhs) const {
 }
 
 Complex Complex::operator-() const {
-	return Complex(-this->getReal(), -this->getImaginary());
+	return Complex(-getReal(), -getImaginary());
 }
 
 Complex& Complex::operator*=(const Complex& rhs) {
-	const Complex	tmp(*this);
-	_re = (tmp.getReal() * rhs.getReal()) - (tmp.getImaginary() * rhs.getImaginary());
-	_im = (tmp.getReal() * rhs.getImaginary()) + (tmp.getImaginary() * rhs.getReal());
+	const Rational	new_re((getReal() * rhs.getReal())
+					- (getImaginary() * rhs.getImaginary()));
+	const Rational	new_im((getReal() * rhs.getImaginary())
+					+ (getImaginary() * rhs.getReal()));
+
+	*this = Complex(new_re, new_im);
 	return *this;
 }
 
@@ -109,10 +109,9 @@ Complex Complex::operator*(const Complex& rhs) const {
 }
 
 Complex& Complex::operator/=(const Complex& rhs) {
-	Complex	conj = rhs.conjugate();
-
-	Complex	den(rhs * conj);
-	Complex	num(*this * conj);
+	const Complex	conj = rhs.conjugate();
+	const Complex	den(rhs * conj);
+	const Complex	num(*this * conj);
 
 	_re = num.getReal() / den.getReal();
 	_im = num.getImaginary() / den.getReal();
@@ -177,11 +176,17 @@ std::ostream& operator<<(std::ostream& o, const Complex& x) {
 			o << " + ";
 		else if (x.getImaginary() < 0)
 			o << " - ";
-		o << math::abs(x.getImaginary()) << 'i';
+		if (math::abs(x.getImaginary()) != 1)
+			o << math::abs(x.getImaginary());
+		o << 'i';
 	} else if (x.isReal()) {
 		o << x.getReal();
 	} else if (x.isImaginary()) {
-		o << x.getImaginary() << 'i';
+		if (x.getImaginary() < 0)
+			o << " - ";
+		if (math::abs(x.getImaginary()) != 1)
+			o << math::abs(x.getImaginary());
+		o << 'i';
 	}
 	return o;
 }

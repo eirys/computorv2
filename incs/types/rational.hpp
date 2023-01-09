@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 22:11:42 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 22:59:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ class Rational {
 		
 		Rational&		operator=(long double rhs);
 		Rational&		operator=(const Rational& rhs);
-		Rational&		operator=(const Rational&& rhs);
 
 		// Arith. operators
 		Rational&		operator+=(const Rational& rhs);

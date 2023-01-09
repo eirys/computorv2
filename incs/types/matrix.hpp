@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 22:28:01 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 00:00:50 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ class Matrix {
 		Matrix				operator-(const Matrix& rhs) const;
 		Matrix				operator-() const;
 
-		Matrix&				operator*=(const Matrix& rhs);
-		Matrix&				operator*=(const Rational& rhs);
+		Matrix&				operator*=(const Matrix rhs);
+		Matrix&				operator*=(const Rational rhs);
 		Matrix				operator*(const Matrix& rhs) const;
 		Matrix				operator*(const Rational& rhs) const;
 

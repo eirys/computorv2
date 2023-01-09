@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 20:57:26 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 23:45:57 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@ Rational& Rational::operator=(long double rhs) {
 	if (this->getVal() == rhs)
 		return *this;
 	_val = rhs;
-	return *this;
-}
-
-Rational& Rational::operator=(const Rational&& rhs) {
-	if (this->getVal() == rhs.getVal())
-		return *this;
-	_val = rhs.getVal();
 	return *this;
 }
 
