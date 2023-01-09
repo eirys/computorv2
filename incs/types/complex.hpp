@@ -6,15 +6,15 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/08 20:43:54 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 10:28:36 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMPLEX_HPP
 # define COMPLEX_HPP
 
-# include "utils.hpp"
 # include "rational.hpp"
+# include "utils.hpp"
 
 class Complex {
 	public:

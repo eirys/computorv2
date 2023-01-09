@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/08 01:16:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 10:27:57 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ class Rational {
 		Rational();
 		virtual ~Rational();
 
-		Rational(const Rational& x);
 		Rational(long double x);
+		Rational(const Rational& x);
 		explicit Rational(const std::string&& buf);
 		
 		Rational&		operator=(long double rhs);
