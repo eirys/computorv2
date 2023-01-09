@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 15:47:56 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 22:28:01 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,20 @@
 
 # include "rational.hpp"
 
+# define MIN_W_SIZE 2
+
 class Matrix {
 	public:
 		typedef				std::vector<Rational>			line;
 		typedef typename	std::vector<line>				matrix;
-		typedef typename	matrix::iterator				iterator;
-		typedef typename	matrix::const_iterator			const_iterator;
 
 		Matrix();
 		virtual ~Matrix();
 		
 		Matrix(const Matrix& x);
-		explicit Matrix(size_t n, const Rational& lambda = Rational(1));
-		explicit Matrix(size_t n, size_t p);
+		Matrix(const matrix&& x);
+		Matrix(size_t n, const Rational&& lambda = Rational(0));
+		Matrix(size_t n, size_t p);
 
 		Matrix&				operator=(const Matrix& rhs);
 
@@ -55,7 +56,7 @@ class Matrix {
 		line&				operator[](size_t index);
 		const line&			operator[](size_t index) const;
 
-		size_t				getNbRows() const;
+		size_t				getNbColumns() const;
 		size_t				getNbLines() const;
 		const matrix&		getMatrix() const;
 
@@ -64,6 +65,7 @@ class Matrix {
 		const Rational&		getMax() const;
 
 		bool				isSameSize(const Matrix& rhs) const;
+		size_t				getMaxLength() const;
 
 		// Exception
 		class not_same_size: public std::exception {
@@ -80,10 +82,18 @@ class Matrix {
 				}
 		};
 
+		class inconsistent_size: public std::exception {
+			public:
+				virtual const char* what() const throw() {
+					return ("Inconsistent size in columns/lines");
+				}
+		};
+
 	private:
-		size_t				_n;			// rows
+		size_t				_n;			// columns
 		size_t				_p;			// lines
 		matrix				_matrix;
+
 };
 
 bool			operator==(const Matrix& x, const Matrix& y);

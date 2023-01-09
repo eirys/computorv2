@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 14:42:18 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 21:26:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <string>
 
 # define NL std::endl
-# define MIN_W_SIZE 2
+# define FLOAT_PRECISION 3
 
 #if DEBUG == 1
 # define LOG(X) std::cerr << X << NL
@@ -37,7 +37,7 @@ namespace utils {
 		void display(const std::list<T>& l);
 		
 	template <typename T>
-		size_t getMinWidth(const T& val);
+		size_t getWidth(const T& val);
 
 	/* -- DEFINITION ---------------------------------------------- */
 
@@ -48,25 +48,17 @@ namespace utils {
 			std::cout << std::endl;
 		}
 
+	template <typename T>
+	inline size_t getWidth(const T& val) {
+		std::ostringstream o;
+
+		o << std::setprecision(FLOAT_PRECISION) << val;
+		return o.str().size();
+	}
+
 	// size_t skipWhitespaces(const std::string&& buf, size_t hint = 0) {
 	// 	return buf.find_first_not_of("\t ", hint);
 	// }
-
-	template <typename T>
-	inline size_t getMinWidth(const T& val) {
-		std::ostringstream o;
-
-		o << std::setprecision(3) << val;
-		return std::max(o.str().size(), (size_t)MIN_W_SIZE);
-	}
-
-	//TODO
-	template <typename T, typename U>
-		inline bool irreducible(T& a, U& b) {
-			(void)a;
-			(void)b;
-			return false;
-		}
 }
 
 #endif

@@ -6,21 +6,19 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 15:59:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/09 20:57:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rational.hpp"
-
-//TODO: TOUT REFAIRE!!
 
 Rational::Rational():
 	_val(0) {}
 
 Rational::~Rational() {}
 
-Rational::Rational(long int x, long int y):
-	_val(x / y) {}
+Rational::Rational(long double x):
+	_val(x) {}
 
 Rational::Rational(const Rational& x):
 	_val(x.getVal()) {}
