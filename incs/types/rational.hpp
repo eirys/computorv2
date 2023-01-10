@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 22:59:43 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 15:26:39 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 # define RATIONAL_HPP
 
 # include <string>
+
 # include "utils.hpp"
+
+class Complex;
+class Matrix;
 
 class Rational {
 	public:
@@ -46,17 +50,23 @@ class Rational {
 		Rational&		operator/=(const Rational& rhs);
 		Rational		operator/(const Rational& rhs) const;
 
+		// Complex
+		Complex			operator+(const Complex& rhs) const;
+		Complex			operator-(const Complex& rhs) const;
+		Complex			operator*(const Complex& rhs) const;
+		Complex			operator/(const Complex& rhs) const;
+
+		// Matrix
+		Matrix			operator+(const Matrix& rhs) const;		// undefined
+		Matrix			operator-(const Matrix& rhs) const;		// undefined
+		Matrix			operator*(const Matrix& rhs) const;
+		Matrix			operator/(const Matrix& rhs) const;
+
+		// Function (TODO)
+
 		// Getter
 		long double		getVal() const;
 
-		// Exception
-		class divide_by_zero: public std::exception {
-			public:
-				virtual const char* what() const throw() {
-					return "Division by zero";
-				}
-		};
-		
 	private:
 		long double		_val;
 };

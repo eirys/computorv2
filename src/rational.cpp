@@ -6,11 +6,13 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 23:45:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 15:26:57 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rational.hpp"
+#include "complex.hpp"
+#include "matrix.hpp"
 
 Rational::Rational():
 	_val(0) {}
@@ -46,7 +48,7 @@ long double Rational::getVal() const {
 	return _val;
 }
 
-/* Relational operators *****************************/
+/* Arith operators **********************************/
 
 Rational& Rational::operator+=(const Rational& rhs) {
 	_val += rhs.getVal();
@@ -117,7 +119,7 @@ Rational Rational::operator*(const Rational& rhs) const {
 
 Rational& Rational::operator/=(const Rational& rhs) {
 	if (rhs.getVal() == 0)
-		throw Rational::divide_by_zero();
+		throw math::operation_undefined();
 	_val /= rhs.getVal();
 	return *this;
 }
@@ -128,6 +130,58 @@ Rational Rational::operator/(const Rational& rhs) const {
 	tmp.operator/=(rhs);
 	return tmp;
 }
+
+/* Relational operators *****************************/
+
+Complex Rational::operator+(const Complex& rhs) const {
+	Complex tmp(*this);
+
+	tmp.operator+=(rhs);
+	return tmp;
+}
+
+Complex Rational::operator-(const Complex& rhs) const {
+	Complex tmp(*this);
+
+	tmp.operator-=(rhs);
+	return tmp;
+}
+
+Complex Rational::operator*(const Complex& rhs) const {
+	Complex tmp(*this);
+
+	tmp.operator*=(rhs);
+	return tmp;
+}
+
+Complex Rational::operator/(const Complex& rhs) const {
+	Complex tmp(*this);
+
+	tmp.operator/=(rhs);
+	return tmp;
+}
+
+/* Relational operators *****************************/
+
+Matrix Rational::operator+(const Matrix& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
+}
+
+Matrix Rational::operator-(const Matrix& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
+}
+
+Matrix Rational::operator*(const Matrix& rhs) const {
+	return rhs.operator*(*this);
+}
+
+Matrix Rational::operator/(const Matrix& rhs) const {
+	return rhs.operator/(*this);
+}
+
+/* Relational operators *****************************/
 
 /* Relational operators *****************************/
 
@@ -155,7 +209,7 @@ bool operator>=(const Rational& x, const Rational& y) {
 	return !operator<(x, y);
 }
 
-/* Relational operators *****************************/
+/* I/O stream operator ******************************/
 
 std::ostream&	operator<<(std::ostream& o, const Rational& x) {
 	o << x.getVal();

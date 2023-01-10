@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 00:14:05 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 15:34:57 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ class Complex {
 		Complex			operator/(const Complex& rhs) const;
 
 		// Getter
-		const Rational&	getReal() const;
-		const Rational& getImaginary() const;
+		Rational		getReal() const;
+		Rational		getImaginary() const;
 
 		// Tools
 		bool			isComplex() const;
@@ -60,9 +60,9 @@ class Complex {
 		void			_parseBuf(const std::string& buf);
 };
 
-bool			operator==(const Complex& x, const Complex& y);
-bool			operator!=(const Complex& x, const Complex& y);
+bool					operator==(const Complex& x, const Complex& y);
+bool					operator!=(const Complex& x, const Complex& y);
 
-std::ostream&	operator<<(std::ostream& o, const Complex& x);
+std::ostream&			operator<<(std::ostream& o, const Complex& x);
 
 #endif

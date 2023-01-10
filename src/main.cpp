@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/09 23:58:04 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 15:33:31 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,63 +21,81 @@
 
 using std::cout;
 
-int main() {
-	// {
-	// 	Rational tmp(6);
+void test1() {
+  		Matrix	m1 = Matrix::matrix { { 2, 2 },
+									  { 1, 1 } };
+		Matrix	m2 = Matrix::matrix { { 5, 4, 3 },
+									  { 1, 2, 0 } };
 
-	// 	Complex b(tmp);
-	// 	cout << b << NL;
+		cout << m1;
+
+		cout << m2;
+
+		Matrix m3 = m1 * m2;
+
+		cout << m3;
+
+		Matrix m4(2, Rational(1));
+
+		Matrix m5 = m1 * m4;
+
+		cout << m5;
+}
+
+void test2() {
+		Rational tmp(6);
+
+		Complex b(tmp);
+		cout << b << NL;
 		
-	// 	b*= Complex(1, 1);
+		b*= Complex(1, 1);
 
-	// 	cout << b << NL;
+		cout << b << NL;
 
-	// 	b*= b;
-	// 	cout << b << NL;
+		b*= b;
+		cout << b << NL;
 
-	// 	b/=b;
-	// 	cout << b << NL;
+		b/=b;
+		cout << b << NL;
 
-	// }
-	{
-		Matrix m = Matrix::matrix { { 1, 22, 1 } };
-		cout << m;
+}
 
-		m+=m;
+void test3() {
+	Matrix m = Matrix::matrix { { 1, 22, 1 } };
+	cout << m;
 
-		cout << m;
+	m+=m;
 
-		m*=m[0][0];
-		cout << m;
+	cout << m;
 
-	}
-	// {
-	// Matrix m(4, Rational(1));
+	m*=m[0][0];
+	cout << m;
+}
 
-	// m[1][0] = 1.574584475;
-	// m[0][3] = 175;
+void test4() {
+	Matrix m = Matrix::matrix { { 1, 11, 22 } };
+	Complex c(5, 2);
+	Rational r(2);
 
-	// Matrix p(4, Rational(1));
-	// cout << m;
-	// cout << p;
+	cout << (m * r);
+	cout << (r * m);
+	cout << (m * Rational(1));
+	cout << (Rational(1) * m);
+	
+	cout << (m * m[0][1]);
 
-	// Rational a(36);
-	// p *= a;
-	// cout << p;
+	cout << (c * r) << NL;
+	cout << (r * c) << NL;
+	cout << (c * Rational(1)) << NL;
+	cout << (Rational(1) * c) << NL;
 
-	// try {
-	// Matrix tmp = Matrix::matrix { {a, a, a},
-	// 							  {a, a, a} };
-	// cout << tmp;
-	// }catch(const std::exception& e) {
-	// 	std::cerr << e.what() << NL;
-	// }
+	cout << (c * c.getReal()) << NL;
+}
 
-	// cout << m;
-	// Matrix d = m.transpose();
-	// d += p;
-	// cout << d;
-
-	// }
+int main() {
+	test1();
+	test2();
+	test3();
+	test4();
 	return 0;
 }

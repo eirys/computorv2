@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 00:16:38 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 15:23:33 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ Matrix::Matrix() {}
 Matrix::~Matrix() {}
 
 Matrix::Matrix(const Matrix& x):
-	_n(x.getNbColumns()),
-	_p(x.getNbLines()),
+	_n(x.getNbRows()),
+	_p(x.getNbColumns()),
 	_matrix(x.getMatrix()) {}
 
 /*
@@ -35,7 +35,7 @@ Matrix::Matrix(const Matrix::matrix&& x) {
 		it != x.end();
 		++it) {
 			if (it->size() != _p) {
-				throw Matrix::inconsistent_size();
+				throw math::operation_undefined();
 			}
 		}
 		_matrix = x;
@@ -50,7 +50,7 @@ Matrix::Matrix(const Matrix::matrix&& x) {
 Matrix::Matrix(size_t n, const Rational&& lambda):
 	_n(n),
 	_p(n),
-	_matrix(n, line(n)) {
+	_matrix(n, row(n)) {
 		for (size_t i = 0; i < getNbColumns(); ++i) {
 			_matrix[i][i] = lambda;
 		}
@@ -59,38 +59,38 @@ Matrix::Matrix(size_t n, const Rational&& lambda):
 Matrix::Matrix(size_t n, size_t p):
 	_n(n),
 	_p(p),
-	_matrix(n, line(p)) {}
+	_matrix(n, row(p)) {}
 
 Matrix& Matrix::operator=(const Matrix& rhs) {
 	if (*this == rhs)
 		return *this;
-	_n = rhs.getNbColumns();
-	_p = rhs.getNbLines();
+	_n = rhs.getNbRows();
+	_p = rhs.getNbColumns();
 	_matrix = Matrix::matrix(rhs.getMatrix());
 	return *this;
 }
 
-/* Relational operators *****************************/
+/* Element access ***********************************/
 
-Matrix::line&	Matrix::operator[](size_t index) {
+Matrix::row&	Matrix::operator[](size_t index) {
 	if (index > _n)
 		throw std::out_of_range("Matrix::operator[]");
 	return _matrix[index];
 }
 
-const Matrix::line&	Matrix::operator[](size_t index) const {
+const Matrix::row&	Matrix::operator[](size_t index) const {
 	if (index > _n)
 		throw std::out_of_range("Matrix::operator[]");
 	return _matrix[index];
 }
 
-/* Relational operators *****************************/
+/* Arith operators **********************************/
 
 Matrix Matrix::transpose() const {
-	Matrix	tmp(this->getNbLines(), this->getNbColumns());
+	Matrix	tmp(this->getNbColumns(), this->getNbRows());
 
-	for (size_t i = 0; i < getNbColumns(); ++i) {
-		for (size_t j = 0; j < getNbLines(); ++j) {
+	for (size_t i = 0; i < getNbRows(); ++i) {
+		for (size_t j = 0; j < getNbColumns(); ++j) {
 			tmp[j][i] = _matrix[i][j];
 		}
 	}
@@ -99,9 +99,9 @@ Matrix Matrix::transpose() const {
 
 Matrix& Matrix::operator+=(const Matrix& rhs) {
 	if (!isSameSize(rhs))
-		throw Matrix::not_same_size();
-	for (size_t i = 0; i < getNbColumns(); ++i) {
-		for (size_t j = 0; j < getNbLines(); ++j) {
+		throw math::operation_undefined();
+	for (size_t i = 0; i < getNbRows(); ++i) {
+		for (size_t j = 0; j < getNbColumns(); ++j) {
 			_matrix[i][j] += rhs.getMatrix()[i][j];
 		}
 	}
@@ -117,9 +117,9 @@ Matrix Matrix::operator+(const Matrix& rhs) const {
 
 Matrix& Matrix::operator-=(const Matrix& rhs) {
 	if (!isSameSize(rhs))
-		throw Matrix::not_same_size();
-	for (size_t i = 0; i < getNbColumns(); ++i) {
-		for (size_t j = 0; j < getNbLines(); ++j) {
+		throw math::operation_undefined();
+	for (size_t i = 0; i < getNbRows(); ++i) {
+		for (size_t j = 0; j < getNbColumns(); ++j) {
 			_matrix[i][j] -= rhs.getMatrix()[i][j];
 		}
 	}
@@ -141,20 +141,19 @@ Matrix Matrix::operator-() const {
 	return tmp;
 }
 
-//TODO
 Matrix& Matrix::operator*=(const Matrix rhs) {
-	(void)rhs;
-	if (false)
-		throw Matrix::not_compatible();
-	return *this;
-}
+	if (getNbColumns() != rhs.getNbRows())
+		throw math::operation_undefined();
+	Matrix	new_matrix(getNbRows(), rhs.getNbColumns());
 
-Matrix& Matrix::operator*=(const Rational rhs) {
-	for (size_t i = 0; i < getNbColumns(); ++i) {
-		for (size_t j = 0; j < getNbLines(); ++j) {
-			_matrix[i][j] *= rhs;
+	for (size_t i = 0; i < new_matrix.getNbRows(); ++i) {
+		for (size_t j = 0; j < new_matrix.getNbColumns(); ++j) {
+			for (size_t k = 0; k < getNbColumns(); ++k) {
+				new_matrix[i][j] += (*this)[i][k] * rhs[k][j];
+			}
 		}
 	}
+	*this = new_matrix;
 	return *this;
 }
 
@@ -165,6 +164,17 @@ Matrix Matrix::operator*(const Matrix& rhs) const {
 	return tmp;
 }
 
+/* Getters ******************************************/
+
+Matrix& Matrix::operator*=(const Rational rhs) {
+	for (size_t i = 0; i < getNbRows(); ++i) {
+		for (size_t j = 0; j < getNbColumns(); ++j) {
+			_matrix[i][j] *= rhs;
+		}
+	}
+	return *this;
+}
+
 Matrix Matrix::operator*(const Rational& rhs) const {
 	Matrix	tmp(*this);
 
@@ -172,13 +182,29 @@ Matrix Matrix::operator*(const Rational& rhs) const {
 	return tmp;
 }
 
-/* Relational operators *****************************/
+Matrix& Matrix::operator/=(const Rational rhs) {
+	for (size_t i = 0; i < getNbRows(); ++i) {
+		for (size_t j = 0; j < getNbColumns(); ++j) {
+			_matrix[i][j] /= rhs;
+		}
+	}
+	return *this;
+}
 
-size_t Matrix::getNbColumns() const {
+Matrix Matrix::operator/(const Rational& rhs) const {
+	Matrix	tmp(*this);
+
+	tmp.operator/=(rhs);
+	return tmp;
+}
+
+/* Getters ******************************************/
+
+size_t Matrix::getNbRows() const {
 	return _n;
 }
 
-size_t Matrix::getNbLines() const {
+size_t Matrix::getNbColumns() const {
 	return _p;
 }
 
@@ -186,38 +212,11 @@ const Matrix::matrix& Matrix::getMatrix() const {
 	return _matrix;
 }
 
-const Rational& Matrix::getMax() const {
-	size_t max_n = 0;
-	size_t max_p = 0;
-	for (size_t j = 0; j < getNbColumns(); ++j) {
-		for (size_t i = 0; i < getNbLines(); ++i) {
-			if (_matrix[j][i] > _matrix[max_n][max_p]) {
-				max_n = j;
-				max_p = i;
-			}
-		}
-	}
-	return getMatrix()[max_n][max_p];
-}
 
-const Rational& Matrix::getMin() const {
-	size_t min_n = 0;
-	size_t min_p = 0;
-	for (size_t j = 0; j < getNbColumns(); ++j) {
-		for (size_t i = 0; i < getNbLines(); ++i) {
-			if (_matrix[j][i] < _matrix[min_n][min_p]) {
-				min_n = j;
-				min_p = i;
-			}
-		}
-	}
-	return getMatrix()[min_n][min_p];
-}
-
-/* Relational operators *****************************/
+/* Tools ********************************************/
 
 bool Matrix::isSameSize(const Matrix& rhs) const {
-	if (getNbLines() == rhs.getNbLines() && getNbColumns() == rhs.getNbColumns())
+	if (getNbRows() == rhs.getNbRows() && getNbColumns() == rhs.getNbColumns())
 		return true;
 	return false;
 } 
@@ -228,7 +227,7 @@ size_t Matrix::getMaxLength() const {
 	for (Matrix::matrix::const_iterator it = getMatrix().begin();
 	it != getMatrix().end();
 	++it) {
-		for (Matrix::line::const_iterator ite = it->begin();
+		for (Matrix::row::const_iterator ite = it->begin();
 		ite != it->end();
 		++ite) {
 			size_t tmp = utils::getWidth(*ite);
@@ -252,7 +251,7 @@ bool operator!=(const Matrix& x, const Matrix& y) {
 	return !operator==(x,y);
 }
 
-/* Relational operators *****************************/
+/* I/O stream operator ******************************/
 
 std::ostream& operator<<(std::ostream& o, const Matrix& x) {
 	std::ostringstream	os;
@@ -264,7 +263,7 @@ std::ostream& operator<<(std::ostream& o, const Matrix& x) {
 	it != x.getMatrix().end();
 	++it) {
 		os << '|';
-		for (Matrix::line::const_iterator ite = it->begin();
+		for (Matrix::row::const_iterator ite = it->begin();
 		ite != it->end();
 		++ite) {
 			os << std::setw(field_w) << *ite;

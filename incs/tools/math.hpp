@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/08 20:43:30 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 15:08:28 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@
 # define SQRT_10 3.16227766017
 
 namespace math {
+
+	class operation_undefined: public std::exception {
+		public:
+			virtual const char* what() const throw() {
+				return ("Operation undefined");
+			}
+	};
 
 	/* -- PROTOTYPE ----------------------------------------------- */
 

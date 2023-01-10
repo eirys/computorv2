@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 00:00:50 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/10 15:23:02 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@
 # include <sstream>
 # include <ios>
 
+# include "math.hpp"
 # include "rational.hpp"
 
 # define MIN_W_SIZE 2
 
 class Matrix {
 	public:
-		typedef				std::vector<Rational>			line;
-		typedef typename	std::vector<line>				matrix;
+		typedef				std::vector<Rational>			row;
+		typedef typename	std::vector<row>				matrix;
 
 		Matrix();
 		virtual ~Matrix();
@@ -48,52 +49,30 @@ class Matrix {
 		Matrix				operator-() const;
 
 		Matrix&				operator*=(const Matrix rhs);
-		Matrix&				operator*=(const Rational rhs);
 		Matrix				operator*(const Matrix& rhs) const;
+		
+		// Rational
+		Matrix&				operator*=(const Rational rhs);
 		Matrix				operator*(const Rational& rhs) const;
+		Matrix&				operator/=(const Rational rhs);
+		Matrix				operator/(const Rational& rhs) const;
 
 		// Getter
-		line&				operator[](size_t index);
-		const line&			operator[](size_t index) const;
+		row&				operator[](size_t index);
+		const row&			operator[](size_t index) const;
 
 		size_t				getNbColumns() const;
-		size_t				getNbLines() const;
+		size_t				getNbRows() const;
 		const matrix&		getMatrix() const;
 
 		// Tools
-		const Rational&		getMin() const;
-		const Rational&		getMax() const;
-
 		bool				isSameSize(const Matrix& rhs) const;
 		size_t				getMaxLength() const;
 
-		// Exception
-		class not_same_size: public std::exception {
-			public:
-				virtual const char* what() const throw() {
-					return ("Matrix not the same size");
-				}
-		};
-
-		class not_compatible: public std::exception {
-			public:
-				virtual const char* what() const throw() {
-					return ("Matrix not compatible");
-				}
-		};
-
-		class inconsistent_size: public std::exception {
-			public:
-				virtual const char* what() const throw() {
-					return ("Inconsistent size in columns/lines");
-				}
-		};
-
 	private:
-		size_t				_n;			// columns
-		size_t				_p;			// lines
+		size_t				_n;			// nb rows
+		size_t				_p;			// nb columns
 		matrix				_matrix;
-
 };
 
 bool			operator==(const Matrix& x, const Matrix& y);
