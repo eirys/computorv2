@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 15:26:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 22:56:09 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ Rational& Rational::operator=(const Rational& rhs) {
 		return *this;
 	_val = rhs.getVal();
 	return *this;
-}
-
-/* Getters ******************************************/
-
-long double Rational::getVal() const {
-	return _val;
 }
 
 /* Arith operators **********************************/
@@ -181,7 +175,48 @@ Matrix Rational::operator/(const Matrix& rhs) const {
 	return rhs.operator/(*this);
 }
 
-/* Relational operators *****************************/
+Rational& Rational::operator^=(const Rational& rhs) {
+	if (!rhs.isInteger())
+		throw math::operation_undefined();
+	_val = math::pow(getVal(), rhs.getVal());
+	return *this;
+}
+
+Rational Rational::operator^(const Rational& rhs) const {
+	Rational	tmp(*this);
+
+	tmp.operator^=(rhs);
+	return tmp;
+}
+
+Rational& Rational::operator%=(const Rational& rhs) {
+	_val = math::remainder(getVal(), rhs.getVal());
+	return *this;
+}
+
+Rational Rational::operator%(const Rational& rhs) const {
+	Rational tmp(*this);
+
+	tmp.operator%=(rhs);
+	return tmp;
+}
+
+/* Getters ******************************************/
+
+long double Rational::getVal() const {
+	return _val;
+}
+
+/* Getters ******************************************/
+
+bool Rational::operator!() const {
+	return !getVal();
+}
+
+bool Rational::isInteger() const {
+	const long long int	tmp = static_cast<long long int>(getVal());
+	return tmp == getVal();
+}
 
 /* Relational operators *****************************/
 

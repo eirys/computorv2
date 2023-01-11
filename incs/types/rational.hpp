@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 15:26:39 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 22:48:46 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ class Rational {
 		Rational&		operator/=(const Rational& rhs);
 		Rational		operator/(const Rational& rhs) const;
 
+		Rational&		operator^=(const Rational& rhs);
+		Rational		operator^(const Rational& rhs) const;
+
+		Rational&		operator%=(const Rational& rhs);
+		Rational		operator%(const Rational& rhs) const;
+
 		// Complex
 		Complex			operator+(const Complex& rhs) const;
 		Complex			operator-(const Complex& rhs) const;
@@ -62,10 +68,12 @@ class Rational {
 		Matrix			operator*(const Matrix& rhs) const;
 		Matrix			operator/(const Matrix& rhs) const;
 
-		// Function (TODO)
-
 		// Getter
 		long double		getVal() const;
+
+		// Tools
+		bool			operator!() const;
+		bool			isInteger() const;
 
 	private:
 		long double		_val;

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 15:33:31 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 22:57:04 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "utils.hpp"
 #include "math.hpp"
 #include "matrix.hpp"
+#include "function.hpp"
 
 using std::cout;
 
@@ -92,10 +93,19 @@ void test4() {
 	cout << (c * c.getReal()) << NL;
 }
 
+void test5() {
+	Complex		a(1, 1);
+	Rational	b(6);
+	cout << "test5" << NL;
+	cout << (b ^ 2) << NL;
+	cout << (a ^ 2) << NL;
+}
+
 int main() {
 	test1();
 	test2();
 	test3();
 	test4();
+	test5();
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 15:34:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 22:49:03 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,15 @@ class Complex {
 		Complex&		operator/=(const Complex& rhs);
 		Complex			operator/(const Complex& rhs) const;
 
+		Complex&		operator^=(const Rational& rhs);
+		Complex			operator^(const Rational rhs) const;
+
 		// Getter
 		Rational		getReal() const;
 		Rational		getImaginary() const;
 
 		// Tools
+		bool			operator!() const;
 		bool			isComplex() const;
 		bool			isReal() const;
 		bool			isImaginary() const;

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 15:23:02 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 22:59:10 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,12 @@ class Matrix {
 		// Rational
 		Matrix&				operator*=(const Rational rhs);
 		Matrix				operator*(const Rational& rhs) const;
+
 		Matrix&				operator/=(const Rational rhs);
 		Matrix				operator/(const Rational& rhs) const;
+
+		Matrix&				operator^=(const Rational rhs);
+		Matrix				operator^(const Rational& rhs) const;
 
 		// Getter
 		row&				operator[](size_t index);
@@ -66,6 +70,7 @@ class Matrix {
 		const matrix&		getMatrix() const;
 
 		// Tools
+		bool				operator!() const;
 		bool				isSameSize(const Matrix& rhs) const;
 		size_t				getMaxLength() const;
 

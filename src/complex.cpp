@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 15:34:29 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 22:55:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,29 @@ Complex Complex::operator/(const Complex& rhs) const {
 	return tmp;
 }
 
+Complex& Complex::operator^=(const Rational& rhs) {
+	if (!rhs.isInteger() || rhs < Rational(0))
+		throw math::operation_undefined();
+	if (rhs == Rational(1) || !*this)
+		return *this;
+	else if (!rhs) {
+		_re = 0;
+		_im = 0;
+	}
+	for (Rational i = 1; i < rhs; ++i) {
+		operator*=(*this);
+	}
+	return *this;
+}
+
+Complex Complex::operator^(const Rational rhs) const {
+	Complex	tmp(*this);
+
+	tmp.operator^=(rhs);
+	return tmp;
+}
+
+
 /* Getters ******************************************/
 
 Rational Complex::getReal() const {
@@ -138,6 +161,10 @@ Rational Complex::getImaginary() const {
 
 /* Other ********************************************/
 
+bool	Complex::operator!() const {
+	return !getReal() && !getImaginary();
+}
+
 bool	Complex::isComplex() const {
 	return getImaginary().getVal() && getReal().getVal();
 }
@@ -149,6 +176,8 @@ bool	Complex::isReal() const {
 bool	Complex::isImaginary() const {
 	return !isReal();
 }
+
+/* Other ********************************************/
 
 void	Complex::_parseBuf(const std::string& buf) {
 	size_t	pos;

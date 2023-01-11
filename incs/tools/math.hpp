@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 15:08:28 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 22:45:28 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,16 @@ namespace math {
 		T abs(const T& x);
 
 	template <typename T, typename U>
+		T pow(const T n, const U exp);
+
+	template <typename T, typename U>
 		long double binomial_coefficient(const T& n, const U& p);
 
 	template <typename T>
 		T factorial(const T& n);
 
-	template <typename T, typename U>
-		long double pow(const T& n, const U& exp);
-
 	template <typename T>
 		long double sqrt(const T& x);
-	Rational sqrt(const Rational& val);
 
 	template <typename T, typename U>
 		long long int quotient(const T& a, const U& b);
@@ -77,23 +76,13 @@ namespace math {
 	 **  n ^ exp
 	 */
 	template <typename T, typename U>
-		inline long double pow(const T& n, const U& exp) {
+		inline T pow(const T n, const U exp) {
 			if (exp == 0 || n == 1)
-				return 1;
+				return T(1);
 			else if (n == 0)
-				return 0;
+				return T(0);
 			else
-				return n * pow(n, exp + (exp < 0 ? 1 : -1));
-		}
-
-	template <typename U>
-		inline Rational pow(Rational n, const U& exp) {
-			if (exp == 0 || n.getVal() == 1)
-				return Rational(1);
-			else if (n.getVal() == 0)
-				return Rational(0);
-			else
-				return n * Rational(pow(n, exp - 1));
+				return T(n * pow(n, exp - 1));
 		}
 
 	/*   square root
@@ -117,22 +106,6 @@ namespace math {
 			else
 				return sum * SQRT_10 * pow(10, (exponent - 1) * .5);
 		}
-
-	inline Rational sqrt(const Rational& val) {
-		if (val == 0 || val == 1)
-			return val;
-
-		const size_t		exponent = std::to_string(static_cast<long long>(val.getVal())).size();
-		const long double	x = (val.getVal() / pow(10, exponent)) - 1;
-		long double			sum = 0;
-
-		for (int i = 0; i < SQRT_DEPTH; ++i)
-			sum += binomial_coefficient(.5, i) * pow(x, i);
-		if (exponent % 2 == 0)
-			return Rational(sum * pow(10, exponent * .5));
-		else
-			return Rational(sum * SQRT_10 * pow(10, (exponent - 1) * .5));
-	}
 
 	// ARITHMETIC UTILS ==========================
 
