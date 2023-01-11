@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/11 22:59:10 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 23:26:22 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ class Matrix {
 		// Tools
 		bool				operator!() const;
 		bool				isSameSize(const Matrix& rhs) const;
+		bool				isSquare() const;
 		size_t				getMaxLength() const;
 
 	private:

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/11 22:55:26 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 23:29:04 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,10 @@ Complex& Complex::operator^=(const Rational& rhs) {
 	else if (!rhs) {
 		_re = 0;
 		_im = 0;
-	}
-	for (Rational i = 1; i < rhs; ++i) {
-		operator*=(*this);
+	} else {
+		for (Rational i = 1; i < rhs; ++i) {
+			operator*=(*this);
+		}
 	}
 	return *this;
 }

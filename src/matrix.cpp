@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 15:23:33 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/11 23:30:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,28 @@ Matrix Matrix::operator*(const Matrix& rhs) const {
 	return tmp;
 }
 
+Matrix& Matrix::operator^=(const Rational rhs) {
+	if (!isSquare() || !rhs.isInteger() || rhs < Rational(0))
+		throw math::operation_undefined();
+	if (rhs == Rational(1) || !*this)
+		return *this;
+	else if (rhs == Rational(0)) {
+		*this = Matrix(getNbColumns());
+	} else {
+		for (Rational i = Rational(0); i < rhs; ++i) {
+			operator*=(*this);
+		}
+	}
+	return *this;
+}
+
+Matrix Matrix::operator^(const Rational& rhs) const {
+	Matrix	tmp(*this);
+
+	tmp.operator^=(rhs);
+	return tmp;
+}
+
 /* Getters ******************************************/
 
 Matrix& Matrix::operator*=(const Rational rhs) {
@@ -212,14 +234,27 @@ const Matrix::matrix& Matrix::getMatrix() const {
 	return _matrix;
 }
 
-
 /* Tools ********************************************/
+
+bool Matrix::operator!() const {
+	for (const size_t i = 0; i < getNbColumns(); ++i) {
+		for (const size_t j = 0; j < getNbRows(); ++j) {
+			if (getMatrix()[i][j].getVal())
+				return false;
+		}
+	}
+	return true;
+}
 
 bool Matrix::isSameSize(const Matrix& rhs) const {
 	if (getNbRows() == rhs.getNbRows() && getNbColumns() == rhs.getNbColumns())
 		return true;
 	return false;
-} 
+}
+
+bool Matrix::isSquare() const {
+	return getNbColumns() == getNbRows();
+}
 
 size_t Matrix::getMaxLength() const {
 	size_t	biggest = MIN_W_SIZE;
