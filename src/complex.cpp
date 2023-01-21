@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/11 23:29:04 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 12:50:54 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ Complex::Complex(const std::string&& buf) {
 }
 
 Complex::Complex(const Complex& x):
+	// TreeNode(_left, _right),
 	_re(x.getReal()),
 	_im(x.getImaginary()) {
 		LOG("Complex copy");
@@ -135,20 +136,34 @@ Complex& Complex::operator^=(const Rational& rhs) {
 		_re = 0;
 		_im = 0;
 	} else {
-		for (Rational i = 1; i < rhs; ++i) {
+		Rational	rhs_copy(rhs);
+		for (Rational i = 1; i < rhs_copy; ++i) {
 			operator*=(*this);
 		}
 	}
 	return *this;
 }
 
-Complex Complex::operator^(const Rational rhs) const {
+Complex Complex::operator^(const Rational& rhs) const {
 	Complex	tmp(*this);
 
 	tmp.operator^=(rhs);
 	return tmp;
 }
 
+Complex& Complex::operator%=(const Rational& rhs) {
+	if (!isReal() || !getReal().isInteger() || !rhs.isInteger())
+		throw math::operation_undefined();
+	_re.operator%=(rhs);
+	return *this;
+}
+
+Complex Complex::operator%(const Rational& rhs) const {
+	Complex	tmp(*this);
+
+	tmp.operator%(rhs);
+	return tmp;
+}
 
 /* Getters ******************************************/
 

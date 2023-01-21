@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 15:57:53 by eli               #+#    #+#             */
-/*   Updated: 2023/01/11 21:29:25 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 12:08:55 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@
 // 			return sum;
 // 		}
 
-// 		template <class T, class U>
+// 		template <class T>
 // 		void		add(T (T::*f)(), const U& arg = 0) {
 // 			_terms.push_back(FunctionElement(f, arg));
 // 		}

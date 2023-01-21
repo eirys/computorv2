@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/11 23:26:22 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 12:50:54 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@
 
 # include "math.hpp"
 # include "rational.hpp"
+// # include "tree_node.hpp"
 
 # define MIN_W_SIZE 2
 
-class Matrix {
+class Matrix/* : virtual public TreeNode  */{
 	public:
 		typedef				std::vector<Rational>			row;
 		typedef typename	std::vector<row>				matrix;
@@ -48,18 +49,21 @@ class Matrix {
 		Matrix				operator-(const Matrix& rhs) const;
 		Matrix				operator-() const;
 
-		Matrix&				operator*=(const Matrix rhs);
+		Matrix&				operator*=(const Matrix& rhs);
 		Matrix				operator*(const Matrix& rhs) const;
 		
 		// Rational
-		Matrix&				operator*=(const Rational rhs);
+		Matrix&				operator*=(const Rational& rhs);
 		Matrix				operator*(const Rational& rhs) const;
 
-		Matrix&				operator/=(const Rational rhs);
+		Matrix&				operator/=(const Rational& rhs);
 		Matrix				operator/(const Rational& rhs) const;
 
-		Matrix&				operator^=(const Rational rhs);
+		Matrix&				operator^=(const Rational& rhs);
 		Matrix				operator^(const Rational& rhs) const;
+
+		Matrix&				operator%=(const Rational& rhs);
+		Matrix				operator%(const Rational& rhs) const;
 
 		// Getter
 		row&				operator[](size_t index);

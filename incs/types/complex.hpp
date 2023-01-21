@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/11 22:49:03 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 12:50:54 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 # include "rational.hpp"
 # include "utils.hpp"
+// # include "tree_node.hpp"
 
-class Complex {
+class Complex/* : virtual public TreeNode  */{
 	public:
 		Complex();
 		virtual ~Complex();
@@ -45,7 +46,10 @@ class Complex {
 		Complex			operator/(const Complex& rhs) const;
 
 		Complex&		operator^=(const Rational& rhs);
-		Complex			operator^(const Rational rhs) const;
+		Complex			operator^(const Rational& rhs) const;
+
+		Complex&		operator%=(const Rational& rhs);
+		Complex			operator%(const Rational& rhs) const;
 
 		// Getter
 		Rational		getReal() const;

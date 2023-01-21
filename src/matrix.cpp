@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/11 23:30:26 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 12:50:54 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ Matrix::Matrix() {}
 Matrix::~Matrix() {}
 
 Matrix::Matrix(const Matrix& x):
+	// TreeNode(_left, _right),
 	_n(x.getNbRows()),
 	_p(x.getNbColumns()),
 	_matrix(x.getMatrix()) {}
@@ -100,9 +101,12 @@ Matrix Matrix::transpose() const {
 Matrix& Matrix::operator+=(const Matrix& rhs) {
 	if (!isSameSize(rhs))
 		throw math::operation_undefined();
+
+	const Matrix	rhs_copy(rhs);
+
 	for (size_t i = 0; i < getNbRows(); ++i) {
 		for (size_t j = 0; j < getNbColumns(); ++j) {
-			_matrix[i][j] += rhs.getMatrix()[i][j];
+			_matrix[i][j] += rhs_copy[i][j];
 		}
 	}
 	return *this;
@@ -118,9 +122,12 @@ Matrix Matrix::operator+(const Matrix& rhs) const {
 Matrix& Matrix::operator-=(const Matrix& rhs) {
 	if (!isSameSize(rhs))
 		throw math::operation_undefined();
+
+	const Matrix	rhs_copy(rhs);
+
 	for (size_t i = 0; i < getNbRows(); ++i) {
 		for (size_t j = 0; j < getNbColumns(); ++j) {
-			_matrix[i][j] -= rhs.getMatrix()[i][j];
+			_matrix[i][j] -= rhs_copy[i][j];
 		}
 	}
 	return *this;
@@ -135,21 +142,22 @@ Matrix Matrix::operator-(const Matrix& rhs) const {
 
 Matrix Matrix::operator-() const {
 	Matrix		tmp(*this);
-	Rational	negate(-1);
 	
-	tmp.operator*=(negate);
+	tmp.operator*=(Rational(-1));
 	return tmp;
 }
 
-Matrix& Matrix::operator*=(const Matrix rhs) {
+Matrix& Matrix::operator*=(const Matrix& rhs) {
 	if (getNbColumns() != rhs.getNbRows())
 		throw math::operation_undefined();
-	Matrix	new_matrix(getNbRows(), rhs.getNbColumns());
+
+	Matrix			new_matrix(getNbRows(), rhs.getNbColumns());
+	const Matrix	rhs_copy(rhs);
 
 	for (size_t i = 0; i < new_matrix.getNbRows(); ++i) {
 		for (size_t j = 0; j < new_matrix.getNbColumns(); ++j) {
 			for (size_t k = 0; k < getNbColumns(); ++k) {
-				new_matrix[i][j] += (*this)[i][k] * rhs[k][j];
+				new_matrix[i][j] += (*this)[i][k] * rhs_copy[k][j];
 			}
 		}
 	}
@@ -164,15 +172,16 @@ Matrix Matrix::operator*(const Matrix& rhs) const {
 	return tmp;
 }
 
-Matrix& Matrix::operator^=(const Rational rhs) {
+Matrix& Matrix::operator^=(const Rational& rhs) {
 	if (!isSquare() || !rhs.isInteger() || rhs < Rational(0))
 		throw math::operation_undefined();
 	if (rhs == Rational(1) || !*this)
 		return *this;
 	else if (rhs == Rational(0)) {
-		*this = Matrix(getNbColumns());
+		*this = Matrix(getNbColumns(), Rational(1));
 	} else {
-		for (Rational i = Rational(0); i < rhs; ++i) {
+		const Rational	rhs_copy(rhs);
+		for (Rational i = Rational(0); i < rhs_copy; ++i) {
 			operator*=(*this);
 		}
 	}
@@ -186,12 +195,24 @@ Matrix Matrix::operator^(const Rational& rhs) const {
 	return tmp;
 }
 
+Matrix& Matrix::operator%=(const Rational& rhs) {
+	(void)rhs;
+	throw math::operation_undefined();
+}
+
+Matrix Matrix::operator%(const Rational& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
+}
+
 /* Getters ******************************************/
 
-Matrix& Matrix::operator*=(const Rational rhs) {
+Matrix& Matrix::operator*=(const Rational& rhs) {
+	const Rational	rhs_copy(rhs);
+
 	for (size_t i = 0; i < getNbRows(); ++i) {
 		for (size_t j = 0; j < getNbColumns(); ++j) {
-			_matrix[i][j] *= rhs;
+			_matrix[i][j] *= rhs_copy;
 		}
 	}
 	return *this;
@@ -204,10 +225,12 @@ Matrix Matrix::operator*(const Rational& rhs) const {
 	return tmp;
 }
 
-Matrix& Matrix::operator/=(const Rational rhs) {
+Matrix& Matrix::operator/=(const Rational& rhs) {
+	const Rational rhs_copy(rhs);
+
 	for (size_t i = 0; i < getNbRows(); ++i) {
 		for (size_t j = 0; j < getNbColumns(); ++j) {
-			_matrix[i][j] /= rhs;
+			_matrix[i][j] /= rhs_copy;
 		}
 	}
 	return *this;
@@ -237,8 +260,8 @@ const Matrix::matrix& Matrix::getMatrix() const {
 /* Tools ********************************************/
 
 bool Matrix::operator!() const {
-	for (const size_t i = 0; i < getNbColumns(); ++i) {
-		for (const size_t j = 0; j < getNbRows(); ++j) {
+	for (size_t i = 0; i < getNbColumns(); ++i) {
+		for (size_t j = 0; j < getNbRows(); ++j) {
 			if (getMatrix()[i][j].getVal())
 				return false;
 		}

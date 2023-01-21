@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/11 22:45:28 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/12 15:25:30 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ namespace math {
 	 */
 	template <typename T, typename U>
 		inline long double remainder(const T& a, const U& b) {
+			if (a < 0 || b < 0)
+				throw math::operation_undefined();
 			const long long int	q = quotient(a, b);
 
 			return a - (q * b);
