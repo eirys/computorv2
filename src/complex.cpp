@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 12:50:54 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 20:18:19 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ Complex::Complex(const std::string&& buf) {
 }
 
 Complex::Complex(const Complex& x):
-	// TreeNode(_left, _right),
+	// Aaatreenode(_left, _right),
 	_re(x.getReal()),
 	_im(x.getImaginary()) {
 		LOG("Complex copy");

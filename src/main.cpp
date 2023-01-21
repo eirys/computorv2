@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 17:27:47 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 20:18:39 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "matrix.hpp"
 #include "function.hpp"
 #include "tree.hpp"
-#include "tree_node.hpp"
+#include "atree_node.hpp"
 
 using std::cout;
 
@@ -104,17 +104,21 @@ void test5() {
 }
 
 void test6() {
-	typedef TreeNode<Rational>		treenode;
+	typedef ATreeNode<Rational>		atreenode;
 
-	std::shared_ptr<treenode>	sa;
-	std::shared_ptr<treenode>	sb;
+	std::shared_ptr<atreenode>	sa;
+	std::shared_ptr<atreenode>	sb;
+	
 	sa.reset(new Variable<Rational>(25));
 	sb.reset(new Variable<Rational>(25));
 
 	Add<Rational>		add(sa, sb);
 	Negate<Rational>	neg(sa);
+	Substract<Rational>	sub(sa, sb);
+	Multiply<Rational>	mul(sa, sb);
+	Divide<Rational>	div(sa, sb);
 
-	cout << neg.eval()<< NL;
+	cout << div.eval()<< NL;
 }
 
 int main() {

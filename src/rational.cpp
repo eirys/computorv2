@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 12:50:54 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 20:18:19 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ Rational::Rational(long double x):
 	_val(x) {}
 
 Rational::Rational(const Rational& x):
-	// TreeNode(_left, _right),
+	// Aaatreenode(_left, _right),
 	_val(x.getVal()) {}
 
 Rational::Rational(const std::string&& buf):

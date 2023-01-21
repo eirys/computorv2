@@ -6,7 +6,7 @@
 #    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/01/21 12:50:19 by eli              ###   ########.fr        #
+#    Updated: 2023/01/21 18:00:06 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 NAME	= computor
 
 CC		= c++
-CFLAGS	= -Wall -Werror -Wextra -g -std=c++11
+CFLAGS	= -Wall -Werror -Wextra -std=c++11 -g
 INC		= -I./incs/types -I./incs/tools -I./incs/polynomial -I./incs/tree
 
 SRCS	= rational.cpp \

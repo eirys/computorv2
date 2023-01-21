@@ -13,7 +13,7 @@
 #ifndef TREE_HPP
 # define TREE_HPP
 
-# include "tree_node.hpp"
+# include "atree_node.hpp"
 # include "variable.hpp"
 
 # include "add.hpp"
@@ -29,7 +29,7 @@ template <class T>
 class Tree {
 	public:
 		typedef				T						value_type;
-		typedef				TreeNode<value_type>	node_base;
+		typedef				ATreeNode<value_type>	node_base;
 		typedef typename	node_base::node			node;
 
 		// Default

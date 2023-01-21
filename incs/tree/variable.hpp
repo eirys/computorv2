@@ -6,19 +6,19 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 16:09:50 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 20:19:25 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VARIABLE_HPP
 # define VARIABLE_HPP
 
-# include "tree_node.hpp"
+# include "atree_node.hpp"
 
 template <class T>
-class Variable: virtual public TreeNode<T> {
+class Variable: virtual public ATreeNode<T> {
 	public:
-		typedef 			TreeNode<T>				base;
+		typedef 			ATreeNode<T>			base;
 		typedef typename	base::value_type		value_type;
 		typedef typename	base::unique_node		unique_node;
 		typedef typename	base::shared_node		shared_node;

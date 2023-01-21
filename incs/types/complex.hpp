@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 12:50:54 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 20:17:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 
 # include "rational.hpp"
 # include "utils.hpp"
-// # include "tree_node.hpp"
 
-class Complex/* : virtual public TreeNode  */{
+class Complex {
 	public:
 		Complex();
 		virtual ~Complex();

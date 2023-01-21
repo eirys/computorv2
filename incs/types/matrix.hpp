@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 12:50:54 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 20:17:41 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@
 
 # include "math.hpp"
 # include "rational.hpp"
-// # include "tree_node.hpp"
 
 # define MIN_W_SIZE 2
 
-class Matrix/* : virtual public TreeNode  */{
+class Matrix {
 	public:
 		typedef				std::vector<Rational>			row;
 		typedef typename	std::vector<row>				matrix;

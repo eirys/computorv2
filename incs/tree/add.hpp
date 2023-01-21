@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:13:54 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 16:58:12 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 20:15:51 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # include "tree.hpp"
 
 template <class T>
-class Add: virtual public TreeNode<T> {
+class Add: virtual public ATreeNode<T> {
 	public:
-		typedef 			TreeNode<T>				base;
+		typedef 			ATreeNode<T>			base;
 		typedef typename	base::value_type		value_type;
 		typedef typename	base::unique_node		unique_node;
 		typedef typename	base::shared_node		shared_node;

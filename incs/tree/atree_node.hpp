@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree_node.hpp                                     :+:      :+:    :+:   */
+/*   atree_node.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/20 18:46:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 12:48:40 by eli              ###   ########.fr       */
+/*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
+/*   Updated: 2023/01/21 20:19:15 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TREE_NODE_HPP
-# define TREE_NODE_HPP
+#ifndef ATREE_NODE_HPP
+# define ATREE_NODE_HPP
 
 # include <memory>
 
 template <class T>
-class TreeNode {
+class ATreeNode {
 	public:
-		typedef typename	std::unique_ptr<TreeNode<T>>	unique_node;
-		typedef typename	std::shared_ptr<TreeNode<T>>	shared_node;
-		typedef typename	std::weak_ptr<TreeNode<T>>		weak_node;
+		typedef typename	std::unique_ptr<ATreeNode<T>>	unique_node;
+		typedef typename	std::shared_ptr<ATreeNode<T>>	shared_node;
+		typedef typename	std::weak_ptr<ATreeNode<T>>		weak_node;
 		typedef				T								value_type;
 
 		// Destructor
-		virtual	~TreeNode() {}
+		virtual	~ATreeNode() {}
 
 		// Base functions
 		const shared_node			getLeft() const {
@@ -40,12 +40,12 @@ class TreeNode {
 
 	protected:
 		// Default
-		TreeNode():
+		ATreeNode():
 			_left(),
 			_right() {}
 
 		// Initialized constructor
-		TreeNode(const shared_node& left, const shared_node& right):
+		ATreeNode(const shared_node& left, const shared_node& right):
 			_left(left),
 			_right(right) {}
 

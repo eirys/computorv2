@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 12:50:54 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/21 20:17:48 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 # include <string>
 
 # include "utils.hpp"
-// # include "tree_node.hpp"
 
 class Complex;
 class Matrix;
 
-class Rational/* : virtual public TreeNode */ {
+class Rational {
 	public:
 		Rational();
 		virtual ~Rational();
