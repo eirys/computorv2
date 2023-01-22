@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 20:17:41 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/22 17:36:28 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,14 @@
 
 # define MIN_W_SIZE 2
 
-class Matrix {
+class Matrix: public IType {
 	public:
-		typedef				std::vector<Rational>			row;
-		typedef typename	std::vector<row>				matrix;
+		typedef typename	IType::unique_itype			unique_itype;
+		typedef typename	IType::shared_itype			shared_itype;
+		typedef typename	IType::weak_itype			weak_itype;
+
+		typedef				std::vector<Rational>		row;
+		typedef typename	std::vector<row>			matrix;
 
 		Matrix();
 		virtual ~Matrix();
@@ -39,6 +43,11 @@ class Matrix {
 		Matrix&				operator=(const Matrix& rhs);
 
 		// Arith operators
+		shared_itype		operator+(const shared_itype& rhs) const;
+		shared_itype		operator-(const shared_itype& rhs) const;
+		shared_itype		operator*(const shared_itype& rhs) const;
+		shared_itype		operator/(const shared_itype& rhs) const;
+
 		Matrix				transpose() const;
 		
 		Matrix&				operator+=(const Matrix& rhs);

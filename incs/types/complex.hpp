@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 20:17:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/22 17:34:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,28 @@
 # include "rational.hpp"
 # include "utils.hpp"
 
-class Complex {
+class Complex: public IType {
 	public:
+		typedef typename	IType::unique_itype		unique_itype;
+		typedef typename	IType::shared_itype		shared_itype;
+		typedef typename	IType::weak_itype		weak_itype;
+
 		Complex();
 		virtual ~Complex();
 
 		Complex(const Complex& x);
 		Complex(const Rational& x, const Rational& y = Rational(0));
-		Complex(const std::string&& buf);
+		// Complex(const std::string&& buf);
 
 		Complex& 		operator=(const Complex& rhs);
 		Complex& 		operator=(const Rational& rhs);
 
 		// Arith. operators
+		shared_itype	operator+(const shared_itype& rhs) const;
+		shared_itype	operator-(const shared_itype& rhs) const;
+		shared_itype	operator*(const shared_itype& rhs) const;
+		shared_itype	operator/(const shared_itype& rhs) const;
+
 		Complex			conjugate() const;
 
 		Complex&		operator+=(const Complex& rhs);
@@ -64,7 +73,16 @@ class Complex {
 		Rational		_re;
 		Rational		_im;
 
-		void			_parseBuf(const std::string& buf);
+		// void			_parseBuf(const std::string& buf);
+
+		shared_itype	_general_operator(shared_itype (Complex::*f)(const shared_itype&) const,
+							const shared_itype& rhs_ptr) const;
+		shared_itype	_rational_operator(shared_itype (Complex::*f)(const shared_itype&) const,
+							const std::shared_ptr<Rational>& r_ptr) const;
+		shared_itype	_complex_operator(shared_itype (Complex::*f)(const shared_itype&) const,
+							const std::shared_ptr<Complex>& c_ptr) const;
+		shared_itype	_matrix_operator(shared_itype (Complex::*f)(const shared_itype&) const,
+							const std::shared_ptr<Matrix>& m_ptr) const;
 };
 
 bool					operator==(const Complex& x, const Complex& y);
