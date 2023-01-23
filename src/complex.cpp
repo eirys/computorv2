@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/22 18:16:27 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/23 11:40:54 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,6 @@ Complex::Complex():
 
 Complex::~Complex() {}
 
-Complex::Complex(const Rational& x, const Rational& y):
-	_re(x),
-	_im(y) {
-		LOG("Complex rational");
-}
-
-Complex::Complex(const std::string&& buf) {
-	LOG("Complex buf");
-	_parseBuf(buf);
-}
-
 Complex::Complex(const Complex& x):
 	// Aaatreenode(_left, _right),
 	_re(x.getReal()),
@@ -37,13 +26,24 @@ Complex::Complex(const Complex& x):
 		LOG("Complex copy");
 }
 
-Complex& Complex::operator=(const Rational& rhs) {
-	if (isReal() && getReal() == rhs)
-		return *this;
-	_re = rhs;
-	_im = 0;
-	return *this;
+Complex::Complex(const Rational& x, const Rational& y):
+	_re(x),
+	_im(y) {
+		LOG("Complex rational");
 }
+
+// Complex::Complex(const std::string&& buf) {
+// 	LOG("Complex buf");
+// 	_parseBuf(buf);
+// }
+
+// Complex& Complex::operator=(const Rational& rhs) {
+// 	if (isReal() && getReal() == rhs)
+// 		return *this;
+// 	_re = rhs;
+// 	_im = 0;
+// 	return *this;
+// }
 
 Complex& Complex::operator=(const Complex& rhs) {
 	if (this == &rhs)
@@ -56,63 +56,109 @@ Complex& Complex::operator=(const Complex& rhs) {
 /* Arith operators **********************************/
 
 Complex::shared_itype	Complex::operator+(const shared_itype& rhs_ptr) const {
-	return _general_operator(operator+, rhs_ptr);
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Complex::operator+, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Complex::operator+, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		throw math::operation_undefined();
+		// return _matrix_operator(&Complex::operator+, m_ptr);
+	return nullptr;
+	// return _general_operator(operator+, rhs_ptr);
 }
 
 Complex::shared_itype	Complex::operator-(const shared_itype& rhs_ptr) const {
-	return _general_operator(operator-, rhs_ptr);
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Complex::operator-, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Complex::operator-, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		throw math::operation_undefined();
+		// return _matrix_operator(&Complex::operator+, m_ptr);
+	return nullptr;
+	// return _general_operator(operator-, rhs_ptr);
 }
 
 Complex::shared_itype	Complex::operator*(const shared_itype& rhs_ptr) const {
-	return _general_operator(operator*, rhs_ptr);
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Complex::operator*, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Complex::operator*, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		throw math::operation_undefined();
+		// return _matrix_operator(&Complex::operator+, m_ptr);
+	return nullptr;
+	// return _general_operator(operator*, rhs_ptr);
 }
 
 Complex::shared_itype	Complex::operator/(const shared_itype& rhs_ptr) const {
-	return _general_operator(operator/, rhs_ptr);
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Complex::operator+, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Complex::operator+, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		throw math::operation_undefined();
+		// return _matrix_operator(&Complex::operator+, m_ptr);
+	return nullptr;
+	// return _general_operator(operator/, rhs_ptr);
 }
 
-Complex::shared_itype	Complex::_general_operator(
-	shared_itype (Complex::*f)(const shared_itype&) const,
-	const shared_itype& rhs_ptr
-	) const {
-		std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-		if (r_ptr.get())
-			return _rational_operator(f, r_ptr);
-		std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-		if (c_ptr.get())
-			return _complex_operator(f, c_ptr);
-		std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-		if (m_ptr.get())
-			return _matrix_operator(f, m_ptr);
-	}
+// Complex::shared_itype	Complex::_general_operator(
+// 	shared_itype (Complex::*f)(const shared_itype&) const,
+// 	const shared_itype& rhs_ptr
+// 	) const {
+// 		std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+// 		if (r_ptr.get())
+// 			return _rational_operator(f, r_ptr);
+// 		std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+// 		if (c_ptr.get())
+// 			return _complex_operator(f, c_ptr);
+// 		std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+// 		if (m_ptr.get())
+// 			return _matrix_operator(f, m_ptr);
+// 	}
 
 Complex::shared_itype	Complex::_rational_operator(
-	shared_itype (Complex::*f)(const shared_itype&) const,
+	Complex (Complex::*f)(const Rational&) const,
 	const std::shared_ptr<Rational>& r_ptr
 	) const {
-		shared_itype	tmp = (this->*f)(r_ptr);
-		Rational		r = *std::dynamic_pointer_cast<Rational>(tmp);
-		tmp.reset(new Rational(r));
-		return tmp;
+		return shared_itype(new Rational((this->*f)(*r_ptr)));
+		// shared_itype	tmp = (this->*f)(r_ptr);
+		// Rational		r = *std::dynamic_pointer_cast<Rational>(tmp);
+		// tmp.reset(new Rational(r));
+		// return tmp;
 	}
 
 Complex::shared_itype	Complex::_complex_operator(
-	shared_itype (Complex::*f)(const shared_itype&) const,
+	Complex (Complex::*f)(const Complex&) const,
 	const std::shared_ptr<Complex>& c_ptr
 	) const {
-		shared_itype	tmp = (this->*f)(c_ptr);
-		Complex			c = *std::dynamic_pointer_cast<Complex>(tmp);
-		tmp.reset(new Complex(c));
-		return tmp;
+		return shared_itype(new Complex((this->*f)(*c_ptr)));
+		// shared_itype	tmp = (this->*f)(c_ptr);
+		// Complex			c = *std::dynamic_pointer_cast<Complex>(tmp);
+		// tmp.reset(new Complex(c));
+		// return tmp;
 	}
 
-Complex::shared_itype	Complex::_matrix_operator(
-	shared_itype (Complex::*f)(const shared_itype&) const,
-	const std::shared_ptr<Matrix>& m_ptr
-	) const {
-		throw math::operation_undefined();
-		return nullptr;
-	}
+// Complex::shared_itype	Complex::_matrix_operator(
+// 	shared_itype (Complex::*f)(const shared_itype&) const,
+// 	const std::shared_ptr<Matrix>& m_ptr
+// 	) const {
+// 		throw math::operation_undefined();
+// 		return nullptr;
+// 	}
 
 /* Arith operators **********************************/
 
@@ -256,13 +302,13 @@ bool	Complex::isImaginary() const {
 
 /* Other ********************************************/
 
-void	Complex::_parseBuf(const std::string& buf) {
-	size_t	pos;
-	long double ld = std::stold(buf, &pos);
+// void	Complex::_parseBuf(const std::string& buf) {
+// 	size_t	pos;
+// 	long double ld = std::stold(buf, &pos);
 
-	_re = Rational(ld);
-	_im = Rational(std::string(buf.c_str() + pos));
-}
+// 	_re = Rational(ld);
+// 	_im = Rational(std::string(buf.c_str() + pos));
+// }
 
 /* Relational operators *****************************/
 

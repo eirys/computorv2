@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 20:18:19 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/23 11:23:23 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ Matrix::Matrix() {}
 Matrix::~Matrix() {}
 
 Matrix::Matrix(const Matrix& x):
-	// Aaatreenode(_left, _right),
 	_n(x.getNbRows()),
 	_p(x.getNbColumns()),
 	_matrix(x.getMatrix()) {}

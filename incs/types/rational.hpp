@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/22 18:31:05 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/23 11:11:09 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,22 @@ class Rational: public IType {
 	private:
 		long double		_val;
 
-		shared_itype	_general_operator(shared_itype (Rational::*f)() const,
-							const shared_itype& rhs_ptr) const;
-		shared_itype	_rational_operator(shared_itype (Rational::*f)(const Rational&) const,
+		shared_itype	_rational_operator(Rational (Rational::*f)(const Rational&) const,
 							const std::shared_ptr<Rational>& r_ptr) const;
-		shared_itype	_complex_operator(shared_itype (Rational::*f)(const Complex&) const,
-							const std::shared_ptr<Complex>& c_ptr) const;
-		shared_itype	_matrix_operator(shared_itype (Rational::*f)(const Matrix&) const,
-							const std::shared_ptr<Matrix>& m_ptr) const;
+		shared_itype	_complex_operator(Complex (Rational::*f)(const Complex&) const,
+							const std::shared_ptr<Complex>& r_ptr) const;
+		shared_itype	_matrix_operator(Matrix (Rational::*f)(const Matrix&) const,
+							const std::shared_ptr<Matrix>& r_ptr) const;
+
+
+		// shared_itype	_general_operator(shared_itype (Rational::*f)() const,
+							// const shared_itype& rhs_ptr) const;
+		// shared_itype	_rational_operator(shared_itype (Rational::*f)(const Rational&) const,
+		// 					const std::shared_ptr<Rational>& r_ptr) const;
+		// shared_itype	_complex_operator(shared_itype (Rational::*f)(const Complex&) const,
+		// 					const std::shared_ptr<Complex>& c_ptr) const;
+		// shared_itype	_matrix_operator(shared_itype (Rational::*f)(const Matrix&) const,
+		// 					const std::shared_ptr<Matrix>& m_ptr) const;
 };
 
 bool			operator==(const Rational& x, const Rational& y);
