@@ -25,25 +25,25 @@
 /**
  * AST (Abstract Syntax Tree)
 */
-template <class T>
 class Tree {
 	public:
-		typedef				T						value_type;
-		typedef				ATreeNode<value_type>	node_base;
-		typedef typename	node_base::node			node;
+		typedef				ATreeNode					base;
+		typedef typename	base::unique_node			unique_node;
+		typedef typename	base::shared_node			shared_node;
+		typedef typename	base::weak_node				weak_node;
 
 		// Default
 		Tree() {}
 
 		// Initialized
-		Tree(node head):
+		Tree(shared_node head):
 			_head(head) {}
 
 		// Destructor
 		virtual ~Tree() {}
 
 	protected:
-		node			_head;
+		weak_node			_head;
 };
 
 #endif

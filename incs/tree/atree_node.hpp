@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 20:19:15 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 00:01:45 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,20 @@
 
 # include <memory>
 
-template <class T>
+# include "itype.hpp"
+# include "rational.hpp"
+# include "complex.hpp"
+# include "matrix.hpp"
+
 class ATreeNode {
 	public:
-		typedef typename	std::unique_ptr<ATreeNode<T>>	unique_node;
-		typedef typename	std::shared_ptr<ATreeNode<T>>	shared_node;
-		typedef typename	std::weak_ptr<ATreeNode<T>>		weak_node;
-		typedef				T								value_type;
+		typedef typename	std::unique_ptr<ATreeNode>		unique_node;
+		typedef typename	std::shared_ptr<ATreeNode>		shared_node;
+		typedef typename	std::weak_ptr<ATreeNode>		weak_node;
+
+		typedef				std::unique_ptr<IType>			unique_itype;
+		typedef				std::shared_ptr<IType>			shared_itype;
+		typedef				std::weak_ptr<IType>			weak_itype;
 
 		// Destructor
 		virtual	~ATreeNode() {}
@@ -35,7 +42,7 @@ class ATreeNode {
 		}
 
 		// Override
-		virtual const value_type	eval() const = 0;
+		virtual const shared_itype	eval() const = 0;
 		virtual void				print() const = 0;
 
 	protected:

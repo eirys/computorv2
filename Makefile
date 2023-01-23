@@ -6,7 +6,7 @@
 #    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/01/21 18:00:06 by eli              ###   ########.fr        #
+#    Updated: 2023/01/23 22:52:58 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS	= rational.cpp \
 			complex.cpp \
 			matrix.cpp \
 			function.cpp \
+			itype.cpp \
 			main.cpp
 
 OBJS	= $(SRCS:.cpp=.o)

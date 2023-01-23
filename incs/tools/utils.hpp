@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/01/10 14:03:36 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 00:10:19 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,32 @@
 
 namespace utils {
 
-	/* -- PROTOTYPE ----------------------------------------------- */
+/* -- PROTOTYPE ----------------------------------------------- */
 
-	template <typename T>
-		void display(const std::list<T>& l);
-		
-	template <typename T>
-		size_t getWidth(const T& val);
+template <typename T>
+	void display(const std::list<T>& l);
+	
+template <typename T>
+	size_t getWidth(const T& val);
 
-	/* -- DEFINITION ---------------------------------------------- */
+/* -- DEFINITION ---------------------------------------------- */
 
-	template <typename T>
-		inline void display(const std::list<T>& l) {
-			for (typename std::list<T>::const_iterator it = l.begin(); it != l.end(); ++it)
-				std::cout << '[' << *it << "] ";
-			std::cout << std::endl;
-		}
-
-	template <typename T>
-	inline size_t getWidth(const T& val) {
-		std::ostringstream o;
-
-		o << std::setprecision(FLOAT_PRECISION) << val;
-		return o.str().size();
+template <typename T>
+	inline void display(const std::list<T>& l) {
+		for (typename std::list<T>::const_iterator it = l.begin(); it != l.end(); ++it)
+			std::cout << '[' << *it << "] ";
+		std::cout << std::endl;
 	}
 
-	// size_t skipWhitespaces(const std::string&& buf, size_t hint = 0) {
-	// 	return buf.find_first_not_of("\t ", hint);
-	// }
+template <typename T>
+inline size_t getWidth(const T& val) {
+	std::ostringstream o;
+
+	o << std::setprecision(FLOAT_PRECISION) << val;
+	return o.str().size();
 }
+
+
+} // namespace utils
 
 #endif

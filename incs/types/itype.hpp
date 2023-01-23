@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:25:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 21:56:41 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/23 23:51:23 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ITYPE_HPP
 
 # include <memory>
+# include <ostream>
 
 class IType {
 	public:
@@ -21,7 +22,7 @@ class IType {
 		typedef typename	std::shared_ptr<IType>		shared_itype;
 		typedef typename	std::weak_ptr<IType>		weak_itype;
 
-		virtual ~IType() {}
+		virtual ~IType();
 
 		virtual shared_itype	operator+(const shared_itype& rhs) const = 0;
 		virtual shared_itype	operator-(const shared_itype& rhs) const = 0;
@@ -29,5 +30,6 @@ class IType {
 		virtual shared_itype	operator/(const shared_itype& rhs) const = 0;
 };
 
+std::ostream&	operator<<(std::ostream& o, const IType& x);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:39:57 by eli               #+#    #+#             */
-/*   Updated: 2023/01/21 20:16:56 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/23 23:54:15 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 
 # include "atree_node.hpp"
 
-template <class T>
-class Multiply: public virtual ATreeNode<T> {
+class Multiply: public virtual ATreeNode {
 	public:
-		typedef 			ATreeNode<T>			base;
-		typedef typename	base::value_type		value_type;
-		typedef typename	base::unique_node		unique_node;
-		typedef typename	base::shared_node		shared_node;
-		typedef typename	base::weak_node			weak_node;
+		typedef 			ATreeNode					base;
+		typedef typename	base::unique_node			unique_node;
+		typedef typename	base::shared_node			shared_node;
+		typedef typename	base::weak_node				weak_node;
+
+		typedef typename	base::unique_itype			unique_itype;
+		typedef typename	base::shared_itype			shared_itype;
+		typedef typename	base::weak_itype			weak_itype;
 
 		// Initialized constructor
 		Multiply(const shared_node& left, const shared_node& right):
@@ -31,8 +33,19 @@ class Multiply: public virtual ATreeNode<T> {
 		// Destructor
 		virtual ~Multiply() {}
 
-		const value_type	eval() const {
-			return base::getLeft()->eval() * base::getRight()->eval();
+		const shared_itype	eval() const {
+			const shared_itype&			tmp = base::getLeft()->eval();
+
+			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);
+			if (arg1.get())
+				return *arg1 * base::getRight()->eval();
+			std::shared_ptr<Complex>	arg2 = std::dynamic_pointer_cast<Complex>(tmp);
+			if (arg2.get())
+				return *arg2 * base::getRight()->eval();
+			std::shared_ptr<Matrix>		arg3 = std::dynamic_pointer_cast<Matrix>(tmp);
+			if (arg3.get())
+				return *arg3 * base::getRight()->eval();
+			return nullptr;
 		}
 
 		void				print() const {

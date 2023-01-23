@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 19:40:48 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 00:18:30 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "atree_node.hpp"
 
 using std::cout;
+using std::cerr;
 
 void test1() {
   		Matrix	m1 = Matrix::matrix { { 2, 2 },
@@ -104,6 +105,7 @@ void test5() {
 }
 
 void test6() {
+	/*
 	typedef ATreeNode<Rational>		atreenode;
 	typedef ATreeNode<Complex>		atreenode_c;
 
@@ -127,9 +129,33 @@ void test6() {
 
 
 	Add<Complex>		add_c(sc, sd);
-	cout << add_c.eval()<<NL;
+	cout << add_c.eval()<<NL; */
 
 	// cout << div.eval()<< NL;
+	try {
+	typedef std::shared_ptr<ATreeNode>	shared_node;
+
+	Rational		a(5);
+	Complex			b(1, 1);
+	Matrix			c = Matrix::matrix { {1, 1, 1 } };
+
+	Variable		var_a = createVariable(a);
+	Variable		var_b = createVariable(b);
+	Variable		var_c = createVariable(c);
+
+	shared_node		node_a(new Variable(var_a));
+	shared_node		node_b(new Variable(var_b));
+	shared_node		node_c(new Variable(var_c));
+
+	Add				add1(node_a, node_b);
+	Add				add2(node_c, node_c);
+
+	cout << *add1.eval() << NL;
+	cout << *add2.eval() << NL;
+
+	} catch (const std::exception& e) {
+		cerr << e.what() << NL;
+	}
 }
 
 int main() {
