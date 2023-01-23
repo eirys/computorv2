@@ -6,11 +6,12 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 11:23:23 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/23 19:33:42 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.hpp"
+#include "complex.hpp"
 
 Matrix::Matrix() {}
 
@@ -86,6 +87,87 @@ const Matrix::row&	Matrix::operator[](size_t index) const {
 
 /* Arith operators **********************************/
 
+Matrix::shared_itype		Matrix::operator+(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Matrix::operator+, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Matrix::operator+, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Matrix::operator+, m_ptr);
+	return nullptr;
+}
+
+Matrix::shared_itype		Matrix::operator-(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Matrix::operator-, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Matrix::operator-, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Matrix::operator-, m_ptr);
+	return nullptr;
+}
+
+Matrix::shared_itype		Matrix::operator*(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Matrix::operator*, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Matrix::operator*, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Matrix::operator*, m_ptr);
+	return nullptr;
+}
+
+Matrix::shared_itype		Matrix::operator/(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Matrix::operator/, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Matrix::operator/, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Matrix::operator/, m_ptr);
+	return nullptr;
+}
+
+Matrix::shared_itype	Matrix::_rational_operator(
+	Matrix (Matrix::*f)(const Rational&) const,
+	const std::shared_ptr<Rational>& r_ptr
+	) const {
+		return shared_itype(new Matrix((this->*f)(*r_ptr)));
+	}
+
+Matrix::shared_itype	Matrix::_complex_operator(
+	Matrix (Matrix::*f)(const Complex&) const,
+	const std::shared_ptr<Complex>& r_ptr
+	) const {
+		return shared_itype(new Matrix((this->*f)(*r_ptr)));
+
+	}
+
+Matrix::shared_itype	Matrix::_matrix_operator(
+	Matrix (Matrix::*f)(const Matrix&) const,
+	const std::shared_ptr<Matrix>& r_ptr
+	) const {
+		return shared_itype(new Matrix((this->*f)(*r_ptr)));
+
+	}
+
+/* Arith operators **********************************/
+
+Matrix Matrix::operator-() const {
+	return operator*(Rational(-1));
+}
+
 Matrix Matrix::transpose() const {
 	Matrix	tmp(this->getNbColumns(), this->getNbRows());
 
@@ -139,13 +221,6 @@ Matrix Matrix::operator-(const Matrix& rhs) const {
 	return tmp;
 }
 
-Matrix Matrix::operator-() const {
-	Matrix		tmp(*this);
-	
-	tmp.operator*=(Rational(-1));
-	return tmp;
-}
-
 Matrix& Matrix::operator*=(const Matrix& rhs) {
 	if (getNbColumns() != rhs.getNbRows())
 		throw math::operation_undefined();
@@ -169,6 +244,16 @@ Matrix Matrix::operator*(const Matrix& rhs) const {
 
 	tmp.operator*=(rhs);
 	return tmp;
+}
+
+Matrix&	Matrix::operator/=(const Matrix& rhs) {
+	(void)rhs;
+	throw math::operation_undefined();
+}
+
+Matrix	Matrix::operator/(const Matrix& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
 }
 
 Matrix& Matrix::operator^=(const Rational& rhs) {
@@ -206,40 +291,68 @@ Matrix Matrix::operator%(const Rational& rhs) const {
 
 /* Getters ******************************************/
 
-Matrix& Matrix::operator*=(const Rational& rhs) {
-	const Rational	rhs_copy(rhs);
+Matrix	Matrix::operator+(const Rational& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
+}
 
-	for (size_t i = 0; i < getNbRows(); ++i) {
-		for (size_t j = 0; j < getNbColumns(); ++j) {
-			_matrix[i][j] *= rhs_copy;
-		}
-	}
-	return *this;
+Matrix	Matrix::operator-(const Rational& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
 }
 
 Matrix Matrix::operator*(const Rational& rhs) const {
-	Matrix	tmp(*this);
-
-	tmp.operator*=(rhs);
-	return tmp;
-}
-
-Matrix& Matrix::operator/=(const Rational& rhs) {
-	const Rational rhs_copy(rhs);
+	const Rational	rhs_copy(rhs);
+	Matrix			tmp(getNbRows(), getNbColumns());
 
 	for (size_t i = 0; i < getNbRows(); ++i) {
 		for (size_t j = 0; j < getNbColumns(); ++j) {
-			_matrix[i][j] /= rhs_copy;
+			tmp[i][j] = _matrix[i][j] * rhs_copy;
 		}
 	}
-	return *this;
+	return tmp;
 }
 
 Matrix Matrix::operator/(const Rational& rhs) const {
-	Matrix	tmp(*this);
+	const Rational	rhs_copy(rhs);
+	Matrix			tmp(getNbRows(), getNbColumns());
 
-	tmp.operator/=(rhs);
+	for (size_t i = 0; i < getNbRows(); ++i) {
+		for (size_t j = 0; j < getNbColumns(); ++j) {
+			tmp[i][j] = _matrix[i][j] / rhs_copy;
+		}
+	}
 	return tmp;
+}
+
+/* Getters ******************************************/
+
+Matrix	Matrix::operator+(const Complex& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
+}
+
+Matrix	Matrix::operator-(const Complex& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
+}
+
+Matrix	Matrix::operator*(const Complex& rhs) const {
+	if (rhs.isReal()) {
+		Rational	tmp(rhs.getReal());
+
+		return operator*(tmp);
+	}
+	throw math::operation_undefined();
+}
+
+Matrix	Matrix::operator/(const Complex& rhs) const {
+	if (rhs.isReal()) {
+		Rational	tmp(rhs.getReal());
+
+		return operator/(tmp);
+	}
+	throw math::operation_undefined();
 }
 
 /* Getters ******************************************/

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 11:11:09 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/23 19:24:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ class Rational: public IType {
 		Rational&		operator=(long double rhs);
 		Rational&		operator=(const Rational& rhs);
 
-		// Arith. operators
+		// IType operators
 		shared_itype	operator+(const shared_itype& rhs) const;
 		shared_itype	operator-(const shared_itype& rhs) const;
 		shared_itype	operator*(const shared_itype& rhs) const;
 		shared_itype	operator/(const shared_itype& rhs) const;
+
+		// Arith operators
+		Rational		operator-() const;
 
 		Rational&		operator+=(const Rational& rhs);
 		Rational&		operator++();
@@ -52,7 +55,6 @@ class Rational: public IType {
 		Rational&		operator--();
 		Rational		operator--(int);
 		Rational		operator-(const Rational& rhs) const;
-		Rational		operator-() const;
 
 		Rational&		operator*=(const Rational& rhs);
 		Rational		operator*(const Rational& rhs) const;
