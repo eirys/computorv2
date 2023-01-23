@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 19:24:49 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/23 19:35:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ class Matrix: public IType {
 		// Complex
 		Matrix				operator+(const Complex& rhs) const;	// undefined
 		Matrix				operator-(const Complex& rhs) const;	// undefined
-		Matrix				operator*(const Complex& rhs) const;	// undefined
-		Matrix				operator/(const Complex& rhs) const;	// undefined
+		Matrix				operator*(const Complex& rhs) const;
+		Matrix				operator/(const Complex& rhs) const;
 
 		// Getter
 		size_t				getNbColumns() const;

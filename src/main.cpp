@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 19:27:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/23 19:40:48 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,19 @@ void test5() {
 
 void test6() {
 	typedef ATreeNode<Rational>		atreenode;
+	typedef ATreeNode<Complex>		atreenode_c;
 
-	std::shared_ptr<atreenode>	sa;
-	std::shared_ptr<atreenode>	sb;
+	std::shared_ptr<atreenode>		sa;
+	std::shared_ptr<atreenode>		sb;
+
+	std::shared_ptr<atreenode_c>	sc;
+	std::shared_ptr<atreenode_c>	sd;
 	
 	sa.reset(new Variable<Rational>(25));
 	sb.reset(new Variable<Rational>(25));
+
+	sc.reset(new Variable<Complex>(Complex(1, 1)));
+	sd.reset(new Variable<Complex>(Complex(2, 2)));
 
 	Add<Rational>		add(sa, sb);
 	Negate<Rational>	neg(sa);
@@ -118,7 +125,11 @@ void test6() {
 	Multiply<Rational>	mul(sa, sb);
 	Divide<Rational>	div(sa, sb);
 
-	cout << div.eval()<< NL;
+
+	Add<Complex>		add_c(sc, sd);
+	cout << add_c.eval()<<NL;
+
+	// cout << div.eval()<< NL;
 }
 
 int main() {
