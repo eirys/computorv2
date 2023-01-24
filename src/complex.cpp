@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 23:51:15 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 00:36:37 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,6 @@ Complex::Complex(const Rational& x, const Rational& y):
 		LOG("Complex rational");
 }
 
-// Complex::Complex(const std::string&& buf) {
-// 	LOG("Complex buf");
-// 	_parseBuf(buf);
-// }
-
-// Complex& Complex::operator=(const Rational& rhs) {
-// 	if (isReal() && getReal() == rhs)
-// 		return *this;
-// 	_re = rhs;
-// 	_im = 0;
-// 	return *this;
-// }
-
 Complex& Complex::operator=(const Complex& rhs) {
 	if (this == &rhs)
 		return *this;
@@ -54,7 +41,7 @@ Complex& Complex::operator=(const Complex& rhs) {
 	return *this;
 }
 
-/* Arith operators **********************************/
+/* IType operators ---------------------------------------------------------- */
 
 Complex::shared_itype	Complex::operator+(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
@@ -129,7 +116,7 @@ Complex::shared_itype	Complex::_matrix_operator(
 		return shared_itype(new Matrix((this->*f)(*m_ptr)));
 	}
 
-/* Arith operators **********************************/
+/* Arith operators ---------------------------------------------------------- */
 
 Complex Complex::operator-() const {
 	return Complex(-getReal(), -getImaginary());
@@ -241,7 +228,7 @@ Complex Complex::operator%(const Rational& rhs) const {
 	return tmp;
 }
 
-/* Getters ******************************************/
+/* -------------------------------------------------------------------------- */
 
 Complex			Complex::operator+(const Rational& rhs) const {
 	Rational	new_re(getReal().operator+(rhs));
@@ -269,7 +256,7 @@ Complex			Complex::operator/(const Rational& rhs) const {
 	return Complex(new_re, new_im);
 }
 
-/* Getters ******************************************/
+/* -------------------------------------------------------------------------- */
 
 Matrix			Complex::operator+(const Matrix& rhs) const {
 	(void)rhs;
@@ -299,7 +286,7 @@ Matrix			Complex::operator/(const Matrix& rhs) const {
 	throw math::operation_undefined();
 }
 
-/* Getters ******************************************/
+/* Getters ------------------------------------------------------------------ */
 
 Rational Complex::getReal() const {
 	return Rational(_re);
@@ -309,7 +296,7 @@ Rational Complex::getImaginary() const {
 	return Rational(_im);
 }
 
-/* Other ********************************************/
+/* Tools -------------------------------------------------------------------- */
 
 bool	Complex::operator!() const {
 	return !getReal() && !getImaginary();
@@ -327,7 +314,7 @@ bool	Complex::isImaginary() const {
 	return !isReal();
 }
 
-/* Relational operators *****************************/
+/* Relational operators ----------------------------------------------------- */
 
 bool operator==(const Complex& x, const Complex& y) {
 	return x.getReal() == y.getReal() && x.getImaginary() == y.getImaginary();
@@ -337,7 +324,7 @@ bool operator!=(const Complex& x, const Complex& y) {
 	return !operator==(x,y);
 }
 
-/* I/O stream operator *****************************/
+/* I/O stream operator ------------------------------------------------------ */
 
 std::ostream& operator<<(std::ostream& o, const Complex& x) {
 	if (x.isComplex()) {

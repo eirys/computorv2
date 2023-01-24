@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 00:18:30 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 12:36:35 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,19 +139,20 @@ void test6() {
 	Complex			b(1, 1);
 	Matrix			c = Matrix::matrix { {1, 1, 1 } };
 
-	Variable		var_a = createVariable(a);
-	Variable		var_b = createVariable(b);
-	Variable		var_c = createVariable(c);
-
-	shared_node		node_a(new Variable(var_a));
-	shared_node		node_b(new Variable(var_b));
-	shared_node		node_c(new Variable(var_c));
+	shared_node		node_a = createVariable(a);
+	shared_node		node_b = createVariable(b);
+	shared_node		node_c = createVariable(c);
 
 	Add				add1(node_a, node_b);
 	Add				add2(node_c, node_c);
 
+	shared_node		id = createIdentifier("var_A", node_a);
+
 	cout << *add1.eval() << NL;
 	cout << *add2.eval() << NL;
+
+	id->print();
+	cout << NL;
 
 	} catch (const std::exception& e) {
 		cerr << e.what() << NL;

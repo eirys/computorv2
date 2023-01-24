@@ -21,6 +21,7 @@
 # include "divide.hpp"
 # include "multiply.hpp"
 # include "negate.hpp"
+# include "identifier.hpp"
 
 /**
  * AST (Abstract Syntax Tree)
@@ -32,15 +33,9 @@ class Tree {
 		typedef typename	base::shared_node			shared_node;
 		typedef typename	base::weak_node				weak_node;
 
-		// Default
-		Tree() {}
-
-		// Initialized
-		Tree(shared_node head):
-			_head(head) {}
-
-		// Destructor
-		virtual ~Tree() {}
+		Tree();
+		Tree(shared_node head);
+		virtual ~Tree();
 
 	protected:
 		weak_node			_head;

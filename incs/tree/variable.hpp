@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 00:09:52 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 12:33:27 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ class Variable: virtual public ATreeNode {
 		typedef typename	base::weak_itype			weak_itype;
 
 		// Initialized constructor
-
 		Variable(const shared_itype& val_ptr):
 			base(),
 			_val_ptr(val_ptr) {}
@@ -47,22 +46,26 @@ class Variable: virtual public ATreeNode {
 		shared_itype	_val_ptr;
 };
 
-Variable	createVariable(const Rational& x) {
+Variable::shared_node		createVariable(const Rational& x);
+Variable::shared_node		createVariable(const Complex& x);
+Variable::shared_node		createVariable(const Matrix& x);
+
+inline Variable::shared_node	createVariable(const Rational& x) {
 	Variable::shared_itype	tmp(new Rational(x));
 
-	return Variable(tmp);
+	return Variable::shared_node(new Variable(tmp));
 }
 
-Variable	createVariable(const Complex& x) {
+inline Variable::shared_node	createVariable(const Complex& x) {
 	Variable::shared_itype	tmp(new Complex(x));
 
-	return Variable(tmp);
+	return Variable::shared_node(new Variable(tmp));
 }
 
-Variable	createVariable(const Matrix& x) {
+inline Variable::shared_node	createVariable(const Matrix& x) {
 	Variable::shared_itype	tmp(new Matrix(x));
 
-	return Variable(tmp);
+	return Variable::shared_node(new Variable(tmp));
 }
 
 #endif

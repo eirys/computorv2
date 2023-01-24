@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 18:53:39 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 00:38:21 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ Rational& Rational::operator=(const Rational& rhs) {
 	return *this;
 }
 
-/* Arith operators **********************************/
+/* IType operators ---------------------------------------------------------- */
 
 Rational::shared_itype	Rational::operator+(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
@@ -114,7 +114,7 @@ Rational::shared_itype	Rational::_matrix_operator(
 		return shared_itype(new Matrix((this->*f)(*m_ptr)));
 	}
 
-/* Arith operators **********************************/
+/* Arith operators ---------------------------------------------------------- */
 
 Rational Rational::operator-() const {
 	if (!getVal())
@@ -225,7 +225,7 @@ Rational Rational::operator%(const Rational& rhs) const {
 	return tmp;
 }
 
-/* Relational operators *****************************/
+/* -------------------------------------------------------------------------- */
 
 Complex Rational::operator+(const Complex& rhs) const {
 	Complex tmp(*this);
@@ -255,7 +255,7 @@ Complex Rational::operator/(const Complex& rhs) const {
 	return tmp;
 }
 
-/* Relational operators *****************************/
+/* -------------------------------------------------------------------------- */
 
 Matrix Rational::operator+(const Matrix& rhs) const {
 	(void)rhs;
@@ -275,13 +275,13 @@ Matrix Rational::operator/(const Matrix& rhs) const {
 	return rhs.operator/(*this);
 }
 
-/* Getters ******************************************/
+/* Getters ------------------------------------------------------------------ */
 
 long double Rational::getVal() const {
 	return _val;
 }
 
-/* Getters ******************************************/
+/* Tools -------------------------------------------------------------------- */
 
 bool Rational::operator!() const {
 	return !getVal();
@@ -292,7 +292,7 @@ bool Rational::isInteger() const {
 	return tmp == getVal();
 }
 
-/* Relational operators *****************************/
+/* Relational operators ----------------------------------------------------- */
 
 bool operator==(const Rational& x, const Rational& y) {
 	return x.getVal() == y.getVal();
@@ -318,7 +318,7 @@ bool operator>=(const Rational& x, const Rational& y) {
 	return !operator<(x, y);
 }
 
-/* I/O stream operator ******************************/
+/* I/O stream operator ------------------------------------------------------ */
 
 std::ostream&	operator<<(std::ostream& o, const Rational& x) {
 	o << x.getVal();

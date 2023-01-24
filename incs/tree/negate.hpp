@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 15:10:38 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 23:55:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 11:25:19 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ class Negate: public virtual ATreeNode {
 			if (arg3.get())
 				return shared_itype(new Matrix(-*arg3));
 			return nullptr;
-			// return -base::getRight()->eval();
 		}
 
 		void				print() const {

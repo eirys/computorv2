@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 19:33:42 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 11:34:01 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 	return *this;
 }
 
-/* Element access ***********************************/
+/* Element access ----------------------------------------------------------- */
 
 Matrix::row&	Matrix::operator[](size_t index) {
 	if (index > _n)
@@ -85,7 +85,7 @@ const Matrix::row&	Matrix::operator[](size_t index) const {
 	return _matrix[index];
 }
 
-/* Arith operators **********************************/
+/* IType operators ---------------------------------------------------------- */
 
 Matrix::shared_itype		Matrix::operator+(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
@@ -162,7 +162,7 @@ Matrix::shared_itype	Matrix::_matrix_operator(
 
 	}
 
-/* Arith operators **********************************/
+/* Arith operators ---------------------------------------------------------- */
 
 Matrix Matrix::operator-() const {
 	return operator*(Rational(-1));
@@ -289,7 +289,7 @@ Matrix Matrix::operator%(const Rational& rhs) const {
 	throw math::operation_undefined();
 }
 
-/* Getters ******************************************/
+/* -------------------------------------------------------------------------- */
 
 Matrix	Matrix::operator+(const Rational& rhs) const {
 	(void)rhs;
@@ -325,7 +325,7 @@ Matrix Matrix::operator/(const Rational& rhs) const {
 	return tmp;
 }
 
-/* Getters ******************************************/
+/* -------------------------------------------------------------------------- */
 
 Matrix	Matrix::operator+(const Complex& rhs) const {
 	(void)rhs;
@@ -355,7 +355,7 @@ Matrix	Matrix::operator/(const Complex& rhs) const {
 	throw math::operation_undefined();
 }
 
-/* Getters ******************************************/
+/* Getters ------------------------------------------------------------------ */
 
 size_t Matrix::getNbRows() const {
 	return _n;
@@ -369,7 +369,7 @@ const Matrix::matrix& Matrix::getMatrix() const {
 	return _matrix;
 }
 
-/* Tools ********************************************/
+/* Tools -------------------------------------------------------------------- */
 
 bool Matrix::operator!() const {
 	for (size_t i = 0; i < getNbColumns(); ++i) {
@@ -408,7 +408,7 @@ size_t Matrix::getMaxLength() const {
 	return biggest;
 }
 
-/* Relational operators *****************************/
+/* Relational operators ----------------------------------------------------- */
 
 bool operator==(const Matrix& x, const Matrix& y) {
 	if (x.isSameSize(y))
@@ -421,7 +421,7 @@ bool operator!=(const Matrix& x, const Matrix& y) {
 	return !operator==(x,y);
 }
 
-/* I/O stream operator ******************************/
+/* I/O stream operator ------------------------------------------------------ */
 
 std::ostream& operator<<(std::ostream& o, const Matrix& x) {
 	std::ostringstream	os;
