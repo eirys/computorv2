@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:27:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 11:27:08 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/25 01:41:30 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include "tokenizer.hpp"
 # include "atree_node.hpp"
 
+/**
+ *  F		= Identifier
+ * 			| Variable
+ * 			| ( E )
+ * 			| [ [ Rational ] ]
+ * 			| - F
+*/
 class ParserF {
 	public:
 		typedef typename	ATreeNode::shared_node	shared_node;
@@ -26,7 +33,7 @@ class ParserF {
 		shared_node			parse();
 				
 	private:
-		Tokenizer&	_tokenizer;
+		Tokenizer&			_tokenizer;
 
 };
 

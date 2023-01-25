@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 12:33:27 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/25 01:21:46 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include "atree_node.hpp"
 
+/*
+ * Variable		= Rational
+ 				| Complex
+ * 
+*/
 class Variable: virtual public ATreeNode {
 	public:
 		typedef 			ATreeNode					base;
@@ -45,10 +50,6 @@ class Variable: virtual public ATreeNode {
 	private:
 		shared_itype	_val_ptr;
 };
-
-Variable::shared_node		createVariable(const Rational& x);
-Variable::shared_node		createVariable(const Complex& x);
-Variable::shared_node		createVariable(const Matrix& x);
 
 inline Variable::shared_node	createVariable(const Rational& x) {
 	Variable::shared_itype	tmp(new Rational(x));

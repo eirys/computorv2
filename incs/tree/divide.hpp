@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 18:18:44 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 23:42:23 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/25 01:25:33 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "atree_node.hpp"
 
+/**
+ * Divide	= /
+*/
 class Divide: public virtual ATreeNode {
 	public:
 		typedef 			ATreeNode					base;
@@ -46,7 +49,6 @@ class Divide: public virtual ATreeNode {
 			if (arg3.get())
 				return *arg3 / base::getRight()->eval();
 			return nullptr;
-			// return base::getLeft()->eval() / base::getRight()->eval();
 		}
 
 		void				print() const {

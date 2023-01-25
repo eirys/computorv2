@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 23:51:19 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 23:22:55 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@
 
 class Matrix;
 
+/**
+ * Complex	= Rational
+ * 			| 'i' { Rational }
+ *			| Rational '+' 'i' { Rational }
+ * 
+ * example:		25 + 4i
+ * 				2i
+ * 
+*/
 class Complex: public IType {
 	public:
 		typedef typename	IType::unique_itype		unique_itype;
@@ -29,10 +38,8 @@ class Complex: public IType {
 
 		Complex(const Complex& x);
 		explicit Complex(const Rational& x, const Rational& y = Rational(0));
-		// Complex(const std::string&& buf);
 
 		Complex& 		operator=(const Complex& rhs);
-		// Complex& 		operator=(const Rational& rhs);
 
 		// IType operators
 		shared_itype	operator+(const shared_itype& rhs_ptr) const;
@@ -88,12 +95,18 @@ class Complex: public IType {
 		Rational		_re;
 		Rational		_im;
 
-		shared_itype	_rational_operator(Complex (Complex::*f)(const Rational&) const,
-							const std::shared_ptr<Rational>& r_ptr) const;
-		shared_itype	_complex_operator(Complex (Complex::*f)(const Complex&) const,
-							const std::shared_ptr<Complex>& c_ptr) const;
-		shared_itype	_matrix_operator(Matrix (Complex::*f)(const Matrix&) const,
-							const std::shared_ptr<Matrix>& m_ptr) const;
+		shared_itype	_rational_operator(
+							Complex (Complex::*f)(const Rational&) const,
+							const std::shared_ptr<Rational>& r_ptr
+							) const;
+		shared_itype	_complex_operator(
+							Complex (Complex::*f)(const Complex&) const,
+							const std::shared_ptr<Complex>& c_ptr
+							) const;
+		shared_itype	_matrix_operator(
+							Matrix (Complex::*f)(const Matrix&) const,
+							const std::shared_ptr<Matrix>& m_ptr
+							) const;
 };
 
 bool					operator==(const Complex& x, const Complex& y);

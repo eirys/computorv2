@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:13:54 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 23:54:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 13:53:46 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ class Add: virtual public ATreeNode {
 			if (arg3.get())
 				return *arg3 + base::getRight()->eval();
 			return nullptr;
-			// return base::getLeft()->eval() + base::getRight()->eval();
 		}
 
 		void				print() const {

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 23:51:27 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/24 13:48:22 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,18 @@ class Matrix: public IType {
 		size_t				_p;			// nb columns
 		matrix				_matrix;
 		
-		shared_itype		_rational_operator(Matrix (Matrix::*f)(const Rational&) const,
-							const std::shared_ptr<Rational>& r_ptr) const;
-		shared_itype		_complex_operator(Matrix (Matrix::*f)(const Complex&) const,
-							const std::shared_ptr<Complex>& r_ptr) const;
-		shared_itype		_matrix_operator(Matrix (Matrix::*f)(const Matrix&) const,
-							const std::shared_ptr<Matrix>& r_ptr) const;
+		shared_itype		_rational_operator(
+								Matrix (Matrix::*f)(const Rational&) const,
+								const std::shared_ptr<Rational>& r_ptr
+								) const;
+		shared_itype		_complex_operator(
+								Matrix (Matrix::*f)(const Complex&) const,
+								const std::shared_ptr<Complex>& r_ptr
+								) const;
+		shared_itype		_matrix_operator(
+								Matrix (Matrix::*f)(const Matrix&) const,
+								const std::shared_ptr<Matrix>& r_ptr
+								) const;
 };
 
 bool			operator==(const Matrix& x, const Matrix& y);

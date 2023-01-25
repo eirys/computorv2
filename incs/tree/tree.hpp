@@ -15,7 +15,6 @@
 
 # include "atree_node.hpp"
 # include "variable.hpp"
-
 # include "add.hpp"
 # include "substract.hpp"
 # include "divide.hpp"

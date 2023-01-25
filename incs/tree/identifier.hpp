@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 12:36:01 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/25 01:35:41 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 
 # include "atree_node.hpp"
 
+/**
+ * Identifier	= { char | _ }+
+ * 
+ * example:		variable_a
+ * 				_random__Variable
+ * 
+*/
 class Identifier: public ATreeNode {
 	public:
 		typedef 			ATreeNode				base;
@@ -46,9 +53,6 @@ class Identifier: public ATreeNode {
 	private:
 		const std::string		_name;
 };
-
-Identifier::shared_node			createIdentifier(const std::string& name,
-								const Identifier::shared_node& x);
 
 inline Identifier::shared_node	createIdentifier(
 	const std::string& name,
