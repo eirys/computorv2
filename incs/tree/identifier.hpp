@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/01/25 01:35:41 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/26 23:10:56 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "atree_node.hpp"
 
 /**
- * Identifier	= { char | _ }+
+ * Identifier	: { char | _ }+
  * 
  * example:		variable_a
  * 				_random__Variable
@@ -35,20 +35,32 @@ class Identifier: public ATreeNode {
 		typedef typename	base::shared_itype		shared_itype;
 		typedef typename	base::weak_itype		weak_itype;
 
-		Identifier(const std::string& name, const shared_node& value):
+		Identifier(const std::string& name, const shared_node& value = nullptr):
 			base(nullptr, value),
 			_name(name) {}
 
 		virtual ~Identifier() {}
 
 		const shared_itype		eval() const {
+			if (base::getRight() == nullptr)
+				throw Identifier::ValueNotSet();
 			return base::getRight()->eval();
 		}
 
 		void					print() const {
-			std::cout << _name << ": ";
+			std::cout << _name;
+			if (base::getRight() == nullptr)
+				return;
+			std::cout << ": ";
 			base::getRight()->print();
 		}
+
+		class ValueNotSet: public std::exception {
+			public:
+				constexpr const char* what() const throw() {
+					return "Variable value not set";
+				}
+		};
 
 	private:
 		const std::string		_name;
@@ -56,9 +68,9 @@ class Identifier: public ATreeNode {
 
 inline Identifier::shared_node	createIdentifier(
 	const std::string& name,
-	const Identifier::shared_node& x
+	const Identifier::shared_node& value = nullptr
 	) {
-		return Identifier::shared_node(new Identifier(name, x));
+		return Identifier::shared_node(new Identifier(name, value));
 	}
 
 #endif

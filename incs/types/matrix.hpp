@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 13:48:22 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/26 14:25:33 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 
 # define MIN_W_SIZE 2
 
+/**
+ * Matrix	: [ row { ; row } ]
+ * 
+ * with
+ * row		: [ Rational { , Rational } ]
+ * 
+ * ex:		[[ 1, 5.25, 11];[0, 0 ,0]]
+*/
 class Matrix: public IType {
 	public:
 		typedef typename	IType::unique_itype			unique_itype;
@@ -37,6 +45,8 @@ class Matrix: public IType {
 		
 		Matrix(const Matrix& x);
 		Matrix(const matrix&& x);
+
+		Matrix(const IType& x);
 
 		Matrix(size_t n, const Rational&& lambda = Rational(0));
 		Matrix(size_t n, size_t p);

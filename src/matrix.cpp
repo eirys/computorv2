@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 11:34:01 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/25 15:54:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,15 @@ Matrix::Matrix(const Matrix::matrix&& x) {
 	}
 }
 
+Matrix::Matrix(const IType& x) {
+	try {
+		const Matrix&	tmp = dynamic_cast<const Matrix&>(x);
+		*this = tmp;
+	} catch (const std::bad_cast& e) {
+		throw math::operation_undefined();
+	}
+}
+
 /*
 **	Identity matrix / Scalar matrix
 */
@@ -74,14 +83,14 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 /* Element access ----------------------------------------------------------- */
 
 Matrix::row&	Matrix::operator[](size_t index) {
-	if (index > _n)
-		throw std::out_of_range("Matrix::operator[]");
+	if (index >= _n)
+		throw std::out_of_range("out_of_range: Matrix::operator[]");
 	return _matrix[index];
 }
 
 const Matrix::row&	Matrix::operator[](size_t index) const {
-	if (index > _n)
-		throw std::out_of_range("Matrix::operator[]");
+	if (index >= _n)
+		throw std::out_of_range("out_of_range: Matrix::operator[]");
 	return _matrix[index];
 }
 
@@ -408,6 +417,31 @@ size_t Matrix::getMaxLength() const {
 	return biggest;
 }
 
+/* Useless lol 
+void	Matrix::forEach(void (*f)(const Rational&)) const {
+	for (Matrix::matrix::const_iterator it = getMatrix().begin();
+	it != getMatrix().end();
+	++it) {
+		for (Matrix::row::const_iterator ite = it->begin();
+		ite != it->end();
+		++ite) {
+			f(*ite);
+		}
+	}
+}
+
+void	Matrix::forEach(void (*f)(const Rational&)) {
+	for (Matrix::matrix::iterator it = getMatrix().begin();
+	it != getMatrix().end();
+	++it) {
+		for (Matrix::row::iterator ite = it->begin();
+		ite != it->end();
+		++ite) {
+			f(*ite);
+		}
+	}
+} */
+
 /* Relational operators ----------------------------------------------------- */
 
 bool operator==(const Matrix& x, const Matrix& y) {
@@ -423,22 +457,40 @@ bool operator!=(const Matrix& x, const Matrix& y) {
 
 /* I/O stream operator ------------------------------------------------------ */
 
+/**
+ * TODO:
+ * 	get largest element for each COLUMN
+ * 	save length value in array
+ * 	
+*/
 std::ostream& operator<<(std::ostream& o, const Matrix& x) {
 	std::ostringstream	os;
 
-	os << NL << std::setprecision(3);
+	os << std::setprecision(3);
 
 	size_t field_w = x.getMaxLength() + 1;
 	for (Matrix::matrix::const_iterator it = x.getMatrix().begin();
 	it != x.getMatrix().end();
 	++it) {
-		os << '|';
+		os << '[';
 		for (Matrix::row::const_iterator ite = it->begin();
 		ite != it->end();
 		++ite) {
 			os << std::setw(field_w) << *ite;
+			if (ite + 1 == it->end() + 1)
+				os << ' ';
+			// if (ite == it->begin()) {
+			// 	os << std::setw(field_w + 1) << *ite << " , ";
+			// } else if (ite + 1 != it->end()) {
+			// 	os << std::setw(field_w) << *ite << " , ";
+			// } else {
+			// 	os << std::setw(field_w) << *ite;
+			// 	os << ' ';
+			// }
 		}
-		os << '|' << NL;
+		os << ']';
+		if (it + 1 != x.getMatrix().end())
+			os << NL;
 	}
 	o << os.str();
 	return o;

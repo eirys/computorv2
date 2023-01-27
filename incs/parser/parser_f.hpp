@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:27:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/25 01:41:30 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/26 14:24:21 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include "atree_node.hpp"
 
 /**
- *  F		= Identifier
+ *  F		: Identifier
  * 			| Variable
+ * 			| Function
  * 			| ( E )
- * 			| [ [ Rational ] ]
  * 			| - F
 */
 class ParserF {

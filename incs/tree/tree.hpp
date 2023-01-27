@@ -14,13 +14,13 @@
 # define TREE_HPP
 
 # include "atree_node.hpp"
-# include "variable.hpp"
-# include "add.hpp"
-# include "substract.hpp"
-# include "divide.hpp"
-# include "multiply.hpp"
-# include "negate.hpp"
-# include "identifier.hpp"
+// # include "variable.hpp"
+// # include "add.hpp"
+// # include "substract.hpp"
+// # include "divide.hpp"
+// # include "multiply.hpp"
+// # include "negate.hpp"
+// # include "identifier.hpp"
 
 /**
  * AST (Abstract Syntax Tree)
@@ -35,6 +35,8 @@ class Tree {
 		Tree();
 		Tree(shared_node head);
 		virtual ~Tree();
+
+		shared_node			getHead() const;
 
 	protected:
 		weak_node			_head;

@@ -6,7 +6,7 @@
 #    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/01/24 12:22:17 by eli              ###   ########.fr        #
+#    Updated: 2023/01/26 18:16:13 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ INC		= -I./incs/types -I./incs/tools -I./incs/tree -I./incs/parser
 SRCS	= rational.cpp \
 			complex.cpp \
 			matrix.cpp \
-			function.cpp \
 			itype.cpp \
 			tree.cpp \
 			tokenizer.cpp \

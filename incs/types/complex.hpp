@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 23:22:55 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/26 18:15:59 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,18 @@
 
 class Matrix;
 
-/**
- * Complex	= Rational
- * 			| 'i' { Rational }
- *			| Rational '+' 'i' { Rational }
+/**	
+ * Complex		: real + imaginary
+ * 				| imaginary + real
+ * 				| real
+ * 				| imaginary		
+ * 
+ * with
+ * 
+ * real			: Rational
+ * 
+ * imaginary	: Rational * i
+ * 				| i * Rational
  * 
  * example:		25 + 4i
  * 				2i
@@ -37,7 +45,7 @@ class Complex: public IType {
 		virtual ~Complex();
 
 		Complex(const Complex& x);
-		explicit Complex(const Rational& x, const Rational& y = Rational(0));
+		Complex(const Rational& x, const Rational& y = Rational(0));
 
 		Complex& 		operator=(const Complex& rhs);
 

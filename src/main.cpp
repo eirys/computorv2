@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 12:36:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/26 23:11:54 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 #include "function.hpp"
 #include "tree.hpp"
 #include "atree_node.hpp"
+
+# include "variable.hpp"
+# include "add.hpp"
+# include "substract.hpp"
+# include "divide.hpp"
+# include "multiply.hpp"
+# include "negate.hpp"
+# include "identifier.hpp"
 
 using std::cout;
 using std::cerr;
@@ -137,19 +145,25 @@ void test6() {
 
 	Rational		a(5);
 	Complex			b(1, 1);
-	Matrix			c = Matrix::matrix { {1, 1, 1 } };
+	Matrix			c = Matrix::matrix { { 1, 1, 1 } };
 
-	shared_node		node_a = createVariable(a);
-	shared_node		node_b = createVariable(b);
-	shared_node		node_c = createVariable(c);
+	shared_node		node_a = createVariable(a);	// 5
+	shared_node		node_b = createVariable(b);	// 1 + i
+	shared_node		node_c = createVariable(c);	// [ 1, 1, 1 ]
 
 	Add				add1(node_a, node_b);
 	Add				add2(node_c, node_c);
+	Multiply		mul(node_a, node_c);
 
 	shared_node		id = createIdentifier("var_A", node_a);
 
 	cout << *add1.eval() << NL;
 	cout << *add2.eval() << NL;
+	Matrix			m = *mul.eval();
+
+	m[0][1] = 0.266;
+
+	cout << m << NL;
 
 	id->print();
 	cout << NL;

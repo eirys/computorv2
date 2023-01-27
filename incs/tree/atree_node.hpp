@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 00:01:45 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/27 00:37:46 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ATREE_NODE_HPP
 
 # include <memory>
+# include <iostream>
 
 # include "itype.hpp"
 # include "rational.hpp"
@@ -39,6 +40,12 @@ class ATreeNode {
 		}
 		const shared_node			getRight() const {
 			return _right.lock();
+		}
+		void						setLeft(const shared_node& new_left) {
+			_left = new_left;
+		}
+		void						setRight(const shared_node& new_right) {
+			_right = new_right;
 		}
 
 		// Override

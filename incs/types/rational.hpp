@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 23:23:08 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/26 14:25:55 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class Complex;
 class Matrix;
 
 /**
- * Rational = { '-' } digit { digit | { '.' digit } }
+ * Rational		: { - } digit { digit | { . digit } }
  * 
  * example:		123
  * 				0.56
