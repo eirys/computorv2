@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:27:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/26 14:24:21 by eli              ###   ########.fr       */
+/*   Updated: 2023/01/27 13:58:53 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 # include "tokenizer.hpp"
 # include "atree_node.hpp"
+# include "parser_macro.hpp"
 
 /**
  *  F		: Identifier
  * 			| Variable
- * 			| Function
  * 			| ( E )
  * 			| - F
+ * 			| Function?
 */
 class ParserF {
 	public:
@@ -31,10 +32,18 @@ class ParserF {
 		virtual ~ParserF();
 
 		shared_node			parse();
-				
+
+		class IncorrectSyntax: public std::exception {
+			public:
+				constexpr const char* what() const throw() {
+					return "Not a correct syntax";
+				}
+		};
+
 	private:
 		Tokenizer&			_tokenizer;
 
+		bool					_isIdentifier(const std::string& token) const;
 };
 
 #endif
