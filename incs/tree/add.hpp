@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:13:54 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 11:56:43 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 19:53:59 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ class Add: virtual public ATreeNode {
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Add() {}
 
-		/* Eval ------------------------------------------------------------------- */
+		/* ------------------------------------------------------------------------ */
 		const shared_itype	eval() const {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
@@ -51,13 +51,16 @@ class Add: virtual public ATreeNode {
 			return nullptr;
 		}
 
-		/* Print ------------------------------------------------------------------ */
 		void				print() const {
 			std::cout << '(';
 			base::getLeft()->print();
 			std::cout << '+';
 			base::getRight()->print();
 			std::cout << ')';
+		}
+
+		shared_node			toNode() const {
+			return shared_node(new Add(base::getLeft(), base::getRight()));
 		}
 };
 

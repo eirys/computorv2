@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 14:56:13 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 23:07:46 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 /* ========================================================================== */
 
 Parser::Parser(const std::string& raw):
-	_tokenizer(raw) {}
+	_tokenizer(raw),
+	_ret(EMPTY) {}
 
 Parser::~Parser() {}
 
@@ -45,21 +46,30 @@ Parser::~Parser() {}
  * 	return negate, F
 */
 Parser::shared_node	Parser::parseF() {
-	Tokenizer::ETokenType	ret = _tokenizer.scanToken(_token);
+	_ret = _tokenizer.scanToken(_token);
 
-	while (!_token.empty()) {
-		if (ret == ENAME) {
-			return createIdentifier(_token);
-		} else if (ret == ERATIONAL) {
-			Rational	value(std::stold(_token));
-			return createVariable(value);
-		} else if (ret == EDELIMITER) {
-			if (_token == L_PARENTHESIS) {
-				_tokenizer.scanToken(_token);
+	if (_ret == ENAME) {
+		Identifier	id(_token);
+		return id.toNode();
+	} else if (_ret == ERATIONAL) {
+		Rational	value(std::stold(_token));
+		return createVariable(value);
+	} else if (_ret == EDELIMITER) {
+		if (_token == L_PARENTHESIS) {
+			shared_node	a = parseE();
+			if (a == nullptr)
+				throw Parser::IncorrectSyntax();
+			if (_token == R_PARENTHESIS) {
+				_ret = _tokenizer.scanToken(_token);
+				return a;
 			}
 		}
-
-		ret = _tokenizer.scanToken(_token);
+	} else if (_ret == ESYMBOL) {
+		if (_token == NEGATE) {
+			_ret = _tokenizer.scanToken(_token);
+			Negate	negation(parseF());
+			return negation.toNode();
+		}
 	}
 	return nullptr;
 }
@@ -67,6 +77,15 @@ Parser::shared_node	Parser::parseF() {
 /* Expression --------------------------------------------------------------- */
 
 Parser::shared_node	Parser::parseE() {
+	shared_node	a = parseT();
+
+	while (true) {
+		if (_token == "+") {
+			_ret = _tokenizer.scanToken(_token);
+			shared_node b = parseT();
+			Add		add(a, b)
+		}
+	}
 	return nullptr;
 }
 

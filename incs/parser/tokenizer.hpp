@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 07:58:58 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 14:56:18 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 21:22:40 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ enum TokenType {
 
 class Tokenizer {
 	public:
-		typedef	enum TokenType		ETokenType;
+		typedef	enum TokenType		e_tokentype;
 		
 		Tokenizer(const std::string& raw);
 		virtual ~Tokenizer(); 
 
 		/* Main function ---------------------------------------------------------- */
-		ETokenType					scanToken(std::string& holder);
+		e_tokentype				scanToken(std::string& holder);
 
 		/* Exception -------------------------------------------------------------- */
 		class BadFormat: public std::exception {

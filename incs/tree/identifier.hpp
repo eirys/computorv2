@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 12:00:50 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 21:11:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,23 @@ class Identifier: public ATreeNode {
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Identifier() {}
 
-		/* Eval ------------------------------------------------------------------- */
+		/* ------------------------------------------------------------------------ */
 		const shared_itype		eval() const {
 			if (base::getRight() == nullptr)
 				throw Identifier::ValueUnset();
 			return base::getRight()->eval();
 		}
 
-		/* Print ------------------------------------------------------------------ */
 		void					print() const {
 			std::cout << _name;
 			if (base::getRight() == nullptr)
 				return;
 			std::cout << ": ";
 			base::getRight()->print();
+		}
+
+		shared_node				toNode() const {
+			return shared_node(new Identifier(_name, base::getRight()));
 		}
 
 		/* Exception -------------------------------------------------------------- */
@@ -70,16 +73,5 @@ class Identifier: public ATreeNode {
 	private:
 		const std::string		_name;
 };
-
-/* ========================================================================== */
-/*                                    UTILS                                   */
-/* ========================================================================== */
-
-inline Identifier::shared_node	createIdentifier(
-	const std::string& name,
-	const Identifier::shared_node& value = nullptr
-	) {
-		return Identifier::shared_node(new Identifier(name, value));
-	}
 
 #endif

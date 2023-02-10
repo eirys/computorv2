@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 13:27:10 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 21:25:28 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,16 +186,15 @@ int main() {
 		try {
 			std::string abc = "587i+50.55/155";
 
-			cout << "Raw: [" << abc << ']' << NL; 
+			cout << "Raw:" <<NL << abc << NL; 
 			Tokenizer	__toke(abc);
 
 			std::string tmp;
-			Tokenizer::ETokenType	ret = __toke.scanToken(tmp);
+			Tokenizer::e_tokentype	ret = __toke.scanToken(tmp);
 			
 			while (!tmp.empty()) {
 				std::cout << "[ret = " << ret << "] Tmp is: \"" << tmp << '"' << NL;
 				ret = __toke.scanToken(tmp);
-				// tmp = __toke.getNextToken();
 			}
 			
 		} catch (const std::exception& e){

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 12:02:45 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 20:05:18 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,17 @@ class Variable: virtual public ATreeNode {
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Variable() {}
 
-		/* Eval ------------------------------------------------------------------- */
+		/* ------------------------------------------------------------------------ */
 		const shared_itype	eval() const {
 			return _val_ptr;
 		}
 
-		/* Print ------------------------------------------------------------------ */
 		void				print() const {
 			std::cout << *_val_ptr;
+		}
+
+		shared_node			toNode() const {
+			return shared_node(new Variable(_val_ptr));
 		}
 
 	private:

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 08:45:04 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 14:56:23 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 21:22:48 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ Tokenizer::~Tokenizer() {}
 
 /* Main function ------------------------------------------------------------ */
 
-Tokenizer::ETokenType Tokenizer::scanToken(std::string& holder) {
-	ETokenType		ret;
+Tokenizer::e_tokentype Tokenizer::scanToken(std::string& holder) {
+	e_tokentype		ret;
 	size_t			next_pos = 0;
 
 	 if (_current_pos == std::string::npos) {

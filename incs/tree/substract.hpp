@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 14:34:39 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 12:02:07 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 20:05:05 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class Substract: virtual public ATreeNode {
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Substract() {}
 
-		/* Eval ------------------------------------------------------------------- */
+		/* ------------------------------------------------------------------------ */
 		const shared_itype	eval()  const {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
@@ -49,13 +49,16 @@ class Substract: virtual public ATreeNode {
 			return nullptr;
 		}
 
-		/* Print ------------------------------------------------------------------ */
 		void				print() const {
 			std::cout << '(';
 			base::getLeft()->print();
 			std::cout << '-';
 			base::getRight()->print();
 			std::cout << ')';
+		}
+
+		shared_node			toNode() const {
+			return shared_node(new Substract(base::getLeft(), base::getRight()))
 		}
 };
 

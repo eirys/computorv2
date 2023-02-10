@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 11:56:23 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 16:23:56 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ class ATreeNode {
 		/* Override --------------------------------------------------------------- */
 		virtual const shared_itype	eval() const = 0;
 		virtual void				print() const = 0;
+		virtual shared_node			toNode() const = 0;
 
 	protected:
 		/* Default ---------------------------------------------------------------- */
