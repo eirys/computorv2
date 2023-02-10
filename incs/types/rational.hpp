@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/01/27 12:00:10 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:12:42 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ class Rational: public IType {
 		Rational&		operator=(long double rhs);
 		Rational&		operator=(const Rational& rhs);
 
-		// IType operators
+		/* IType Operators -------------------------------------------------------- */
 		shared_itype	operator+(const shared_itype& rhs) const;
 		shared_itype	operator-(const shared_itype& rhs) const;
 		shared_itype	operator*(const shared_itype& rhs) const;
 		shared_itype	operator/(const shared_itype& rhs) const;
 
-		// Arith operators
+		/* Arith Operators -------------------------------------------------------- */
 		Rational		operator-() const;
 
 		Rational&		operator+=(const Rational& rhs);
@@ -74,28 +74,29 @@ class Rational: public IType {
 		Rational&		operator%=(const Rational& rhs);
 		Rational		operator%(const Rational& rhs) const;
 
-		// Complex
+		/* Complex Operators ------------------------------------------------------ */
 		Complex			operator+(const Complex& rhs) const;
 		Complex			operator-(const Complex& rhs) const;
 		Complex			operator*(const Complex& rhs) const;
 		Complex			operator/(const Complex& rhs) const;
 
-		// Matrix
+		/* Matrix Operators ------------------------------------------------------- */
 		Matrix			operator+(const Matrix& rhs) const;		// undefined
 		Matrix			operator-(const Matrix& rhs) const;		// undefined
 		Matrix			operator*(const Matrix& rhs) const;
 		Matrix			operator/(const Matrix& rhs) const;
 
-		// Getter
+		/* Getter ----------------------------------------------------------------- */
 		long double		getVal() const;
 
-		// Tools
+		/* Tools ------------------------------------------------------------------ */
 		bool			operator!() const;
 		bool			isInteger() const;
 
 	private:
 		long double		_val;
 
+		/* Utils ------------------------------------------------------------------ */
 		shared_itype	_rational_operator(
 							Rational (Rational::*f)(const Rational&) const,
 							const std::shared_ptr<Rational>& r_ptr

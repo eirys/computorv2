@@ -6,13 +6,17 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 00:38:21 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:11:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rational.hpp"
 #include "complex.hpp"
 #include "matrix.hpp"
+
+/* ========================================================================== */
+/*                                   PUBLIC                                   */
+/* ========================================================================== */
 
 Rational::Rational():
 	_val(0) {}
@@ -24,6 +28,8 @@ Rational::Rational(long double x):
 
 Rational::Rational(const Rational& x):
 	_val(x.getVal()) {}
+
+/* -------------------------------------------------------------------------- */
 
 Rational& Rational::operator=(long double rhs) {
 	if (this->getVal() == rhs)
@@ -92,27 +98,6 @@ Rational::shared_itype	Rational::operator/(const shared_itype& rhs_ptr) const {
 		return _matrix_operator(&Rational::operator/, m_ptr);
 	return nullptr;
 }
-
-Rational::shared_itype	Rational::_rational_operator(
-	Rational (Rational::*f)(const Rational&) const,
-	const std::shared_ptr<Rational>& r_ptr
-	) const {
-		return shared_itype(new Rational((this->*f)(*r_ptr)));
-	}
-
-Rational::shared_itype	Rational::_complex_operator(
-	Complex (Rational::*f)(const Complex&) const,
-	const std::shared_ptr<Complex>& c_ptr
-	) const {
-		return shared_itype(new Complex((this->*f)(*c_ptr)));
-	}
-
-Rational::shared_itype	Rational::_matrix_operator(
-	Matrix (Rational::*f)(const Matrix&) const,
-	const std::shared_ptr<Matrix>& m_ptr
-	) const {
-		return shared_itype(new Matrix((this->*f)(*m_ptr)));
-	}
 
 /* Arith operators ---------------------------------------------------------- */
 
@@ -291,6 +276,31 @@ bool Rational::isInteger() const {
 	const long long int	tmp = static_cast<long long int>(getVal());
 	return tmp == getVal();
 }
+
+/* ========================================================================== */
+/*                                   PRIVATE                                  */
+/* ========================================================================== */
+
+Rational::shared_itype	Rational::_rational_operator(
+	Rational (Rational::*f)(const Rational&) const,
+	const std::shared_ptr<Rational>& r_ptr
+	) const {
+		return shared_itype(new Rational((this->*f)(*r_ptr)));
+	}
+
+Rational::shared_itype	Rational::_complex_operator(
+	Complex (Rational::*f)(const Complex&) const,
+	const std::shared_ptr<Complex>& c_ptr
+	) const {
+		return shared_itype(new Complex((this->*f)(*c_ptr)));
+	}
+
+Rational::shared_itype	Rational::_matrix_operator(
+	Matrix (Rational::*f)(const Matrix&) const,
+	const std::shared_ptr<Matrix>& m_ptr
+	) const {
+		return shared_itype(new Matrix((this->*f)(*m_ptr)));
+	}
 
 /* Relational operators ----------------------------------------------------- */
 

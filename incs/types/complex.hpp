@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/01/26 18:15:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:13:21 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ class Complex: public IType {
 
 		Complex& 		operator=(const Complex& rhs);
 
-		// IType operators
+		/* IType Operators -------------------------------------------------------- */
 		shared_itype	operator+(const shared_itype& rhs_ptr) const;
 		shared_itype	operator-(const shared_itype& rhs_ptr) const;
 		shared_itype	operator*(const shared_itype& rhs_ptr) const;
 		shared_itype	operator/(const shared_itype& rhs_ptr) const;
 
-		// Arith. operators
+		/* Arith. Operators ------------------------------------------------------- */
 		Complex			operator-() const;
 		Complex			conjugate() const;
 
@@ -77,23 +77,23 @@ class Complex: public IType {
 		Complex&		operator%=(const Rational& rhs);
 		Complex			operator%(const Rational& rhs) const;
 
-		// Rational
+		/* Rational Operators ----------------------------------------------------- */
 		Complex			operator+(const Rational& rhs) const;
 		Complex			operator-(const Rational& rhs) const;
 		Complex			operator*(const Rational& rhs) const;
 		Complex			operator/(const Rational& rhs) const;
 
-		// Matrix
+		/* Matrix Operators ------------------------------------------------------- */
 		Matrix			operator+(const Matrix& rhs) const;		// undefined
 		Matrix			operator-(const Matrix& rhs) const;		// undefined
 		Matrix			operator*(const Matrix& rhs) const;
 		Matrix			operator/(const Matrix& rhs) const;
 
-		// Getter
+		/* Getter ----------------------------------------------------------------- */
 		Rational		getReal() const;
 		Rational		getImaginary() const;
 
-		// Tools
+		/* Tools ------------------------------------------------------------------ */
 		bool			operator!() const;
 		bool			isComplex() const;
 		bool			isReal() const;
@@ -103,6 +103,7 @@ class Complex: public IType {
 		Rational		_re;
 		Rational		_im;
 
+		/* Utils ------------------------------------------------------------------ */
 		shared_itype	_rational_operator(
 							Complex (Complex::*f)(const Rational&) const,
 							const std::shared_ptr<Rational>& r_ptr

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:27:10 by eli               #+#    #+#             */
-/*   Updated: 2023/01/27 13:58:53 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 11:53:16 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ class ParserF {
 		ParserF(Tokenizer& tokenizer);
 		virtual ~ParserF();
 
+		/* Main Function ---------------------------------------------------------- */
 		shared_node			parse();
 
+		/* Exception -------------------------------------------------------------- */
 		class IncorrectSyntax: public std::exception {
 			public:
 				constexpr const char* what() const throw() {
@@ -43,6 +45,7 @@ class ParserF {
 	private:
 		Tokenizer&			_tokenizer;
 
+		/* Utils ------------------------------------------------------------------ */
 		bool					_isIdentifier(const std::string& token) const;
 };
 

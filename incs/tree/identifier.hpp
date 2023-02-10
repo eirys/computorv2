@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/01/26 23:10:56 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:00:50 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,22 @@ class Identifier: public ATreeNode {
 		typedef typename	base::shared_itype		shared_itype;
 		typedef typename	base::weak_itype		weak_itype;
 
+		/* Constructor ------------------------------------------------------------ */
 		Identifier(const std::string& name, const shared_node& value = nullptr):
 			base(nullptr, value),
 			_name(name) {}
 
+		/* Destructor ------------------------------------------------------------- */
 		virtual ~Identifier() {}
 
+		/* Eval ------------------------------------------------------------------- */
 		const shared_itype		eval() const {
 			if (base::getRight() == nullptr)
-				throw Identifier::ValueNotSet();
+				throw Identifier::ValueUnset();
 			return base::getRight()->eval();
 		}
 
+		/* Print ------------------------------------------------------------------ */
 		void					print() const {
 			std::cout << _name;
 			if (base::getRight() == nullptr)
@@ -55,7 +59,8 @@ class Identifier: public ATreeNode {
 			base::getRight()->print();
 		}
 
-		class ValueNotSet: public std::exception {
+		/* Exception -------------------------------------------------------------- */
+		class ValueUnset: public std::exception {
 			public:
 				constexpr const char* what() const throw() {
 					return "Variable value not set";
@@ -65,6 +70,10 @@ class Identifier: public ATreeNode {
 	private:
 		const std::string		_name;
 };
+
+/* ========================================================================== */
+/*                                    UTILS                                   */
+/* ========================================================================== */
 
 inline Identifier::shared_node	createIdentifier(
 	const std::string& name,

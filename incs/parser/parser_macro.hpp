@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:58:05 by eli               #+#    #+#             */
-/*   Updated: 2023/01/27 16:38:30 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 01:14:24 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # define MODULO			"%"
 # define POWER			"^"
 # define IMAGINARY_I	"i"
-
 
 /* Tokenizer elements */
 # define WHITESPACES	"\t "

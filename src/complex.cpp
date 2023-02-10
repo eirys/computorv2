@@ -6,13 +6,17 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 00:36:37 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:09:52 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "complex.hpp"
 #include "matrix.hpp"
 #include "math.hpp"
+
+/* ========================================================================== */
+/*                                   PUBLIC                                   */
+/* ========================================================================== */
 
 Complex::Complex():
 	_re(0),
@@ -21,7 +25,6 @@ Complex::Complex():
 Complex::~Complex() {}
 
 Complex::Complex(const Complex& x):
-	// Aaatreenode(_left, _right),
 	_re(x.getReal()),
 	_im(x.getImaginary()) {
 		LOG("Complex copy");
@@ -32,6 +35,8 @@ Complex::Complex(const Rational& x, const Rational& y):
 	_im(y) {
 		LOG("Complex rational");
 }
+
+/* -------------------------------------------------------------------------- */
 
 Complex& Complex::operator=(const Complex& rhs) {
 	if (this == &rhs)
@@ -94,27 +99,6 @@ Complex::shared_itype	Complex::operator/(const shared_itype& rhs_ptr) const {
 		return _matrix_operator(&Complex::operator/, m_ptr);
 	return nullptr;
 }
-
-Complex::shared_itype	Complex::_rational_operator(
-	Complex (Complex::*f)(const Rational&) const,
-	const std::shared_ptr<Rational>& r_ptr
-	) const {
-		return shared_itype(new Complex((this->*f)(*r_ptr)));
-	}
-
-Complex::shared_itype	Complex::_complex_operator(
-	Complex (Complex::*f)(const Complex&) const,
-	const std::shared_ptr<Complex>& c_ptr
-	) const {
-		return shared_itype(new Complex((this->*f)(*c_ptr)));
-	}
-
-Complex::shared_itype	Complex::_matrix_operator(
-	Matrix (Complex::*f)(const Matrix&) const,
-	const std::shared_ptr<Matrix>& m_ptr
-	) const {
-		return shared_itype(new Matrix((this->*f)(*m_ptr)));
-	}
 
 /* Arith operators ---------------------------------------------------------- */
 
@@ -313,6 +297,31 @@ bool	Complex::isReal() const {
 bool	Complex::isImaginary() const {
 	return !isReal();
 }
+
+/* ========================================================================== */
+/*                                   PRIVATE                                  */
+/* ========================================================================== */
+
+Complex::shared_itype	Complex::_rational_operator(
+	Complex (Complex::*f)(const Rational&) const,
+	const std::shared_ptr<Rational>& r_ptr
+	) const {
+		return shared_itype(new Complex((this->*f)(*r_ptr)));
+	}
+
+Complex::shared_itype	Complex::_complex_operator(
+	Complex (Complex::*f)(const Complex&) const,
+	const std::shared_ptr<Complex>& c_ptr
+	) const {
+		return shared_itype(new Complex((this->*f)(*c_ptr)));
+	}
+
+Complex::shared_itype	Complex::_matrix_operator(
+	Matrix (Complex::*f)(const Matrix&) const,
+	const std::shared_ptr<Matrix>& m_ptr
+	) const {
+		return shared_itype(new Matrix((this->*f)(*m_ptr)));
+	}
 
 /* Relational operators ----------------------------------------------------- */
 

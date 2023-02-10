@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:13:54 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 13:53:46 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 11:56:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ class Add: virtual public ATreeNode {
 		typedef typename	base::shared_itype		shared_itype;
 		typedef typename	base::weak_itype		weak_itype;
 
-		// Initialized constructor
+		/* Constructor ------------------------------------------------------------ */
 		Add(const shared_node& left, const shared_node& right):
 			base(left, right) {}
 
-		// Destructor
+		/* Destructor ------------------------------------------------------------- */
 		virtual ~Add() {}
 
+		/* Eval ------------------------------------------------------------------- */
 		const shared_itype	eval() const {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
@@ -50,6 +51,7 @@ class Add: virtual public ATreeNode {
 			return nullptr;
 		}
 
+		/* Print ------------------------------------------------------------------ */
 		void				print() const {
 			std::cout << '(';
 			base::getLeft()->print();

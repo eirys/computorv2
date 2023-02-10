@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:39:57 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 23:54:15 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:01:22 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ class Multiply: public virtual ATreeNode {
 		typedef typename	base::shared_itype			shared_itype;
 		typedef typename	base::weak_itype			weak_itype;
 
-		// Initialized constructor
+		/* Constructor ------------------------------------------------------------ */
 		Multiply(const shared_node& left, const shared_node& right):
 			base(left, right) {}
 
-		// Destructor
+		/* Destructor ------------------------------------------------------------- */
 		virtual ~Multiply() {}
 
+		/* Eval ------------------------------------------------------------------- */
 		const shared_itype	eval() const {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
@@ -48,6 +49,7 @@ class Multiply: public virtual ATreeNode {
 			return nullptr;
 		}
 
+		/* Print ------------------------------------------------------------------ */
 		void				print() const {
 			base::getLeft()->print();
 			std::cout << '*';

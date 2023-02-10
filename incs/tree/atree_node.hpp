@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/01/27 00:37:46 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 11:56:23 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ class ATreeNode {
 		typedef				std::shared_ptr<IType>			shared_itype;
 		typedef				std::weak_ptr<IType>			weak_itype;
 
-		// Destructor
+		/* Virtual Destructor ----------------------------------------------------- */
 		virtual	~ATreeNode() {}
 
-		// Base functions
+		/* Base Functions --------------------------------------------------------- */
 		const shared_node			getLeft() const {
 			return _left.lock();
 		}
@@ -48,21 +48,22 @@ class ATreeNode {
 			_right = new_right;
 		}
 
-		// Override
+		/* Override --------------------------------------------------------------- */
 		virtual const shared_itype	eval() const = 0;
 		virtual void				print() const = 0;
 
 	protected:
-		// Default
+		/* Default ---------------------------------------------------------------- */
 		ATreeNode():
 			_left(),
 			_right() {}
 
-		// Initialized constructor
+		/* Initialized Constructor ------------------------------------------------ */
 		ATreeNode(const shared_node& left, const shared_node& right):
 			_left(left),
 			_right(right) {}
 
+		/* ------------------------------------------------------------------------ */
 		weak_node					_left;
 		weak_node					_right;
 };

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/01/26 15:54:53 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:02:45 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,20 @@ class Variable: virtual public ATreeNode {
 		typedef typename	base::shared_itype			shared_itype;
 		typedef typename	base::weak_itype			weak_itype;
 
-		// Initialized constructor
+		/* Constructor ------------------------------------------------------------ */
 		Variable(const shared_itype& val_ptr):
 			base(),
 			_val_ptr(val_ptr) {}
 
-		// Destructor
+		/* Destructor ------------------------------------------------------------- */
 		virtual ~Variable() {}
 
+		/* Eval ------------------------------------------------------------------- */
 		const shared_itype	eval() const {
 			return _val_ptr;
 		}
 
+		/* Print ------------------------------------------------------------------ */
 		void				print() const {
 			std::cout << *_val_ptr;
 		}
@@ -50,6 +52,10 @@ class Variable: virtual public ATreeNode {
 	private:
 		shared_itype	_val_ptr;
 };
+
+/* ========================================================================== */
+/*                                    UTILS                                   */
+/* ========================================================================== */
 
 inline Variable::shared_node	createVariable(const Rational& x) {
 	Variable::shared_itype	tmp(new Rational(x));

@@ -6,12 +6,16 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/25 15:54:34 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:07:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.hpp"
 #include "complex.hpp"
+
+/* ========================================================================== */
+/*                                   PUBLIC                                   */
+/* ========================================================================== */
 
 Matrix::Matrix() {}
 
@@ -22,10 +26,10 @@ Matrix::Matrix(const Matrix& x):
 	_p(x.getNbColumns()),
 	_matrix(x.getMatrix()) {}
 
-/*
-**	Usage:
-**	Matrix m = Matrix::matrix { {...}, ... };
-*/
+/**
+ * Usage:
+ * Matrix m = Matrix::matrix { {...}, ... };
+ */
 Matrix::Matrix(const Matrix::matrix&& x) {
 	if (x.empty()) {
 		_n = 0;
@@ -54,9 +58,9 @@ Matrix::Matrix(const IType& x) {
 	}
 }
 
-/*
-**	Identity matrix / Scalar matrix
-*/
+/**
+ *	Identity matrix / Scalar matrix
+ */
 Matrix::Matrix(size_t n, const Rational&& lambda):
 	_n(n),
 	_p(n),
@@ -70,6 +74,8 @@ Matrix::Matrix(size_t n, size_t p):
 	_n(n),
 	_p(p),
 	_matrix(n, row(p)) {}
+
+/* -------------------------------------------------------------------------- */
 
 Matrix& Matrix::operator=(const Matrix& rhs) {
 	if (*this == rhs)
@@ -147,29 +153,6 @@ Matrix::shared_itype		Matrix::operator/(const shared_itype& rhs_ptr) const {
 		return _matrix_operator(&Matrix::operator/, m_ptr);
 	return nullptr;
 }
-
-Matrix::shared_itype	Matrix::_rational_operator(
-	Matrix (Matrix::*f)(const Rational&) const,
-	const std::shared_ptr<Rational>& r_ptr
-	) const {
-		return shared_itype(new Matrix((this->*f)(*r_ptr)));
-	}
-
-Matrix::shared_itype	Matrix::_complex_operator(
-	Matrix (Matrix::*f)(const Complex&) const,
-	const std::shared_ptr<Complex>& r_ptr
-	) const {
-		return shared_itype(new Matrix((this->*f)(*r_ptr)));
-
-	}
-
-Matrix::shared_itype	Matrix::_matrix_operator(
-	Matrix (Matrix::*f)(const Matrix&) const,
-	const std::shared_ptr<Matrix>& r_ptr
-	) const {
-		return shared_itype(new Matrix((this->*f)(*r_ptr)));
-
-	}
 
 /* Arith operators ---------------------------------------------------------- */
 
@@ -417,30 +400,30 @@ size_t Matrix::getMaxLength() const {
 	return biggest;
 }
 
-/* Useless lol 
-void	Matrix::forEach(void (*f)(const Rational&)) const {
-	for (Matrix::matrix::const_iterator it = getMatrix().begin();
-	it != getMatrix().end();
-	++it) {
-		for (Matrix::row::const_iterator ite = it->begin();
-		ite != it->end();
-		++ite) {
-			f(*ite);
-		}
-	}
-}
+/* ========================================================================== */
+/*                                   PRIVATE                                  */
+/* ========================================================================== */
 
-void	Matrix::forEach(void (*f)(const Rational&)) {
-	for (Matrix::matrix::iterator it = getMatrix().begin();
-	it != getMatrix().end();
-	++it) {
-		for (Matrix::row::iterator ite = it->begin();
-		ite != it->end();
-		++ite) {
-			f(*ite);
-		}
+Matrix::shared_itype	Matrix::_rational_operator(
+	Matrix (Matrix::*f)(const Rational&) const,
+	const std::shared_ptr<Rational>& r_ptr
+	) const {
+		return shared_itype(new Matrix((this->*f)(*r_ptr)));
 	}
-} */
+
+Matrix::shared_itype	Matrix::_complex_operator(
+	Matrix (Matrix::*f)(const Complex&) const,
+	const std::shared_ptr<Complex>& r_ptr
+	) const {
+		return shared_itype(new Matrix((this->*f)(*r_ptr)));
+	}
+
+Matrix::shared_itype	Matrix::_matrix_operator(
+	Matrix (Matrix::*f)(const Matrix&) const,
+	const std::shared_ptr<Matrix>& r_ptr
+	) const {
+		return shared_itype(new Matrix((this->*f)(*r_ptr)));
+	}
 
 /* Relational operators ----------------------------------------------------- */
 
@@ -479,14 +462,6 @@ std::ostream& operator<<(std::ostream& o, const Matrix& x) {
 			os << std::setw(field_w) << *ite;
 			if (ite + 1 == it->end() + 1)
 				os << ' ';
-			// if (ite == it->begin()) {
-			// 	os << std::setw(field_w + 1) << *ite << " , ";
-			// } else if (ite + 1 != it->end()) {
-			// 	os << std::setw(field_w) << *ite << " , ";
-			// } else {
-			// 	os << std::setw(field_w) << *ite;
-			// 	os << ' ';
-			// }
 		}
 		os << ']';
 		if (it + 1 != x.getMatrix().end())

@@ -6,7 +6,7 @@
 #    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/01/26 18:16:13 by eli              ###   ########.fr        #
+#    Updated: 2023/02/02 20:17:11 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,11 @@ $(NAME): $(OBJ)
 
 obj/%.o: src/%.cpp
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+.PHONY: debug
+debug:
+	make fclean
+	make debug=1
 
 .PHONY: clean
 clean:

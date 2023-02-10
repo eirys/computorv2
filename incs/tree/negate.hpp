@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 15:10:38 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 11:25:19 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:01:45 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ class Negate: public virtual ATreeNode {
 		typedef typename	base::shared_itype			shared_itype;
 		typedef typename	base::weak_itype			weak_itype;
 
-		// Initialized constructor
+		/* Constructor ------------------------------------------------------------ */
 		Negate(const shared_node& right):
 			base(nullptr, right) {}
 
-		// Destructor
+		/* Destructor ------------------------------------------------------------- */
 		virtual ~Negate() {}
 
+		/* Eval ------------------------------------------------------------------- */
 		const shared_itype	eval() const {
 			const shared_itype&			tmp = base::getRight()->eval();
 
@@ -48,6 +49,7 @@ class Negate: public virtual ATreeNode {
 			return nullptr;
 		}
 
+		/* Print ------------------------------------------------------------------ */
 		void				print() const {
 			std::cout << "(-";
 			base::getRight()->print();

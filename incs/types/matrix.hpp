@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/01/26 14:25:33 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:08:54 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ class Matrix: public IType {
 
 		Matrix&				operator=(const Matrix& rhs);
 
-		// Element access
+		/* Element Access --------------------------------------------------------- */
 		row&				operator[](size_t index);
 		const row&			operator[](size_t index) const;
 
-		// IType operators
+		/* IType Operators -------------------------------------------------------- */
 		shared_itype		operator+(const shared_itype& rhs_ptr) const;
 		shared_itype		operator-(const shared_itype& rhs_ptr) const;
 		shared_itype		operator*(const shared_itype& rhs_ptr) const;
 		shared_itype		operator/(const shared_itype& rhs_ptr) const;
 
-		// Arith operators
+		/* Arith Operators -------------------------------------------------------- */
 		Matrix				operator-() const;
 		Matrix				transpose() const;
 		
@@ -85,24 +85,24 @@ class Matrix: public IType {
 		Matrix&				operator%=(const Rational& rhs);
 		Matrix				operator%(const Rational& rhs) const;
 
-		// Rational
+		/* Rational Operators ----------------------------------------------------- */
 		Matrix				operator+(const Rational& rhs) const;
 		Matrix				operator-(const Rational& rhs) const;
 		Matrix				operator*(const Rational& rhs) const;
 		Matrix				operator/(const Rational& rhs) const;
 
-		// Complex
+		/* Complex Operators ------------------------------------------------------ */
 		Matrix				operator+(const Complex& rhs) const;	// undefined
 		Matrix				operator-(const Complex& rhs) const;	// undefined
 		Matrix				operator*(const Complex& rhs) const;
 		Matrix				operator/(const Complex& rhs) const;
 
-		// Getter
+		/* Getter ----------------------------------------------------------------- */
 		size_t				getNbColumns() const;
 		size_t				getNbRows() const;
 		const matrix&		getMatrix() const;
 
-		// Tools
+		/* Tools ------------------------------------------------------------------ */
 		bool				operator!() const;
 		bool				isSameSize(const Matrix& rhs) const;
 		bool				isSquare() const;
@@ -113,6 +113,7 @@ class Matrix: public IType {
 		size_t				_p;			// nb columns
 		matrix				_matrix;
 		
+		/* Utils ------------------------------------------------------------------ */
 		shared_itype		_rational_operator(
 								Matrix (Matrix::*f)(const Rational&) const,
 								const std::shared_ptr<Rational>& r_ptr

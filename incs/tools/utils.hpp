@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 00:10:19 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 11:53:57 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@
 
 namespace utils {
 
-/* -- PROTOTYPE ----------------------------------------------- */
+/* ========================================================================== */
+/*                                  PROTOTYPE                                 */
+/* ========================================================================== */
 
 template <typename T>
 	void display(const std::list<T>& l);
@@ -39,7 +41,9 @@ template <typename T>
 template <typename T>
 	size_t getWidth(const T& val);
 
-/* -- DEFINITION ---------------------------------------------- */
+/* ========================================================================== */
+/*                                 DEFINITION                                 */
+/* ========================================================================== */
 
 template <typename T>
 	inline void display(const std::list<T>& l) {
@@ -56,6 +60,11 @@ inline size_t getWidth(const T& val) {
 	return o.str().size();
 }
 
+inline bool	isCharset(const char c, const std::string charset) {
+	if (charset.find(c) != std::string::npos)
+		return true;
+	return false;
+}
 
 } // namespace utils
 

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:25:22 by eli               #+#    #+#             */
-/*   Updated: 2023/01/23 23:51:23 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 12:10:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,17 @@ class IType {
 		typedef typename	std::shared_ptr<IType>		shared_itype;
 		typedef typename	std::weak_ptr<IType>		weak_itype;
 
+		/* Virtual Destructor ----------------------------------------------------- */
 		virtual ~IType();
 
+		/* Override --------------------------------------------------------------- */
 		virtual shared_itype	operator+(const shared_itype& rhs) const = 0;
 		virtual shared_itype	operator-(const shared_itype& rhs) const = 0;
 		virtual shared_itype	operator*(const shared_itype& rhs) const = 0;
 		virtual shared_itype	operator/(const shared_itype& rhs) const = 0;
 };
 
+/* Utils -------------------------------------------------------------------- */
 std::ostream&	operator<<(std::ostream& o, const IType& x);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/26 23:11:54 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 11:50:37 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,12 +173,33 @@ void test6() {
 	}
 }
 
+#include"tokenizer.hpp"
+
 int main() {
 	// test1();
 	// test2();
 	// test3();
 	// test4();
 	// test5();
-	test6();
+	// test6();
+	{
+		try {
+			std::string abc = "587i+50.55/155";
+
+			cout << "Raw: [" << abc << ']' << NL; 
+			Tokenizer	__toke(abc);
+
+			std::string tmp = __toke.getNextToken();
+			
+			while (!tmp.empty()) {
+				std::cout << "Tmp is: \"" << tmp << '"' << NL;
+				__toke.scanToken();
+				tmp = __toke.getNextToken();
+			}
+			
+		} catch (const std::exception& e){
+			std::cerr << e.what() << NL;
+		}
+	}
 	return 0;
 }
