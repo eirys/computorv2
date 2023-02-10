@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 07:58:58 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 12:03:29 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 14:56:18 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,24 @@
 
 # include "parser_macro.hpp"
 
+enum TokenType {
+	EWHITESPACE,
+	ENAME,
+	ERATIONAL,
+	EDELIMITER,
+	ESYMBOL,
+	EMPTY
+};
+
 class Tokenizer {
 	public:
+		typedef	enum TokenType		ETokenType;
+		
 		Tokenizer(const std::string& raw);
 		virtual ~Tokenizer(); 
 
 		/* Main function ---------------------------------------------------------- */
-		std::string				scanToken();
-
-		/* Getter ----------------------------------------------------------------- */
-		const std::string&		getNextToken() const;
+		ETokenType					scanToken(std::string& holder);
 
 		/* Exception -------------------------------------------------------------- */
 		class BadFormat: public std::exception {
@@ -47,7 +55,6 @@ class Tokenizer {
 	private:
 		const std::string		_raw;
 		size_t					_current_pos;
-		std::string				_next_token;
 
 		/* Parsing utils ---------------------------------------------------------- */
 		bool					_find(const char* charset) const;

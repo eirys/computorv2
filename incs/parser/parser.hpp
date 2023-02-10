@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_f.hpp                                       :+:      :+:    :+:   */
+/*   parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 10:27:10 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 11:53:16 by eli              ###   ########.fr       */
+/*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
+/*   Updated: 2023/02/10 14:56:02 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_F_HPP
-# define PARSER_F_HPP
+#ifndef PARSER_HPP
 
 # include "tokenizer.hpp"
-# include "atree_node.hpp"
-# include "parser_macro.hpp"
 
-/**
- *  F		: Identifier
- * 			| Variable
- * 			| ( E )
- * 			| - F
- * 			| Function?
-*/
-class ParserF {
+class Parser {
 	public:
 		typedef typename	ATreeNode::shared_node	shared_node;
 
-		ParserF(Tokenizer& tokenizer);
-		virtual ~ParserF();
+		Parser(const std::string& raw);
+		virtual ~Parser();
 
-		/* Main Function ---------------------------------------------------------- */
-		shared_node			parse();
+		/* Parsing Functions ------------------------------------------------------ */
+		shared_node			parseE();
+		shared_node			parseF();
+		shared_node			parseT();
 
 		/* Exception -------------------------------------------------------------- */
 		class IncorrectSyntax: public std::exception {
@@ -43,10 +35,9 @@ class ParserF {
 		};
 
 	private:
-		Tokenizer&			_tokenizer;
+		Tokenizer			_tokenizer;
+		std::string			_token;
 
-		/* Utils ------------------------------------------------------------------ */
-		bool					_isIdentifier(const std::string& token) const;
 };
 
 #endif

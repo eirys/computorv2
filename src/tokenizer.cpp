@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 08:45:04 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 11:52:04 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 14:56:23 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,50 +15,53 @@
 
 # include "utils.hpp"
 
+/* ========================================================================== */
+/*                                   PUBLIC                                   */
+/* ========================================================================== */
+
 Tokenizer::Tokenizer(const std::string& raw):
 	_raw(raw),
 	_current_pos(0) {
 		if (raw.empty())
 			throw EmptyInput();
-		scanToken();
 	}
 
 Tokenizer::~Tokenizer() {}
 
-/* ========================================================================== */
-/*                                   PUBLIC                                   */
-/* ========================================================================== */
-
 /* Main function ------------------------------------------------------------ */
 
-std::string	Tokenizer::scanToken() {
+Tokenizer::ETokenType Tokenizer::scanToken(std::string& holder) {
+	ETokenType		ret;
 	size_t			next_pos = 0;
-	std::string		tmp(_next_token);
 
 	 if (_current_pos == std::string::npos) {
 		next_pos = _current_pos;
+		ret = EMPTY;
 	} else if (utils::isCharset(_raw[_current_pos], WHITESPACES)) {
 		next_pos = _find_not_of(WHITESPACES);
+		ret = EWHITESPACE;
 	} else if (utils::isCharset(_raw[_current_pos], NAME)) {
 		next_pos = _find_not_of(NAME);
+		ret = ENAME;
 	} else if (utils::isCharset(_raw[_current_pos], RATIONAL)) {
 		next_pos = _find_not_of(RATIONAL);
-	} else if (utils::isCharset(_raw[_current_pos], DELIMITER SYMBOL)) {
+		ret = ERATIONAL;
+	} else if (utils::isCharset(_raw[_current_pos], DELIMITER)) {
 		next_pos = _current_pos + 1;
 		if (next_pos >= _raw.size())
 			next_pos = std::string::npos;
+		ret = EDELIMITER;
+	} else if (utils::isCharset(_raw[_current_pos], SYMBOL)) {
+		next_pos = _current_pos + 1;
+		if (next_pos >= _raw.size())
+			next_pos = std::string::npos;
+		ret = ESYMBOL;
 	} else {
 		throw BadFormat();
 	}
-	_next_token = _update_token(next_pos);
+	holder = _update_token(next_pos);
 	_current_pos = next_pos;
-	return tmp;
-}
-
-/* Getter ------------------------------------------------------------------- */
-
-const std::string&	Tokenizer::getNextToken() const {
-	return _next_token;
+	return ret;
 }
 
 /* ========================================================================== */

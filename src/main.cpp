@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 11:50:37 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/10 13:27:10 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,12 +189,13 @@ int main() {
 			cout << "Raw: [" << abc << ']' << NL; 
 			Tokenizer	__toke(abc);
 
-			std::string tmp = __toke.getNextToken();
+			std::string tmp;
+			Tokenizer::ETokenType	ret = __toke.scanToken(tmp);
 			
 			while (!tmp.empty()) {
-				std::cout << "Tmp is: \"" << tmp << '"' << NL;
-				__toke.scanToken();
-				tmp = __toke.getNextToken();
+				std::cout << "[ret = " << ret << "] Tmp is: \"" << tmp << '"' << NL;
+				ret = __toke.scanToken(tmp);
+				// tmp = __toke.getNextToken();
 			}
 			
 		} catch (const std::exception& e){
