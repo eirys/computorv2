@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 11:01:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 11:10:01 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,6 @@ Parser::~Parser() {}
  * E	: T + T
  * 		| T - T
  * 		| T
- * MODEL:
- * a = parseterm
- * while 1
- * 	if +
- * 		b = parseterm()
- * 		return add(a, b)
  * 
 */
 Parser::unique_node	Parser::parseE() {
@@ -43,19 +37,23 @@ Parser::unique_node	Parser::parseE() {
 
 	while (_ret != EMPTY) {
 		if (_token == ADDITION) {
+			LOG("Ret was addition");
 			unique_node b = parseT();
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting variable after +");
 			Add	add(std::move(a), std::move(b));
 			a = std::move(add.toNode());
-			_ret = _tokenizer.scanToken(_token);
+			// _ret = _tokenizer.scanToken(_token);
 		} else if (_token == SUBSTRACTION) {
+			LOG("Ret was substraction");
 			unique_node	b = parseT();
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting variable after -");
 			Substract	sub(std::move(a), std::move(b));
 			a = std::move(sub.toNode());
-			_ret = _tokenizer.scanToken(_token);
+			// _ret = _tokenizer.scanToken(_token);
+		} else {
+			break;
 		}
 	}
 	return a;

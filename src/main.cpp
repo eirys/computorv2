@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 11:02:36 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 11:11:16 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void test8() {
 			Parser::unique_node	output = parser.parseE();
 
 			output->print();
-			std::cout << NL;
+			std::cout << "= " << *output->eval() << NL;
 		}
 	} catch (const std::exception& e) {
 		cerr << e.what() << NL;
