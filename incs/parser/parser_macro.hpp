@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:58:05 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 01:14:24 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/11 13:22:18 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 
 /* Symbols */
 # define EQUAL			"="
-# define MULTIPLIER		"*"
-# define DIVIDER		"/"
+# define MULTIPLICATION	"*"
+# define DIVISION		"/"
 # define ADDITION		"+"
 # define SUBSTRACTION	"-"
 # define NEGATE			"-"
@@ -41,7 +41,7 @@
 # define RATIONAL		DIGIT DOT
 # define NAME			LETTER UNDERSCORE
 # define DELIMITER		L_PARENTHESIS R_PARENTHESIS L_BRACKET R_BRACKET COMA SEMICOLON
-# define SYMBOL			EQUAL MULTIPLIER DIVIDER ADDITION\
+# define SYMBOL			EQUAL MULTIPLICATION DIVISION ADDITION\
 						SUBSTRACTION MODULO POWER
 
 #endif

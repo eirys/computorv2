@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 18:18:44 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 19:58:47 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 10:56:52 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ class Divide: public virtual ATreeNode {
 		typedef typename	base::weak_itype			weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
-		Divide(const shared_node& left, const shared_node& right):
-			base(left, right) {}	
+		Divide(unique_node&& left, unique_node&& right):
+			base(std::move(left), std::move(right)) {}	
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Divide() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() const {
+		const shared_itype	eval() {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);
@@ -52,14 +52,16 @@ class Divide: public virtual ATreeNode {
 			return nullptr;
 		}
 
-		void				print() const {
+		void				print() {
 			base::getLeft()->print();
 			std::cout << '/';
 			base::getRight()->print();
 		}
 
-		shared_node			toNode() const {
-			return shared_node(new Divide(base::getLeft(), base::getRight()))
+		unique_node			toNode() {
+			return unique_node(
+				new Divide(std::move(base::getLeft()), std::move(base::getRight()))
+			);
 		}
 };
 

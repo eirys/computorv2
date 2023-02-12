@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 21:25:28 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 11:02:36 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # include "multiply.hpp"
 # include "negate.hpp"
 # include "identifier.hpp"
+
+#include "parser.hpp"
 
 using std::cout;
 using std::cerr;
@@ -112,68 +114,76 @@ void test5() {
 	cout << (a ^ 2) << NL;
 }
 
-void test6() {
-	/*
-	typedef ATreeNode<Rational>		atreenode;
-	typedef ATreeNode<Complex>		atreenode_c;
+// void test6() {
+// 	try {
+// 	typedef std::shared_ptr<ATreeNode>	shared_node;
 
-	std::shared_ptr<atreenode>		sa;
-	std::shared_ptr<atreenode>		sb;
+// 	Rational		a(5);
+// 	Complex			b(1, 1);
+// 	Matrix			c = Matrix::matrix { { 1, 1, 1 } };
 
-	std::shared_ptr<atreenode_c>	sc;
-	std::shared_ptr<atreenode_c>	sd;
-	
-	sa.reset(new Variable<Rational>(25));
-	sb.reset(new Variable<Rational>(25));
+// 	shared_node		node_a = createVariable(a);	// 5
+// 	shared_node		node_b = createVariable(b);	// 1 + i
+// 	shared_node		node_c = createVariable(c);	// [ 1, 1, 1 ]
 
-	sc.reset(new Variable<Complex>(Complex(1, 1)));
-	sd.reset(new Variable<Complex>(Complex(2, 2)));
+// 	Add				add1(node_a, node_b);
+// 	Add				add2(node_c, node_c);
+// 	Multiply		mul(node_a, node_c);
+// 	Identifier		ide("var_A", node_a);
 
-	Add<Rational>		add(sa, sb);
-	Negate<Rational>	neg(sa);
-	Substract<Rational>	sub(sa, sb);
-	Multiply<Rational>	mul(sa, sb);
-	Divide<Rational>	div(sa, sb);
+// 	shared_node		id = ide.toNode();
 
+// 	cout << *add1.eval() << NL;
+// 	cout << *add2.eval() << NL;
+// 	Matrix			m = *mul.eval();
 
-	Add<Complex>		add_c(sc, sd);
-	cout << add_c.eval()<<NL; */
+// 	m[0][1] = 0.266;
 
-	// cout << div.eval()<< NL;
+// 	cout << m << NL;
+
+// 	id->print();
+// 	cout << NL;
+
+// 	} catch (const std::exception& e) {
+// 		cerr << e.what() << NL;
+// 	}
+// }
+
+void test7() {
 	try {
-	typedef std::shared_ptr<ATreeNode>	shared_node;
+		std::string abc = "waewae";
+		cout << "Raw:" <<NL << abc << NL; 
+		Tokenizer	__toke(abc);
 
-	Rational		a(5);
-	Complex			b(1, 1);
-	Matrix			c = Matrix::matrix { { 1, 1, 1 } };
+		std::string tmp;
+		Tokenizer::e_tokentype	ret = __toke.scanToken(tmp);
+		
+		while (!tmp.empty()) {
+			std::cout << "[ret = " << ret << "] Tmp is: \"" << tmp << '"' << NL;
+			ret = __toke.scanToken(tmp);
+		}
+		
+	} catch (const std::exception& e){
+		std::cerr << e.what() << NL;
+	}
+}
 
-	shared_node		node_a = createVariable(a);	// 5
-	shared_node		node_b = createVariable(b);	// 1 + i
-	shared_node		node_c = createVariable(c);	// [ 1, 1, 1 ]
+void test8() {
+	try {
+		while (!std::cin.eof()) {
+			std::string		entry;
+			std::getline(std::cin, entry);
 
-	Add				add1(node_a, node_b);
-	Add				add2(node_c, node_c);
-	Multiply		mul(node_a, node_c);
+			Parser	parser(entry);
+			Parser::unique_node	output = parser.parseE();
 
-	shared_node		id = createIdentifier("var_A", node_a);
-
-	cout << *add1.eval() << NL;
-	cout << *add2.eval() << NL;
-	Matrix			m = *mul.eval();
-
-	m[0][1] = 0.266;
-
-	cout << m << NL;
-
-	id->print();
-	cout << NL;
-
+			output->print();
+			std::cout << NL;
+		}
 	} catch (const std::exception& e) {
 		cerr << e.what() << NL;
 	}
 }
-
-#include"tokenizer.hpp"
 
 int main() {
 	// test1();
@@ -182,24 +192,7 @@ int main() {
 	// test4();
 	// test5();
 	// test6();
-	{
-		try {
-			std::string abc = "587i+50.55/155";
-
-			cout << "Raw:" <<NL << abc << NL; 
-			Tokenizer	__toke(abc);
-
-			std::string tmp;
-			Tokenizer::e_tokentype	ret = __toke.scanToken(tmp);
-			
-			while (!tmp.empty()) {
-				std::cout << "[ret = " << ret << "] Tmp is: \"" << tmp << '"' << NL;
-				ret = __toke.scanToken(tmp);
-			}
-			
-		} catch (const std::exception& e){
-			std::cerr << e.what() << NL;
-		}
-	}
+	// test7();
+	test8();
 	return 0;
 }

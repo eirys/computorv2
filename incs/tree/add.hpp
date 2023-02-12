@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:13:54 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 19:53:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 10:52:18 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ class Add: virtual public ATreeNode {
 		typedef typename	base::weak_itype		weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
-		Add(const shared_node& left, const shared_node& right):
-			base(left, right) {}
+		Add(unique_node&& left, unique_node&& right):
+			base(std::move(left), std::move(right)) {}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Add() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() const {
+		const shared_itype	eval() {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);
@@ -51,7 +51,7 @@ class Add: virtual public ATreeNode {
 			return nullptr;
 		}
 
-		void				print() const {
+		void				print() {
 			std::cout << '(';
 			base::getLeft()->print();
 			std::cout << '+';
@@ -59,8 +59,10 @@ class Add: virtual public ATreeNode {
 			std::cout << ')';
 		}
 
-		shared_node			toNode() const {
-			return shared_node(new Add(base::getLeft(), base::getRight()));
+		unique_node			toNode() {
+			return unique_node(
+				new Add(std::move(base::getLeft()), std::move(base::getRight()))
+			);
 		}
 };
 

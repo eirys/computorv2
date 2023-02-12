@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 16:23:56 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 10:50:02 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,38 +35,42 @@ class ATreeNode {
 		virtual	~ATreeNode() {}
 
 		/* Base Functions --------------------------------------------------------- */
-		const shared_node			getLeft() const {
-			return _left.lock();
+		unique_node&			getLeft() {
+			return _left;
 		}
-		const shared_node			getRight() const {
-			return _right.lock();
+		unique_node&			getRight() {
+			return _right;
 		}
-		void						setLeft(const shared_node& new_left) {
-			_left = new_left;
+		void						setLeft(unique_node&& new_left) {
+			_left = std::move(new_left);
 		}
-		void						setRight(const shared_node& new_right) {
-			_right = new_right;
+		void						setRight(unique_node&& new_right) {
+			_right = std::move(new_right);
 		}
 
 		/* Override --------------------------------------------------------------- */
-		virtual const shared_itype	eval() const = 0;
-		virtual void				print() const = 0;
-		virtual shared_node			toNode() const = 0;
+		virtual const shared_itype	eval() = 0;
+		virtual void				print() = 0;
+		virtual unique_node			toNode() = 0;
 
 	protected:
 		/* Default ---------------------------------------------------------------- */
 		ATreeNode():
 			_left(),
-			_right() {}
+			_right() {
+				LOG("Created empty node");
+			}
 
 		/* Initialized Constructor ------------------------------------------------ */
-		ATreeNode(const shared_node& left, const shared_node& right):
-			_left(left),
-			_right(right) {}
+		ATreeNode(unique_node&& left, unique_node&& right):
+			_left(std::move(left)),
+			_right(std::move(right)) {
+				LOG("Created node");
+			}
 
 		/* ------------------------------------------------------------------------ */
-		weak_node					_left;
-		weak_node					_right;
+		unique_node					_left;
+		unique_node					_right;
 };
 
 #endif

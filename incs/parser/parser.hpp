@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 23:07:16 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 10:59:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,34 @@
 # include "divide.hpp"
 # include "negate.hpp"
 
+/**
+ * 
+*/
 class Parser {
 	public:
-		typedef typename	ATreeNode::shared_node	shared_node;
+		typedef typename	ATreeNode::unique_node	unique_node;
 		typedef typename	Tokenizer::e_tokentype	e_tokentype;
 
 		Parser(const std::string& raw);
 		virtual ~Parser();
 
 		/* Parsing Functions ------------------------------------------------------ */
-		shared_node			parseF();
-		shared_node			parseE();
-		shared_node			parseT();
+		unique_node			parseF();
+		unique_node			parseE();
+		unique_node			parseT();
 
 		/* Exception -------------------------------------------------------------- */
 		class IncorrectSyntax: public std::exception {
 			public:
-				constexpr const char* what() const throw() {
-					return "Not a correct syntax";
+				IncorrectSyntax() = delete;
+				IncorrectSyntax(const std::string&& specificity):
+					_specificity("Not a correct syntax: " + specificity) {}
+
+				const char* what() const throw() {
+					return _specificity.c_str();
 				}
+			private:
+				const std::string	_specificity;
 		};
 
 	private:

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 23:07:46 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 11:01:59 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,55 @@ Parser::Parser(const std::string& raw):
 
 Parser::~Parser() {}
 
-/* Factor ------------------------------------------------------------------- */
+/* Expression --------------------------------------------------------------- */
+
 /**
+ * GRAMMAR:
+ * E	: T + T
+ * 		| T - T
+ * 		| T
+ * MODEL:
+ * a = parseterm
+ * while 1
+ * 	if +
+ * 		b = parseterm()
+ * 		return add(a, b)
+ * 
+*/
+Parser::unique_node	Parser::parseE() {
+	LOG("In parseE");
+	unique_node	a = parseT();
+
+	while (_ret != EMPTY) {
+		if (_token == ADDITION) {
+			unique_node b = parseT();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting variable after +");
+			Add	add(std::move(a), std::move(b));
+			a = std::move(add.toNode());
+			_ret = _tokenizer.scanToken(_token);
+		} else if (_token == SUBSTRACTION) {
+			unique_node	b = parseT();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting variable after -");
+			Substract	sub(std::move(a), std::move(b));
+			a = std::move(sub.toNode());
+			_ret = _tokenizer.scanToken(_token);
+		}
+	}
+	return a;
+}
+
+
+/* Factor ------------------------------------------------------------------- */
+
+/**
+ * GRAMMAR:
+ * F	: Identifier
+ * 		| Variable
+ * 		| ( E )
+ * 		| - F
+ * 
  * MODEL:
  * if token == identifier {
  * 	if next token == '='
@@ -45,24 +92,29 @@ Parser::~Parser() {}
  * else if token == -
  * 	return negate, F
 */
-Parser::shared_node	Parser::parseF() {
-	_ret = _tokenizer.scanToken(_token);
+Parser::unique_node	Parser::parseF() {
+	LOG("In parseF");
+	_ret = _tokenizer.scanToken(_token);	
 
 	if (_ret == ENAME) {
 		Identifier	id(_token);
+		_ret = _tokenizer.scanToken(_token);
 		return id.toNode();
 	} else if (_ret == ERATIONAL) {
 		Rational	value(std::stold(_token));
+		LOG("Out: " << value);
+		_ret = _tokenizer.scanToken(_token);
 		return createVariable(value);
 	} else if (_ret == EDELIMITER) {
 		if (_token == L_PARENTHESIS) {
-			shared_node	a = parseE();
+			unique_node	a = parseE();
 			if (a == nullptr)
-				throw Parser::IncorrectSyntax();
+				throw Parser::IncorrectSyntax("Expecting content inside parenthesis");
 			if (_token == R_PARENTHESIS) {
 				_ret = _tokenizer.scanToken(_token);
 				return a;
 			}
+			throw Parser::IncorrectSyntax("Expecting final )");
 		}
 	} else if (_ret == ESYMBOL) {
 		if (_token == NEGATE) {
@@ -74,23 +126,34 @@ Parser::shared_node	Parser::parseF() {
 	return nullptr;
 }
 
-/* Expression --------------------------------------------------------------- */
-
-Parser::shared_node	Parser::parseE() {
-	shared_node	a = parseT();
-
-	while (true) {
-		if (_token == "+") {
-			_ret = _tokenizer.scanToken(_token);
-			shared_node b = parseT();
-			Add		add(a, b)
-		}
-	}
-	return nullptr;
-}
 
 /* Term --------------------------------------------------------------------- */
 
-Parser::shared_node	Parser::parseT() {
-	return nullptr;
+/**
+ * GRAMMAR:
+ * 	T	: F * T
+ * 		| F / T
+ * 		| F
+*/
+Parser::unique_node	Parser::parseT() {
+	// _ret = _tokenizer.scanToken(_token);
+	LOG("In parseT");
+	unique_node	a = parseF();
+
+	if (_token == MULTIPLICATION) {
+		_ret = _tokenizer.scanToken(_token);
+		unique_node	b = parseT();
+		if (b == nullptr)
+			throw IncorrectSyntax("EXpecting value after *");
+		Multiply	mul(std::move(a), std::move(b));
+		return mul.toNode();
+	} else if (_token == DIVISION) {
+		_ret = _tokenizer.scanToken(_token);
+		unique_node	b = parseT();
+		if (b == nullptr)
+			throw IncorrectSyntax("Expecting value after /");
+		Divide		div(std::move(a), std::move(b));
+		return div.toNode();
+	}
+	return a;
 }

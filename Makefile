@@ -6,7 +6,7 @@
 #    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/02/10 14:24:47 by eli              ###   ########.fr        #
+#    Updated: 2023/02/11 13:23:59 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,6 @@ SRCS	= rational.cpp \
 			tree.cpp \
 			tokenizer.cpp \
 			parser.cpp \
-			parser_e.cpp \
-			parser_f.cpp \
 			main.cpp
 
 OBJS	= $(SRCS:.cpp=.o)

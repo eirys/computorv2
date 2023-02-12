@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:39:57 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 20:02:19 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 10:55:22 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ class Multiply: public virtual ATreeNode {
 		typedef typename	base::weak_itype			weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
-		Multiply(const shared_node& left, const shared_node& right):
-			base(left, right) {}
+		Multiply(unique_node&& left, unique_node&& right):
+			base(std::move(left), std::move(right)) {}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Multiply() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() const {
+		const shared_itype	eval() {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);
@@ -49,14 +49,16 @@ class Multiply: public virtual ATreeNode {
 			return nullptr;
 		}
 
-		void				print() const {
+		void				print() {
 			base::getLeft()->print();
 			std::cout << '*';
 			base::getRight()->print();
 		}
 
-		shared_node			toNode() const {
-			return shared_node(new Multiply(base::getLeft(), base::getRight()));
+		unique_node			toNode() {
+			return unique_node(
+				new Multiply(std::move(base::getLeft()), std::move(base::getRight()))
+			);
 		}
 };
 

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 14:34:39 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 20:05:05 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 10:56:13 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ class Substract: virtual public ATreeNode {
 		typedef typename	base::weak_itype			weak_itype;
 
 		/* Initialized ------------------------------------------------------------ */
-		Substract(const shared_node& left, const shared_node& right):
-			base(left, right) {}
+		Substract(unique_node&& left, unique_node&& right):
+			base(std::move(left), std::move(right)) {}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Substract() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval()  const {
+		const shared_itype	eval()  {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);
@@ -49,7 +49,7 @@ class Substract: virtual public ATreeNode {
 			return nullptr;
 		}
 
-		void				print() const {
+		void				print() {
 			std::cout << '(';
 			base::getLeft()->print();
 			std::cout << '-';
@@ -57,8 +57,10 @@ class Substract: virtual public ATreeNode {
 			std::cout << ')';
 		}
 
-		shared_node			toNode() const {
-			return shared_node(new Substract(base::getLeft(), base::getRight()))
+		unique_node			toNode() {
+			return unique_node(
+				new Substract(std::move(base::getLeft()), std::move(base::getRight()))
+			);
 		}
 };
 

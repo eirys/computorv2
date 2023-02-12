@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 20:05:18 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 11:01:02 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ class Variable: virtual public ATreeNode {
 		virtual ~Variable() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() const {
+		const shared_itype	eval() {
 			return _val_ptr;
 		}
 
-		void				print() const {
+		void				print() {
 			std::cout << *_val_ptr;
 		}
 
-		shared_node			toNode() const {
-			return shared_node(new Variable(_val_ptr));
+		unique_node			toNode() {
+			return unique_node(new Variable(_val_ptr));
 		}
 
 	private:
@@ -60,22 +60,22 @@ class Variable: virtual public ATreeNode {
 /*                                    UTILS                                   */
 /* ========================================================================== */
 
-inline Variable::shared_node	createVariable(const Rational& x) {
+inline Variable::unique_node	createVariable(const Rational& x) {
 	Variable::shared_itype	tmp(new Rational(x));
 
-	return Variable::shared_node(new Variable(tmp));
+	return Variable::unique_node(new Variable(tmp));
 }
 
-inline Variable::shared_node	createVariable(const Complex& x) {
+inline Variable::unique_node	createVariable(const Complex& x) {
 	Variable::shared_itype	tmp(new Complex(x));
 
-	return Variable::shared_node(new Variable(tmp));
+	return Variable::unique_node(new Variable(tmp));
 }
 
-inline Variable::shared_node	createVariable(const Matrix& x) {
+inline Variable::unique_node	createVariable(const Matrix& x) {
 	Variable::shared_itype	tmp(new Matrix(x));
 
-	return Variable::shared_node(new Variable(tmp));
+	return Variable::unique_node(new Variable(tmp));
 }
 
 #endif

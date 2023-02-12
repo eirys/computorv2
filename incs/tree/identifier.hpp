@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 21:11:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 10:54:38 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,21 @@ class Identifier: public ATreeNode {
 		typedef typename	base::weak_itype		weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
-		Identifier(const std::string& name, const shared_node& value = nullptr):
-			base(nullptr, value),
+		Identifier(const std::string& name, unique_node&& value = nullptr):
+			base(nullptr, std::move(value)),
 			_name(name) {}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Identifier() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype		eval() const {
+		const shared_itype		eval() {
 			if (base::getRight() == nullptr)
 				throw Identifier::ValueUnset();
 			return base::getRight()->eval();
 		}
 
-		void					print() const {
+		void					print() {
 			std::cout << _name;
 			if (base::getRight() == nullptr)
 				return;
@@ -58,8 +58,10 @@ class Identifier: public ATreeNode {
 			base::getRight()->print();
 		}
 
-		shared_node				toNode() const {
-			return shared_node(new Identifier(_name, base::getRight()));
+		unique_node				toNode() {
+			return unique_node(
+				new Identifier(_name, std::move(base::getRight()))
+			);
 		}
 
 		/* Exception -------------------------------------------------------------- */

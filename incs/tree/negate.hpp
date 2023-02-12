@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 15:10:38 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 20:04:39 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 10:55:59 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ class Negate: public virtual ATreeNode {
 		typedef typename	base::weak_itype			weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
-		Negate(const shared_node& right):
-			base(nullptr, right) {}
+		Negate(unique_node&& right):
+			base(nullptr, std::move(right)) {}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Negate() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() const {
+		const shared_itype	eval() {
 			const shared_itype&			tmp = base::getRight()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);
@@ -49,14 +49,16 @@ class Negate: public virtual ATreeNode {
 			return nullptr;
 		}
 
-		void				print() const {
+		void				print() {
 			std::cout << "(-";
 			base::getRight()->print();
 			std::cout <<')';			
 		}
 
-		shared_node			toNode() const {
-			return shared_node(new Negate(base::getRight()));
+		unique_node			toNode() {
+			return unique_node(
+				new Negate(std::move(base::getRight()))
+			);
 		}
 };
 

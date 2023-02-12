@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 15:57:53 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 11:59:21 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 10:54:06 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,18 @@ class Function: public ATreeNode {
 
 		Function(
 			const std::string& name,
-			// const shared_node& identifier,
-			const shared_node& body
-			// const Tree& body
+			unique_node&& body
 			):
-			base(nullptr/* identifier */, body/* body.getHead() */),
+			base(nullptr/* identifier */, std::move(body)/* body.getHead() */),
 			_name(name) {}
 
 		virtual ~Function() {}
 
-		const shared_itype		eval() const {
+		const shared_itype		eval() {
 			return base::getRight()->eval();
 		}
 
-		void					print() const {
+		void					print() {
 			std::cout << "Function '" << _name << "': ";
 			base::getRight()->print();
 		}
