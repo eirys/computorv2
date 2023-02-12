@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 11:10:01 by eli              ###   ########.fr       */
+/*   Updated: 2023/02/12 11:12:56 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,14 @@ Parser::unique_node	Parser::parseT() {
 	unique_node	a = parseF();
 
 	if (_token == MULTIPLICATION) {
-		_ret = _tokenizer.scanToken(_token);
+		// _ret = _tokenizer.scanToken(_token);
 		unique_node	b = parseT();
 		if (b == nullptr)
 			throw IncorrectSyntax("EXpecting value after *");
 		Multiply	mul(std::move(a), std::move(b));
 		return mul.toNode();
 	} else if (_token == DIVISION) {
-		_ret = _tokenizer.scanToken(_token);
+		// _ret = _tokenizer.scanToken(_token);
 		unique_node	b = parseT();
 		if (b == nullptr)
 			throw IncorrectSyntax("Expecting value after /");
