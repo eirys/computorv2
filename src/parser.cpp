@@ -42,7 +42,7 @@ Parser::unique_node	Parser::parseE() {
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting variable after +");
 			Add	add(std::move(a), std::move(b));
-			a = std::move(add.toNode());
+			a = add.toNode();
 			// _ret = _tokenizer.scanToken(_token);
 		} else if (_token == SUBSTRACTION) {
 			LOG("Ret was substraction");
@@ -50,7 +50,7 @@ Parser::unique_node	Parser::parseE() {
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting variable after -");
 			Substract	sub(std::move(a), std::move(b));
-			a = std::move(sub.toNode());
+			a = sub.toNode();
 			// _ret = _tokenizer.scanToken(_token);
 		} else {
 			break;

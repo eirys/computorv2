@@ -67,7 +67,7 @@ class Identifier: public ATreeNode {
 		/* Exception -------------------------------------------------------------- */
 		class ValueUnset: public std::exception {
 			public:
-				constexpr const char* what() const throw() {
+				const char* what() const throw() {
 					return "Variable value not set";
 				}
 		};

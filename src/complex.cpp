@@ -208,7 +208,7 @@ Complex& Complex::operator%=(const Rational& rhs) {
 Complex Complex::operator%(const Rational& rhs) const {
 	Complex	tmp(*this);
 
-	tmp.operator%(rhs);
+	tmp.operator%=(rhs);
 	return tmp;
 }
 

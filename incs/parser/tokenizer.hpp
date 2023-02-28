@@ -39,14 +39,14 @@ class Tokenizer {
 		/* Exception -------------------------------------------------------------- */
 		class BadFormat: public std::exception {
 			public:
-				constexpr const char* what() const throw() {
+				const char* what() const throw() {
 					return "Input has bad format";
 				}
 		};
 
 		class EmptyInput: public std::exception {
 			public:
-				constexpr const char* what() const throw() {
+				const char* what() const throw() {
 					return "Input is empty";
 				}
 
