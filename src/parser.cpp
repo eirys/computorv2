@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 11:12:56 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/03 23:44:44 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,28 @@ Parser::unique_node	Parser::parseE() {
 
 	while (_ret != EMPTY) {
 		if (_token == ADDITION) {
-			LOG("Ret was addition");
+			// T + T
+			LOG("Addition");
 			unique_node b = parseT();
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting variable after +");
 			Add	add(std::move(a), std::move(b));
 			a = add.toNode();
-			// _ret = _tokenizer.scanToken(_token);
 		} else if (_token == SUBSTRACTION) {
-			LOG("Ret was substraction");
+			// T - T
+			LOG("Subs");
 			unique_node	b = parseT();
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting variable after -");
 			Substract	sub(std::move(a), std::move(b));
 			a = sub.toNode();
-			// _ret = _tokenizer.scanToken(_token);
+		} else if (_token == WHITESPACES) {
+			// Whitespace
+			LOG("WS");
+			_tokenizer.scanToken(_token);
+			continue;
 		} else {
+			LOG("No'in");
 			break;
 		}
 	}
@@ -100,7 +106,6 @@ Parser::unique_node	Parser::parseF() {
 		return id.toNode();
 	} else if (_ret == ERATIONAL) {
 		Rational	value(std::stold(_token));
-		LOG("Out: " << value);
 		_ret = _tokenizer.scanToken(_token);
 		return createVariable(value);
 	} else if (_ret == EDELIMITER) {

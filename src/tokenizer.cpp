@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 08:45:04 by eli               #+#    #+#             */
-/*   Updated: 2023/02/11 21:45:09 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/03 23:17:07 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ Tokenizer::e_tokentype Tokenizer::scanToken(std::string& holder) {
 		throw BadFormat();
 	}
 	holder = _update_token(next_pos);
-	LOG("Sanned: " << holder);
+	LOG("Sanned: `" << holder << '`');
 	_current_pos = next_pos;
 	return ret;
 }
