@@ -30,12 +30,13 @@ class Parser {
 	public:
 		typedef typename	ATreeNode::unique_node	unique_node;
 		typedef typename	Tokenizer::e_tokentype	e_tokentype;
+		typedef				unique_node				result_tree;
 
 		Parser(const std::string& raw);
 		virtual ~Parser();
 
 		/* Parsing Functions ------------------------------------------------------ */
-		unique_node			parseE();
+		result_tree			parse();
 
 		/* Exception -------------------------------------------------------------- */
 		class IncorrectSyntax: public std::exception {
@@ -51,17 +52,26 @@ class Parser {
 				const std::string	_specificity;
 		};
 
+		class EmptyContent: public std::exception {
+			const char* what() const throw() {
+				return "Empty content";
+			}
+		};
+
 	private:
 		Tokenizer			_tokenizer;
 		std::string			_token;
 		e_tokentype			_ret;
 
 		/* Parse Function Helper -------------------------------------------------- */
+		unique_node			_parseE();
 		unique_node			_parseF();
 		unique_node			_parseT();
 
 		/* Utils ------------------------------------------------------------------ */
-		Complex				_convertTokenToImaginary() const;
+		unique_node			_parseSimpleValue();
+		unique_node			_parseMatrix();
+		Matrix::row			_parseMatrixRow();
 };
 
 #endif

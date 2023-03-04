@@ -24,6 +24,7 @@ enum TokenType {
 	EIMAGINARY,
 	EDELIMITER,
 	ESYMBOL,
+	EMATRIX_ROW,
 	EMPTY
 };
 

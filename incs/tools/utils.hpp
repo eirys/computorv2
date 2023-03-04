@@ -37,9 +37,6 @@ namespace utils {
 
 template <typename T>
 	void display(const std::list<T>& l);
-	
-template <typename T>
-	size_t getWidth(const T& val);
 
 /* ========================================================================== */
 /*                                 DEFINITION                                 */
@@ -51,14 +48,6 @@ template <typename T>
 			std::cout << '[' << *it << "] ";
 		std::cout << std::endl;
 	}
-
-template <typename T>
-inline size_t getWidth(const T& val) {
-	std::ostringstream o;
-
-	o << std::setprecision(FLOAT_PRECISION) << val;
-	return o.str().size();
-}
 
 inline bool	isCharset(const char c, const std::string charset) {
 	if (charset.find(c) != std::string::npos)

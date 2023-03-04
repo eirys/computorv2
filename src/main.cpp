@@ -169,19 +169,23 @@ void test7() {
 }
 
 void test8() {
-	try {
-		while (!std::cin.eof()) {
+	while (true) {
+		try {
 			std::string		entry;
 			std::getline(std::cin, entry);
 
 			Parser	parser(entry);
-			Parser::unique_node	output = parser.parseE();
+			Parser::unique_node	output = parser.parse();
 
 			output->print();
-			std::cout << "= " << *output->eval() << NL;
+			std::cout << " = " << *output->eval() << NL;
+		} catch (const Tokenizer::EmptyInput& empty) {
+			break;
+		} catch (const Parser::EmptyContent& ws) {
+			continue;
+		} catch (const std::exception& e) {
+			cerr << e.what() << NL;
 		}
-	} catch (const std::exception& e) {
-		cerr << e.what() << NL;
 	}
 }
 

@@ -106,12 +106,12 @@ class Matrix: public IType {
 		bool				operator!() const;
 		bool				isSameSize(const Matrix& rhs) const;
 		bool				isSquare() const;
-		size_t				getMaxLength() const;
-
+		
 	private:
 		size_t				_n;			// nb rows
 		size_t				_p;			// nb columns
 		matrix				_matrix;
+
 		
 		/* Utils ------------------------------------------------------------------ */
 		shared_itype		_rational_operator(

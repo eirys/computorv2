@@ -383,23 +383,6 @@ bool Matrix::isSquare() const {
 	return getNbColumns() == getNbRows();
 }
 
-size_t Matrix::getMaxLength() const {
-	size_t	biggest = MIN_W_SIZE;
-	
-	for (Matrix::matrix::const_iterator it = getMatrix().begin();
-	it != getMatrix().end();
-	++it) {
-		for (Matrix::row::const_iterator ite = it->begin();
-		ite != it->end();
-		++ite) {
-			size_t tmp = utils::getWidth(*ite);
-			if (tmp > biggest)
-				biggest = tmp;
-		}
-	}
-	return biggest;
-}
-
 /* ========================================================================== */
 /*                                   PRIVATE                                  */
 /* ========================================================================== */
@@ -440,18 +423,11 @@ bool operator!=(const Matrix& x, const Matrix& y) {
 
 /* I/O stream operator ------------------------------------------------------ */
 
-/**
- * TODO:
- * 	get largest element for each COLUMN
- * 	save length value in array
- * 	
-*/
 std::ostream& operator<<(std::ostream& o, const Matrix& x) {
 	std::ostringstream	os;
 
-	os << std::setprecision(3);
+	os << std::setprecision(3) << '[';
 
-	size_t field_w = x.getMaxLength() + 1;
 	for (Matrix::matrix::const_iterator it = x.getMatrix().begin();
 	it != x.getMatrix().end();
 	++it) {
@@ -459,14 +435,15 @@ std::ostream& operator<<(std::ostream& o, const Matrix& x) {
 		for (Matrix::row::const_iterator ite = it->begin();
 		ite != it->end();
 		++ite) {
-			os << std::setw(field_w) << *ite;
-			if (ite + 1 == it->end() + 1)
-				os << ' ';
+			os << *ite;
+			if (ite + 1 != it->end())
+				os << ',';
 		}
 		os << ']';
 		if (it + 1 != x.getMatrix().end())
-			os << NL;
+			os << ',';
 	}
+	os << ']';
 	o << os.str();
 	return o;
 }
