@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/03 23:44:44 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/04 17:48:42 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ Parser::result_tree Parser::parse() {
 /* ========================================================================== */
 /*                                   PRIVATE                                  */
 /* ========================================================================== */
-
-/* Expression --------------------------------------------------------------- */
 
 /**
  * GRAMMAR:
@@ -70,8 +68,6 @@ Parser::unique_node	Parser::_parseE() {
 	}
 	return a;
 }
-
-/* Factor ------------------------------------------------------------------- */
 
 /**
  * GRAMMAR:
@@ -119,12 +115,12 @@ Parser::unique_node	Parser::_parseF() {
 	return nullptr;
 }
 
-/* Term --------------------------------------------------------------------- */
-
 /**
  * GRAMMAR:
  * 	T	: F * T
  * 		| F / T
+ * 		| F % T
+ * 		| F ^ T
  * 		| F
 */
 Parser::unique_node	Parser::_parseT() {
@@ -135,16 +131,23 @@ Parser::unique_node	Parser::_parseT() {
 		// F * T
 		unique_node	b = _parseT();
 		if (b == nullptr)
-			throw IncorrectSyntax("Expecting value after *");
+			throw IncorrectSyntax("Expecting value after `*`");
 		Multiply	mul(std::move(a), std::move(b));
 		return mul.toNode();
 	} else if (_token == DIVISION) {
 		// F / T
 		unique_node	b = _parseT();
 		if (b == nullptr)
-			throw IncorrectSyntax("Expecting value after /");
+			throw IncorrectSyntax("Expecting value after `/`");
 		Divide		div(std::move(a), std::move(b));
 		return div.toNode();
+	} else if (_token == MODULO) {
+		// F % T
+		unique_node b = _parseT();
+		if (b == nullptr)
+			throw IncorrectSyntax("Expecting value after `%`");
+		Modulo		mod(std::move(a), std::move(b));
+		return mod.toNode();
 	}
 	return a;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 11:11:16 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/04 17:43:02 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,6 @@ void test4() {
 	cout << (c * c.getReal()) << NL;
 }
 
-void test5() {
-	Complex		a(1, 1);
-	Rational	b(6);
-	cout << "test5" << NL;
-	cout << (b ^ 2) << NL;
-	cout << (a ^ 2) << NL;
-}
 
 // void test6() {
 // 	try {

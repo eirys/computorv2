@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itype.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:25:22 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 12:10:34 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/04 17:22:34 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ class IType {
 		virtual shared_itype	operator-(const shared_itype& rhs) const = 0;
 		virtual shared_itype	operator*(const shared_itype& rhs) const = 0;
 		virtual shared_itype	operator/(const shared_itype& rhs) const = 0;
+		virtual shared_itype	operator^(const shared_itype& rhs) const = 0;
+		virtual shared_itype	operator%(const shared_itype& rhs) const = 0;
 };
 
 /* Utils -------------------------------------------------------------------- */

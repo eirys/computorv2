@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 12:07:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/04 17:41:49 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,32 @@ Matrix::shared_itype		Matrix::operator/(const shared_itype& rhs_ptr) const {
 	return nullptr;
 }
 
+Matrix::shared_itype		Matrix::operator%(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Matrix::operator%, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Matrix::operator%, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Matrix::operator%, m_ptr);
+	return nullptr;
+}
+
+Matrix::shared_itype		Matrix::operator^(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Matrix::operator^, r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Matrix::operator^, c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Matrix::operator^, m_ptr);
+	return nullptr;
+}
+
 /* Arith operators ---------------------------------------------------------- */
 
 Matrix Matrix::operator-() const {
@@ -264,11 +290,9 @@ Matrix& Matrix::operator^=(const Rational& rhs) {
 	return *this;
 }
 
-Matrix Matrix::operator^(const Rational& rhs) const {
-	Matrix	tmp(*this);
-
-	tmp.operator^=(rhs);
-	return tmp;
+Matrix Matrix::operator^(const Matrix& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
 }
 
 Matrix& Matrix::operator%=(const Rational& rhs) {
@@ -276,7 +300,7 @@ Matrix& Matrix::operator%=(const Rational& rhs) {
 	throw math::operation_undefined();
 }
 
-Matrix Matrix::operator%(const Rational& rhs) const {
+Matrix Matrix::operator%(const Matrix& rhs) const {
 	(void)rhs;
 	throw math::operation_undefined();
 }
@@ -317,6 +341,18 @@ Matrix Matrix::operator/(const Rational& rhs) const {
 	return tmp;
 }
 
+Matrix Matrix::operator^(const Rational& rhs) const {
+	Matrix	tmp(*this);
+
+	tmp.operator^=(rhs);
+	return tmp;
+}
+
+Matrix Matrix::operator%(const Rational& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
+}
+
 /* -------------------------------------------------------------------------- */
 
 Matrix	Matrix::operator+(const Complex& rhs) const {
@@ -344,6 +380,20 @@ Matrix	Matrix::operator/(const Complex& rhs) const {
 
 		return operator/(tmp);
 	}
+	throw math::operation_undefined();
+}
+
+Matrix Matrix::operator^(const Complex& rhs) const {
+	if (!rhs.isReal())
+		throw math::operation_undefined();
+	Matrix	tmp(*this);
+
+	tmp.operator^=(rhs.getReal());
+	return tmp;
+}
+
+Matrix Matrix::operator%(const Complex& rhs) const {
+	(void)rhs;
 	throw math::operation_undefined();
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 12:11:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/04 17:29:42 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,32 @@ Rational::shared_itype	Rational::operator/(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
 	if (m_ptr.get())
 		return _matrix_operator(&Rational::operator/, m_ptr);
+	return nullptr;
+}
+
+Rational::shared_itype	Rational::operator%(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Rational::operator%, r_ptr);
+	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Rational::operator%, c_ptr);
+	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Rational::operator%, m_ptr);
+	return nullptr;
+}
+
+Rational::shared_itype	Rational::operator^(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Rational::operator^, r_ptr);
+	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Rational::operator^, c_ptr);
+	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Rational::operator^, m_ptr);
 	return nullptr;
 }
 
@@ -240,6 +266,24 @@ Complex Rational::operator/(const Complex& rhs) const {
 	return tmp;
 }
 
+Complex Rational::operator^(const Complex& rhs) const {
+	if (!rhs.isReal())
+		throw math::operation_undefined();
+	Complex tmp(*this);
+
+	tmp.operator^=(rhs.getReal());
+	return tmp;
+}
+
+Complex Rational::operator%(const Complex& rhs) const {
+	if (!rhs.isReal())
+		throw math::operation_undefined();
+	Complex tmp(*this);
+
+	tmp.operator%=(rhs.getReal());
+	return tmp;
+}
+
 /* -------------------------------------------------------------------------- */
 
 Matrix Rational::operator+(const Matrix& rhs) const {
@@ -258,6 +302,16 @@ Matrix Rational::operator*(const Matrix& rhs) const {
 
 Matrix Rational::operator/(const Matrix& rhs) const {
 	return rhs.operator/(*this);
+}
+
+Matrix Rational::operator^(const Matrix& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
+}
+
+Matrix Rational::operator%(const Matrix& rhs) const {
+	(void)rhs;
+	throw math::operation_undefined();
 }
 
 /* Getters ------------------------------------------------------------------ */

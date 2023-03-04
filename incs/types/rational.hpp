@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 12:12:42 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/04 17:35:18 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ class Rational: public IType {
 		shared_itype	operator-(const shared_itype& rhs) const;
 		shared_itype	operator*(const shared_itype& rhs) const;
 		shared_itype	operator/(const shared_itype& rhs) const;
+		shared_itype	operator^(const shared_itype& rhs) const;
+		shared_itype	operator%(const shared_itype& rhs) const;
 
 		/* Arith Operators -------------------------------------------------------- */
 		Rational		operator-() const;
@@ -79,12 +81,16 @@ class Rational: public IType {
 		Complex			operator-(const Complex& rhs) const;
 		Complex			operator*(const Complex& rhs) const;
 		Complex			operator/(const Complex& rhs) const;
+		Complex			operator^(const Complex& rhs) const;
+		Complex			operator%(const Complex& rhs) const;
 
 		/* Matrix Operators ------------------------------------------------------- */
 		Matrix			operator+(const Matrix& rhs) const;		// undefined
 		Matrix			operator-(const Matrix& rhs) const;		// undefined
 		Matrix			operator*(const Matrix& rhs) const;
 		Matrix			operator/(const Matrix& rhs) const;
+		Matrix			operator^(const Matrix& rhs) const;		// undefined
+		Matrix			operator%(const Matrix& rhs) const;		// undefined
 
 		/* Getter ----------------------------------------------------------------- */
 		long double		getVal() const;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   complex.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/02/10 12:13:21 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/04 17:37:30 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ class Complex: public IType {
 		shared_itype	operator-(const shared_itype& rhs_ptr) const;
 		shared_itype	operator*(const shared_itype& rhs_ptr) const;
 		shared_itype	operator/(const shared_itype& rhs_ptr) const;
+		shared_itype	operator^(const shared_itype& rhs_ptr) const;
+		shared_itype	operator%(const shared_itype& rhs_ptr) const;
 
 		/* Arith. Operators ------------------------------------------------------- */
 		Complex			operator-() const;
@@ -72,22 +74,26 @@ class Complex: public IType {
 		Complex			operator/(const Complex& rhs) const;
 
 		Complex&		operator^=(const Rational& rhs);
-		Complex			operator^(const Rational& rhs) const;
+		Complex			operator^(const Complex& rhs) const;
 
 		Complex&		operator%=(const Rational& rhs);
-		Complex			operator%(const Rational& rhs) const;
+		Complex			operator%(const Complex& rhs) const;
 
 		/* Rational Operators ----------------------------------------------------- */
 		Complex			operator+(const Rational& rhs) const;
 		Complex			operator-(const Rational& rhs) const;
 		Complex			operator*(const Rational& rhs) const;
 		Complex			operator/(const Rational& rhs) const;
+		Complex			operator^(const Rational& rhs) const;
+		Complex			operator%(const Rational& rhs) const;
 
 		/* Matrix Operators ------------------------------------------------------- */
 		Matrix			operator+(const Matrix& rhs) const;		// undefined
 		Matrix			operator-(const Matrix& rhs) const;		// undefined
 		Matrix			operator*(const Matrix& rhs) const;
 		Matrix			operator/(const Matrix& rhs) const;
+		Matrix			operator^(const Matrix& rhs) const;		// undefined
+		Matrix			operator%(const Matrix& rhs) const;		// undefined
 
 		/* Getter ----------------------------------------------------------------- */
 		Rational		getReal() const;
