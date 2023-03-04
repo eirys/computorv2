@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 15:57:53 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 10:54:06 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/04 21:34:15 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FUNCTION_HPP
 
 # include "atree_node.hpp"
-# include "tree.hpp"
 
 /**
  * Function		: name ( Variable ) = E

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 18:24:25 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/04 21:33:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 /*                                   PUBLIC                                   */
 /* ========================================================================== */
 
-Parser::Parser(const std::string& raw):
+Parser::Parser(const Computor& global_scope, const std::string& raw):
+	_memory(global_scope.getMemory()),
 	_tokenizer(raw),
 	_ret(EMPTY) {}
 
@@ -38,7 +39,7 @@ Parser::result_tree Parser::parse() {
 /* ========================================================================== */
 
 Parser::unique_node	Parser::_parseD() {
-	
+	return nullptr;
 }
 
 /**

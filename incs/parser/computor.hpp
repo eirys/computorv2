@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/04 18:30:11 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/04 21:28:03 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,20 @@
 # include <stack>
 # include <memory>
 
-# include "./tree/variable.hpp"
+# include "variable.hpp"
 
 class Computor {
 	public:
-		typedef			std::stack<Variable>			variable;
+		typedef			std::shared_ptr<Variable>		variable_ptr;
+		typedef			std::stack<variable_ptr>		context;
 
 		Computor();
 		virtual ~Computor();
 
-		void							execute();
+		const context&					getMemory() const;
 
 	private:
-		variable						_memory;
+		context							_memory;
 };
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/04 18:30:56 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/04 21:27:56 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,3 +20,6 @@ Computor::Computor() {}
 
 Computor::~Computor() {}
 
+const Computor::context&	Computor::getMemory() const {
+	return _memory;
+}

@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 18:01:04 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/04 21:42:15 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include<string>
 #include<iostream>
 
-#include "rational.hpp"
-#include "complex.hpp"
 #include "utils.hpp"
 #include "math.hpp"
+
+#include "rational.hpp"
+#include "complex.hpp"
 #include "matrix.hpp"
 #include "function.hpp"
 #include "atree_node.hpp"
@@ -29,6 +30,7 @@
 # include "negate.hpp"
 # include "identifier.hpp"
 
+#include "computor.hpp"
 #include "parser.hpp"
 
 using std::cout;
@@ -161,12 +163,13 @@ void test7() {
 }
 
 void test8() {
+	Computor	computor_context;
 	while (true) {
 		try {
 			std::string		entry;
 			std::getline(std::cin, entry);
 
-			Parser	parser(entry);
+			Parser	parser(computor_context, entry);
 			Parser::unique_node	output = parser.parse();
 
 			output->print();
