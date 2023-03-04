@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
+#    By: etran <etran@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/02/11 13:23:59 by eli              ###   ########.fr        #
+#    Updated: 2023/03/04 18:11:41 by etran            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS	= rational.cpp \
 			tree.cpp \
 			tokenizer.cpp \
 			parser.cpp \
+			computor.cpp \
 			main.cpp
 
 OBJS	= $(SRCS:.cpp=.o)

@@ -6,11 +6,14 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 17:08:11 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/04 18:30:38 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_HPP
+# define PARSER_HPP
+
+# include "computor.hpp"
 
 # include "tokenizer.hpp"
 
@@ -37,7 +40,7 @@ class Parser {
 		Parser(const std::string& raw);
 		virtual ~Parser();
 
-		/* Parsing Functions ------------------------------------------------------ */
+		/* Main Function ---------------------------------------------------------- */
 		result_tree			parse();
 
 		/* Exception -------------------------------------------------------------- */
@@ -64,6 +67,7 @@ class Parser {
 		Tokenizer			_tokenizer;
 		std::string			_token;
 		e_tokentype			_ret;
+		Computor&			_context;
 
 		/* Parse Function Helper -------------------------------------------------- */
 		unique_node			_parseE();

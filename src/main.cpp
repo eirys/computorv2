@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 17:43:02 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/04 18:01:04 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "math.hpp"
 #include "matrix.hpp"
 #include "function.hpp"
-#include "tree.hpp"
 #include "atree_node.hpp"
 
 # include "variable.hpp"
