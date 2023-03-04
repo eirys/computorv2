@@ -69,8 +69,8 @@ void test2() {
 		b*= b;
 		cout << b << NL;
 
-		b/=b;
-		cout << b << NL;
+		// b/= b;
+		// cout << b << NL;
 
 }
 

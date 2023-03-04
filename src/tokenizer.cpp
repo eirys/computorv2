@@ -40,12 +40,17 @@ Tokenizer::e_tokentype Tokenizer::scanToken(std::string& holder) {
 	} else if (utils::isCharset(_raw[_current_pos], WHITESPACES)) {
 		next_pos = _find_not_of(WHITESPACES);
 		ret = EWHITESPACE;
-	} else if (utils::isCharset(_raw[_current_pos], NAME)) {
-		next_pos = _find_not_of(NAME);
-		ret = ENAME;
+	} else if (utils::isCharset(_raw[_current_pos], IMAGINARY_I)
+		&& _current_pos + 1 <= _raw.length()
+		&& !utils::isCharset(_raw[_current_pos + 1], NAME)) {
+		next_pos = _find_not_of(IMAGINARY);
+		ret = EIMAGINARY;
 	} else if (utils::isCharset(_raw[_current_pos], RATIONAL)) {
 		next_pos = _find_not_of(RATIONAL);
 		ret = ERATIONAL;
+	} else if (utils::isCharset(_raw[_current_pos], NAME)) {
+		next_pos = _find_not_of(NAME);
+		ret = ENAME;
 	} else if (utils::isCharset(_raw[_current_pos], DELIMITER)) {
 		next_pos = _current_pos + 1;
 		if (next_pos >= _raw.size())
@@ -62,6 +67,10 @@ Tokenizer::e_tokentype Tokenizer::scanToken(std::string& holder) {
 	holder = _update_token(next_pos);
 	LOG("Sanned: `" << holder << '`');
 	_current_pos = next_pos;
+	if (ret == EWHITESPACE) {
+		// Ignore whitespace
+		return scanToken(holder);
+	}
 	return ret;
 }
 

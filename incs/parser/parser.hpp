@@ -35,9 +35,7 @@ class Parser {
 		virtual ~Parser();
 
 		/* Parsing Functions ------------------------------------------------------ */
-		unique_node			parseF();
 		unique_node			parseE();
-		unique_node			parseT();
 
 		/* Exception -------------------------------------------------------------- */
 		class IncorrectSyntax: public std::exception {
@@ -57,6 +55,13 @@ class Parser {
 		Tokenizer			_tokenizer;
 		std::string			_token;
 		e_tokentype			_ret;
+
+		/* Parse Function Helper -------------------------------------------------- */
+		unique_node			_parseF();
+		unique_node			_parseT();
+
+		/* Utils ------------------------------------------------------------------ */
+		Complex				_convertTokenToImaginary() const;
 };
 
 #endif

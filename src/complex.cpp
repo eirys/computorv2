@@ -27,13 +27,13 @@ Complex::~Complex() {}
 Complex::Complex(const Complex& x):
 	_re(x.getReal()),
 	_im(x.getImaginary()) {
-		LOG("Complex copy");
+		// LOG("Complex copy");
 }
 
 Complex::Complex(const Rational& x, const Rational& y):
 	_re(x),
 	_im(y) {
-		LOG("Complex rational");
+		// LOG("Complex rational");
 }
 
 /* -------------------------------------------------------------------------- */
