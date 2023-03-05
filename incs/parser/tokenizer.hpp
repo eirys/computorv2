@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 07:58:58 by eli               #+#    #+#             */
-/*   Updated: 2023/02/11 21:30:26 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/05 10:39:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ enum TokenType {
 	EIMAGINARY,
 	EDELIMITER,
 	ESYMBOL,
-	EMATRIX_ROW,
-	EMPTY
+	EEXPRESSION,
+	EEMPTY
 };
 
 class Tokenizer {

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 10:54:38 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/05 09:45:40 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <string>
 
 # include "atree_node.hpp"
+# include "computor.hpp"
 
 /**
  * Identifier	: { char | _ }+
@@ -26,14 +27,14 @@
 */
 class Identifier: public ATreeNode {
 	public:
-		typedef 			ATreeNode				base;
-		typedef typename	base::unique_node		unique_node;
-		typedef typename	base::shared_node		shared_node;
-		typedef typename	base::weak_node			weak_node;
+		typedef 			ATreeNode					base;
+		typedef typename	base::unique_node			unique_node;
+		typedef typename	base::shared_node			shared_node;
+		typedef typename	base::weak_node				weak_node;
 
-		typedef typename	base::unique_itype		unique_itype;
-		typedef typename	base::shared_itype		shared_itype;
-		typedef typename	base::weak_itype		weak_itype;
+		typedef typename	base::unique_itype			unique_itype;
+		typedef typename	base::shared_itype			shared_itype;
+		typedef typename	base::weak_itype			weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
 		Identifier(const std::string& name, unique_node&& value = nullptr):
@@ -46,7 +47,8 @@ class Identifier: public ATreeNode {
 		/* ------------------------------------------------------------------------ */
 		const shared_itype		eval() {
 			if (base::getRight() == nullptr)
-				throw Identifier::ValueUnset();
+				throw Identifier::ValueNotSet();
+			Computor::push(_name, base::getRight()->eval());
 			return base::getRight()->eval();
 		}
 
@@ -65,7 +67,7 @@ class Identifier: public ATreeNode {
 		}
 
 		/* Exception -------------------------------------------------------------- */
-		class ValueUnset: public std::exception {
+		class ValueNotSet: public std::exception {
 			public:
 				const char* what() const throw() {
 					return "Variable value not set";

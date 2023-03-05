@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 21:42:15 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/05 09:18:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void test8() {
 			std::string		entry;
 			std::getline(std::cin, entry);
 
-			Parser	parser(computor_context, entry);
+			Parser	parser(entry);
 			Parser::unique_node	output = parser.parse();
 
 			output->print();

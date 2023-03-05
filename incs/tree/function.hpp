@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 15:57:53 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 21:34:15 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/05 10:00:52 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,8 @@ class Function: public ATreeNode {
 		typedef typename	base::shared_itype			shared_itype;
 		typedef typename	base::weak_itype			weak_itype;
 
-		Function(
-			const std::string& name,
-			unique_node&& body
-			):
-			base(nullptr/* identifier */, std::move(body)/* body.getHead() */),
+		Function(const std::string& name, unique_node&& body):
+			base(nullptr, std::move(body)),
 			_name(name) {}
 
 		virtual ~Function() {}

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 21:59:16 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/05 09:16:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@
 # include <memory>
 # include <iostream>
 
-# include "computor.hpp"
 # include "itype.hpp"
 # include "rational.hpp"
 # include "complex.hpp"
 # include "matrix.hpp"
-# include "computor.hpp"
 
 class ATreeNode {
 	public:
@@ -32,8 +30,6 @@ class ATreeNode {
 		typedef				std::unique_ptr<IType>			unique_itype;
 		typedef				std::shared_ptr<IType>			shared_itype;
 		typedef				std::weak_ptr<IType>			weak_itype;
-
-		typedef typename	Computor::context				context;
 
 		/* Virtual Destructor ----------------------------------------------------- */
 		virtual	~ATreeNode() {}
@@ -59,15 +55,14 @@ class ATreeNode {
 
 	protected:
 		/* Default ---------------------------------------------------------------- */
-		ATreeNode(/* context& memory */):
-			// _context(memory),
+		ATreeNode():
 			_left(),
 			_right() {
 				LOG("Created empty node");
 			}
 
 		/* Initialized Constructor ------------------------------------------------ */
-		ATreeNode(/* context& memory, */ unique_node&& left, unique_node&& right):
+		ATreeNode( unique_node&& left, unique_node&& right):
 			_left(std::move(left)),
 			_right(std::move(right)) {
 				LOG("Created node");
@@ -76,7 +71,6 @@ class ATreeNode {
 		/* ------------------------------------------------------------------------ */
 		unique_node					_left;
 		unique_node					_right;
-		// context&					memory;
 };
 
 #endif

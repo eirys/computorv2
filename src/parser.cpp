@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 21:33:43 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/05 10:59:24 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@
 /*                                   PUBLIC                                   */
 /* ========================================================================== */
 
-Parser::Parser(const Computor& global_scope, const std::string& raw):
-	_memory(global_scope.getMemory()),
+Parser::Parser(const std::string& raw):
 	_tokenizer(raw),
-	_ret(EMPTY) {}
+	_ret(EEMPTY) {}
 
 Parser::~Parser() {}
 
@@ -52,7 +51,7 @@ Parser::unique_node	Parser::_parseE() {
 	LOG("In _parseE");
 	unique_node	a = _parseT();
 
-	while (_ret != EMPTY) {
+	while (_ret != EEMPTY) {
 		if (_token == ADDITION) {
 			// T + T
 			unique_node b = _parseT();
@@ -67,12 +66,13 @@ Parser::unique_node	Parser::_parseE() {
 				throw IncorrectSyntax("Expecting term after `-`");
 			Substract	sub(std::move(a), std::move(b));
 			a = sub.toNode();
-		} else if (_ret != EMPTY) {
+		} else if (_ret != EEMPTY) {
 			throw IncorrectSyntax("Unexpected token: `" + _token + "`");
 		} else {
 			break;
 		}
 	}
+	_ret = EEXPRESSION;
 	return a;
 }
 
@@ -134,6 +134,8 @@ Parser::unique_node	Parser::_parseT() {
 	LOG("In _parseT");
 	unique_node	a = _parseF();
 
+	if (a == nullptr)
+		throw IncorrectSyntax("Expecting value before `" + _token + "`");
 	if (_token == MULTIPLICATION) {
 		// F * T
 		unique_node	b = _parseT();
@@ -155,6 +157,13 @@ Parser::unique_node	Parser::_parseT() {
 			throw IncorrectSyntax("Expecting value after `%`");
 		Modulo		mod(std::move(a), std::move(b));
 		return mod.toNode();
+	} else if (_token == POWER) {
+		// F ^ T
+		unique_node b = _parseT();
+		if (b == nullptr)
+			throw IncorrectSyntax("Expecting value after `^`");
+		Power		pow(std::move(a), std::move(b));
+		return pow.toNode();
 	}
 	return a;
 }
@@ -227,6 +236,5 @@ Matrix::row Parser::_parseMatrixRow() {
 			throw IncorrectSyntax("Expecting value inside bracket");
 		}
 	}
-	_ret = EMATRIX_ROW;
 	return row;
 }

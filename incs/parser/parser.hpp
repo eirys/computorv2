@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 21:50:48 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/05 09:18:06 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,8 @@ class Parser {
 		typedef typename	ATreeNode::unique_node	unique_node;
 		typedef typename	Tokenizer::e_tokentype	e_tokentype;
 		typedef				unique_node				result_tree;
-		typedef typename	Computor::context		context;
 
-		Parser(const Computor& global_scope, const std::string& raw);
+		Parser(const std::string& raw);
 		virtual ~Parser();
 
 		/* Main Function ---------------------------------------------------------- */
@@ -65,7 +64,6 @@ class Parser {
 		};
 
 	private:
-		context&			_memory;
 		Tokenizer			_tokenizer;
 		std::string			_token;
 		e_tokentype			_ret;
