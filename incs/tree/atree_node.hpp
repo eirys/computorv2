@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atree_node.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/03/05 09:16:17 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 18:46:22 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,25 @@
 # include "rational.hpp"
 # include "complex.hpp"
 # include "matrix.hpp"
+
+class Indeterminates {
+	struct VariableWithExponent {
+		size_t address; // address of the shared_ptr
+		int32_t exponent; // exponent
+	}
+	
+	std::map<std::set<VariableWithExponent>, unique_ptr<IType>> the_big_map;
+
+	Indeterminates(Variable& v) {
+		std::set key;
+		key.insert(v);
+		this->the_big_map.insert(key, Rational(1));
+	}
+
+	Indeterminates	operator+(const Indeterminates& other) const {
+		return *this;
+	}
+}
 
 class ATreeNode {
 	public:
@@ -52,6 +71,8 @@ class ATreeNode {
 		virtual const shared_itype	eval() = 0;
 		virtual void				print() = 0;
 		virtual unique_node			toNode() = 0;
+
+		virtual Indeterminates collapse() = 0;
 
 	protected:
 		/* Default ---------------------------------------------------------------- */

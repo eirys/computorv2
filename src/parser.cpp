@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/06 16:35:10 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/06 17:57:35 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ Parser::unique_node	Parser::_parseS() {
  * 
  * GRAMMAR:
  * A	: ID = E
- * 		| Function
 */
 Parser::unique_node	Parser::_parseA() {
 	LOG("In _parseA");
@@ -81,7 +80,8 @@ Parser::unique_node	Parser::_parseA() {
 			Identifier	id(identifier, std::move(value));
 			return id.toNode();
 		} else if (_token == L_PARENTHESIS) {
-
+			// Function
+			;
 		}
 	}
 	throw IncorrectSyntax("Bad assignation");
@@ -223,27 +223,29 @@ Parser::unique_node	Parser::_parseT() {
 
 /* Utils -------------------------------------------------------------------- */
 
-Parser::unique_node	Parser::_parseFunction(const std::string& func_name) {
-	// Function
-	_ret = _tokenizer.scanToken(_token);
 
-	if (_ret == ENAME) {
-		// Variable name
-		std::string		var_name(_token);
-		_ret = _tokenizer.scanToken(_token);
-		if (_token != R_PARENTHESIS)
-			throw IncorrectSyntax("Expecting `)`");
-		_ret = _tokenizer.scanToken(_token);
-		if (_token != EQUAL)
-			throw IncorrectSyntax("Expecting `=`");
-		unique_node		body = _parseE();
-		if (body == nullptr)
-			throw IncorrectSyntax("Expecting function body after `=`");
-		Function	fun(func_name, var_name, body);
-		return fun.toNode();
-	}
-	throw IncorrectSyntax("Expecting variable name in parenthesis");
-}
+//TODO: Better parsing
+// Parser::unique_node	Parser::_parseFunction(const std::string& func_name) {
+// 	// Function
+// 	_ret = _tokenizer.scanToken(_token);
+
+// 	if (_ret == ENAME) {
+// 		// Variable name
+// 		std::string		var_name(_token);
+// 		_ret = _tokenizer.scanToken(_token);
+// 		if (_token != R_PARENTHESIS)
+// 			throw IncorrectSyntax("Expecting `)`");
+// 		_ret = _tokenizer.scanToken(_token);
+// 		if (_token != EQUAL)
+// 			throw IncorrectSyntax("Expecting `=`");
+// 		unique_node		body = _parseE();
+// 		if (body == nullptr)
+// 			throw IncorrectSyntax("Expecting function body after `=`");
+// 		Function	fun(func_name, var_name, body);
+// 		return fun.toNode();
+// 	}
+// 	throw IncorrectSyntax("Expecting variable name in parenthesis");
+// }
 
 Parser::unique_node	Parser::_parseSimpleValue() {
 	if (_ret == ERATIONAL) {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 11:01:02 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 18:46:30 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ class Variable: virtual public ATreeNode {
 
 		unique_node			toNode() {
 			return unique_node(new Variable(_val_ptr));
+		}
+
+		Indeterminates collapse() {
+			return Indeterminates(this);
 		}
 
 	private:

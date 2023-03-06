@@ -6,7 +6,7 @@
 #    By: etran <etran@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/03/04 21:13:38 by eli              ###   ########.fr        #
+#    Updated: 2023/03/06 18:14:24 by etran            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ INC		= -I./incs/types -I./incs/tools -I./incs/tree -I./incs/parser
 SRCS	= rational.cpp \
 			complex.cpp \
 			matrix.cpp \
+			function.cpp \
 			itype.cpp \
 			tokenizer.cpp \
 			parser.cpp \
