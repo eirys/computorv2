@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 08:45:04 by eli               #+#    #+#             */
-/*   Updated: 2023/03/03 23:17:07 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 15:15:43 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ Tokenizer::e_tokentype Tokenizer::scanToken(std::string& holder) {
 
 	 if (_current_pos == std::string::npos) {
 		next_pos = _current_pos;
-		ret = EMPTY;
+		ret = EEMPTY;
 	} else if (utils::isCharset(_raw[_current_pos], WHITESPACES)) {
 		next_pos = _find_not_of(WHITESPACES);
 		ret = EWHITESPACE;

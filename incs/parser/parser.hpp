@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/05 09:18:06 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 16:34:22 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,17 @@ class Parser {
 		Tokenizer			_tokenizer;
 		std::string			_token;
 		e_tokentype			_ret;
+		unique_node			(Parser::*_parsefn)();
 
 		/* Parse Function Helper -------------------------------------------------- */
-		unique_node			_parseD();
+		unique_node			_parseA();
+		unique_node			_parseS();
 		unique_node			_parseE();
 		unique_node			_parseF();
 		unique_node			_parseT();
 
 		/* Utils ------------------------------------------------------------------ */
+		unique_node			_parseFunction(const std::string& func_name);
 		unique_node			_parseSimpleValue();
 		unique_node			_parseMatrix();
 		Matrix::row			_parseMatrixRow();

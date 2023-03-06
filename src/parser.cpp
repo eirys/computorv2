@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/05 10:59:24 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 16:35:10 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,28 @@
 
 Parser::Parser(const std::string& raw):
 	_tokenizer(raw),
-	_ret(EEMPTY) {}
+	_ret(EEMPTY) {
+		if (raw.find(EQUAL) != std::string::npos) {
+			if (raw.find(QUESTION_MARK) != std::string::npos) {
+				_parsefn = &Parser::_parseS;
+			} else {
+				_parsefn = &Parser::_parseA;
+			}
+		} else {
+			_parsefn = &Parser::_parseE;
+		}
+	}
 
 Parser::~Parser() {}
 
 /* Main Function ------------------------------------------------------------ */
 
 Parser::result_tree Parser::parse() {
-	unique_node	ret = _parseE();
+	unique_node	ret = (this->*_parsefn)();
 
 	if (ret == NULL)
 		throw EmptyContent();
+	
 	return ret;
 }
 
@@ -37,11 +48,48 @@ Parser::result_tree Parser::parse() {
 /*                                   PRIVATE                                  */
 /* ========================================================================== */
 
-Parser::unique_node	Parser::_parseD() {
+/**
+ * Solver parsing
+ * 
+ * GRAMMAR:
+ * S	: E = ?
+*/
+Parser::unique_node	Parser::_parseS() {
 	return nullptr;
 }
 
 /**
+ * Assignation parsing
+ * 
+ * GRAMMAR:
+ * A	: ID = E
+ * 		| Function
+*/
+Parser::unique_node	Parser::_parseA() {
+	LOG("In _parseA");
+	_ret = _tokenizer.scanToken(_token);	
+
+	if (_ret == ENAME) {
+		// Identifier
+		std::string		identifier(_token);
+		_ret = _tokenizer.scanToken(_token);
+		if (_token == EQUAL) {
+			// Simple variable
+			unique_node value = _parseE();
+			if (value == nullptr)
+				throw IncorrectSyntax("Expected expression after `=`");
+			Identifier	id(identifier, std::move(value));
+			return id.toNode();
+		} else if (_token == L_PARENTHESIS) {
+
+		}
+	}
+	throw IncorrectSyntax("Bad assignation");
+}
+
+/**
+ * Expression parsing
+ * 
  * GRAMMAR:
  * E	: T + T
  * 		| T - T
@@ -77,6 +125,8 @@ Parser::unique_node	Parser::_parseE() {
 }
 
 /**
+ * Factor parsing
+ * 
  * GRAMMAR:
  * F	: Identifier
  * 		| Variable
@@ -90,6 +140,7 @@ Parser::unique_node	Parser::_parseF() {
 
 	if (_ret == ENAME) {
 		// Identifier
+		/// TODO: Add image parsing
 		Identifier	id(_token);
 		_ret = _tokenizer.scanToken(_token);
 		return id.toNode();
@@ -123,6 +174,8 @@ Parser::unique_node	Parser::_parseF() {
 }
 
 /**
+ * Term parsing
+ * 
  * GRAMMAR:
  * 	T	: F * T
  * 		| F / T
@@ -170,6 +223,28 @@ Parser::unique_node	Parser::_parseT() {
 
 /* Utils -------------------------------------------------------------------- */
 
+Parser::unique_node	Parser::_parseFunction(const std::string& func_name) {
+	// Function
+	_ret = _tokenizer.scanToken(_token);
+
+	if (_ret == ENAME) {
+		// Variable name
+		std::string		var_name(_token);
+		_ret = _tokenizer.scanToken(_token);
+		if (_token != R_PARENTHESIS)
+			throw IncorrectSyntax("Expecting `)`");
+		_ret = _tokenizer.scanToken(_token);
+		if (_token != EQUAL)
+			throw IncorrectSyntax("Expecting `=`");
+		unique_node		body = _parseE();
+		if (body == nullptr)
+			throw IncorrectSyntax("Expecting function body after `=`");
+		Function	fun(func_name, var_name, body);
+		return fun.toNode();
+	}
+	throw IncorrectSyntax("Expecting variable name in parenthesis");
+}
+
 Parser::unique_node	Parser::_parseSimpleValue() {
 	if (_ret == ERATIONAL) {
 		Rational	value(std::stold(_token));
@@ -194,6 +269,7 @@ Parser::unique_node	Parser::_parseSimpleValue() {
 Parser::unique_node Parser::_parseMatrix() {
 	Matrix::matrix	rows;
 	_ret = _tokenizer.scanToken(_token);
+
 	if (_token == L_BRACKET) {
 		while (true) {
 			// Parse a new row
@@ -218,6 +294,7 @@ Parser::unique_node Parser::_parseMatrix() {
 
 Matrix::row Parser::_parseMatrixRow() {
 	Matrix::row		row;
+
 	while (true) {
 		_ret = _tokenizer.scanToken(_token);
 		if (_ret == ERATIONAL) {

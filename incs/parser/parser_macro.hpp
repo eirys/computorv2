@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_macro.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:58:05 by eli               #+#    #+#             */
-/*   Updated: 2023/02/11 13:22:18 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 15:25:01 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define SEMICOLON		";"
 
 /* Symbols */
+# define QUESTION_MARK	"?"
 # define EQUAL			"="
 # define MULTIPLICATION	"*"
 # define DIVISION		"/"

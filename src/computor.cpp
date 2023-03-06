@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/05 09:59:30 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 17:14:20 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ void	Computor::push(const std::string& name, const value_ptr& value) {
 	_memory.push(std::make_pair(name, value));
 }
 
-// Computor::context	Computor::copy() {
-// 	return context(_memory);
-// }
-
 const Computor::value_ptr	Computor::find(const std::string& name) {
 	context		cpy(_memory);
 
@@ -44,4 +40,14 @@ const Computor::value_ptr	Computor::find(const std::string& name) {
 		cpy.pop();
 	}
 	return nullptr;
+}
+
+void	Computor::show() const {
+	context		cpy(_memory);
+
+	std::cout << "==== Current state: ====\n";
+	while (!cpy.empty()) {
+		std::cout << cpy.top().first << '=' << *cpy.top().second << NL;
+		cpy.pop();
+	}
 }

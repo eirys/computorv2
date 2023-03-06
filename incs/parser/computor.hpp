@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/05 09:59:33 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 17:14:13 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class Computor {
 
 		static void				push(const std::string& name, const value_ptr& value);
 		static const value_ptr	find(const std::string& name);
-		
+		void					show() const;
 
 		/* Memory Stack ----------------------------------------------------------- */
 		private:

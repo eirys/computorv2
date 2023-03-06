@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 15:57:53 by eli               #+#    #+#             */
-/*   Updated: 2023/03/05 10:00:52 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 17:14:59 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,27 @@ class Function: public ATreeNode {
 		typedef typename	base::shared_itype			shared_itype;
 		typedef typename	base::weak_itype			weak_itype;
 
-		Function(const std::string& name, unique_node&& body):
-			base(nullptr, std::move(body)),
-			_name(name) {}
+		/* Constructor ------------------------------------------------------------ */
+		Function(const std::string& variable,
+			unique_node&& body):
+				base(std::move(body), nullptr),
+				_variable(variable) {}
 
+		/* Destructor ------------------------------------------------------------- */
 		virtual ~Function() {}
 
+		/* ------------------------------------------------------------------------ */
 		const shared_itype		eval() {
 			return base::getRight()->eval();
 		}
 
 		void					print() {
-			std::cout << "Function '" << _name << "': ";
+			std::cout << _variable << " -> ";
 			base::getRight()->print();
 		}
 
 	private:
-		const std::string		_name;
+		const std::string		_variable;
 
 };
 

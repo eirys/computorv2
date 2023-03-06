@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/05 09:45:40 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/06 15:58:18 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,12 @@ class Identifier: public ATreeNode {
 
 		/* ------------------------------------------------------------------------ */
 		const shared_itype		eval() {
-			if (base::getRight() == nullptr)
-				throw Identifier::ValueNotSet();
+			if (base::getRight() == nullptr) {
+				shared_itype	value = Computor::find(_name);
+				if (value == nullptr)
+					throw Identifier::ValueNotSet(_name);
+				return value;
+			}
 			Computor::push(_name, base::getRight()->eval());
 			return base::getRight()->eval();
 		}
@@ -69,9 +73,15 @@ class Identifier: public ATreeNode {
 		/* Exception -------------------------------------------------------------- */
 		class ValueNotSet: public std::exception {
 			public:
+				ValueNotSet() = delete;
+				ValueNotSet(const std::string& name):
+					_specificity("Variable `" + name + "` not set") {}
+
 				const char* what() const throw() {
-					return "Variable value not set";
+					return _specificity.c_str();
 				}
+			private:
+				const std::string	_specificity;
 		};
 
 	private:
