@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/07 18:20:42 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/07 18:43:32 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ class Indeterminates {
 			for (data_map::const_iterator it = other_map.begin();
 			it != other_map.end();
 			++it) {
-				_datas[it->first] = _datas->
+				_datas[it->first] = it->second;
 			}
 		}
 
@@ -73,6 +73,20 @@ class Indeterminates {
 
 	private:
 		data_map			_datas;
+
+		bool				_contains(const key_set& other_set) const {
+			for (data_map::const_iterator it = _datas.begin();
+			it != _datas.end();
+			++it) {
+				size_t		contains = it->first.size();
+
+				for (key_set::const_iterator ite = it->first.begin();
+				ite != it->first.end();
+				++ite) {
+
+				}
+			}
+		}
 }
 
 #endif
