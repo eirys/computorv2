@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:25:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 17:22:34 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/07 17:59:18 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 class IType {
 	public:
-		typedef typename	std::unique_ptr<IType>		unique_itype;
-		typedef typename	std::shared_ptr<IType>		shared_itype;
-		typedef typename	std::weak_ptr<IType>		weak_itype;
+		typedef		std::unique_ptr<IType>		unique_itype;
+		typedef		std::shared_ptr<IType>		shared_itype;
+		typedef		std::weak_ptr<IType>		weak_itype;
 
 		/* Virtual Destructor ----------------------------------------------------- */
 		virtual ~IType();
