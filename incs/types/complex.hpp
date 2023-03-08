@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   complex.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 17:37:30 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 22:07:36 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMPLEX_HPP
 # define COMPLEX_HPP
 
-# include "rational.hpp"
 # include "utils.hpp"
+# include "itype.hpp"
+# include "rational.hpp"
 
 class Matrix;
+class Function;
 
 /**	
  * Complex		: real + imaginary
@@ -50,6 +52,7 @@ class Complex: public IType {
 		Complex& 		operator=(const Complex& rhs);
 
 		/* IType Operators -------------------------------------------------------- */
+		shared_itype	clone() const;
 		shared_itype	operator+(const shared_itype& rhs_ptr) const;
 		shared_itype	operator-(const shared_itype& rhs_ptr) const;
 		shared_itype	operator*(const shared_itype& rhs_ptr) const;
@@ -94,6 +97,14 @@ class Complex: public IType {
 		Matrix			operator/(const Matrix& rhs) const;
 		Matrix			operator^(const Matrix& rhs) const;		// undefined
 		Matrix			operator%(const Matrix& rhs) const;		// undefined
+
+		/* Rational Operators ----------------------------------------------------- */
+		Function		operator+(const Function& rhs) const;
+		Function		operator-(const Function& rhs) const;
+		Function		operator*(const Function& rhs) const;
+		Function		operator/(const Function& rhs) const;
+		Function		operator^(const Function& rhs) const;
+		Function		operator%(const Function& rhs) const;
 
 		/* Getter ----------------------------------------------------------------- */
 		Rational		getReal() const;

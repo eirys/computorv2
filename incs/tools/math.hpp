@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/01/24 00:05:51 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/08 17:36:30 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ template <typename T, typename U>
 	long long int quotient(const T& a, const U& b);
 
 template <typename T, typename U>
-	long double remainder(const T& a, const U& b);
+	long double modulo(const T& a, const U& b);
 
 bool isPrime(const long long int& n);
 
@@ -147,11 +147,11 @@ template <typename T, typename U>
 		return q;
 	}
 
-/*  euclidean division: remainder element [r]
+/*  euclidean division: modulo element [r]
  **	 a = q * b + r
  */
 template <typename T, typename U>
-	inline long double remainder(const T& a, const U& b) {
+	inline long double modulo(const T& a, const U& b) {
 		if (a < 0 || b < 0)
 			throw math::operation_undefined();
 		const long long int	q = quotient(a, b);
@@ -167,7 +167,7 @@ inline bool isPrime(const long long int& n) {
 	int			i = 2;
 	
 	while (i < limit) {
-		if (!remainder(n, i))
+		if (!modulo(n, i))
 			return false;
 		++i;
 	}
@@ -183,7 +183,7 @@ inline long long int biggestPrime(const long long int n) {
 		return n;
 	limit = (n / 2) + 1;
 	while (limit > 2) {
-		if (isPrime(limit) && !remainder(n, limit))
+		if (isPrime(limit) && !modulo(n, limit))
 			return limit;
 		--limit;
 	}
@@ -199,7 +199,7 @@ inline long long int smallestPrime(const long long int& n) {
 	limit = sqrt(n);
 	i = 2;
 	while (i < limit) {
-		if (remainder(n, i) && isPrime(i))
+		if (modulo(n, i) && isPrime(i))
 			break;
 		++i;
 	}

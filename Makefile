@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: etran <etran@student.42.fr>                +#+  +:+       +#+         #
+#    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/03/06 18:14:24 by etran            ###   ########.fr        #
+#    Updated: 2023/03/08 22:04:29 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS	= rational.cpp \
 			matrix.cpp \
 			function.cpp \
 			itype.cpp \
+			tree.cpp \
 			tokenizer.cpp \
 			parser.cpp \
 			computor.cpp \

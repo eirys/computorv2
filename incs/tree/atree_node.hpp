@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atree_node.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/03/07 17:40:36 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 21:49:27 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ class ATreeNode {
 		virtual void				print() = 0;
 		virtual unique_node			toNode() = 0;
 
-		virtual Indeterminates		collapse() = 0;
+		// virtual Indeterminates		collapse() = 0;
 
 	protected:
 		/* Default ---------------------------------------------------------------- */

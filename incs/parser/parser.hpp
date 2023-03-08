@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/06 16:34:22 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 22:02:52 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,9 @@
 # define PARSER_HPP
 
 # include "computor.hpp"
-
 # include "tokenizer.hpp"
-
 # include "atree_node.hpp"
-# include "identifier.hpp"
-# include "variable.hpp"
-# include "add.hpp"
-# include "substract.hpp"
-# include "multiply.hpp"
-# include "divide.hpp"
-# include "modulo.hpp"
-# include "power.hpp"
-# include "negate.hpp"
+# include "tree.hpp"
 
 /**
  * 
@@ -35,7 +25,7 @@ class Parser {
 	public:
 		typedef typename	ATreeNode::unique_node	unique_node;
 		typedef typename	Tokenizer::e_tokentype	e_tokentype;
-		typedef				unique_node				result_tree;
+		typedef				Tree					result_tree;
 
 		Parser(const std::string& raw);
 		virtual ~Parser();

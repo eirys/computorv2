@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/06 15:53:30 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 22:16:53 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,14 +167,14 @@ void test8() {
 	while (true) {
 		computor_context.show();
 		try {
-			std::string		entry;
+			std::string			entry;
 			std::getline(std::cin, entry);
 
-			Parser	parser(entry);
-			Parser::unique_node	output = parser.parse();
+			Parser				parser(entry);
+			Parser::result_tree	output = parser.parse();
 
-			output->print();
-			std::cout << " = " << *output->eval() << NL;
+			output.print();
+			std::cout << " = " << *output.eval() << NL;
 		} catch (const Tokenizer::EmptyInput& empty) {
 			break;
 		} catch (const Parser::EmptyContent& ws) {

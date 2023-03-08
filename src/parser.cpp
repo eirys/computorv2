@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/06 17:57:35 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 22:03:29 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.hpp"
-#include <algorithm>
+#include "identifier.hpp"
+#include "variable.hpp"
+#include "add.hpp"
+#include "substract.hpp"
+#include "multiply.hpp"
+#include "divide.hpp"
+#include "modulo.hpp"
+#include "power.hpp"
+#include "negate.hpp"
+
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -40,8 +49,7 @@ Parser::result_tree Parser::parse() {
 
 	if (ret == NULL)
 		throw EmptyContent();
-	
-	return ret;
+	return result_tree(std::move(ret));
 }
 
 /* ========================================================================== */

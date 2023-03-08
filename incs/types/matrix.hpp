@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 17:46:49 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 22:18:31 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 # include <sstream>
 # include <ios>
 
+# include "utils.hpp"
 # include "math.hpp"
-# include "rational.hpp"
 
-# define MIN_W_SIZE 2
+class Rational;
+class Complex;
+class Function;
 
 /**
  * Matrix	: [ row { ; row } ]
@@ -29,7 +31,7 @@
  * with
  * row		: [ Rational { , Rational } ]
  * 
- * ex:		[[ 1, 5.25, 11];[0, 0 ,0]]
+ * ex:		[[ 1, 5.25, 11], [0, 0 ,0]]
 */
 class Matrix: public IType {
 	public:
@@ -46,9 +48,7 @@ class Matrix: public IType {
 		Matrix(const Matrix& x);
 		Matrix(const matrix&& x);
 
-		Matrix(const IType& x);
-
-		Matrix(size_t n, const Rational&& lambda = Rational(0));
+		Matrix(size_t n, const Rational&& factor = Rational(0));
 		Matrix(size_t n, size_t p);
 
 		Matrix&				operator=(const Matrix& rhs);
@@ -58,6 +58,7 @@ class Matrix: public IType {
 		const row&			operator[](size_t index) const;
 
 		/* IType Operators -------------------------------------------------------- */
+		shared_itype		clone() const;
 		shared_itype		operator+(const shared_itype& rhs_ptr) const;
 		shared_itype		operator-(const shared_itype& rhs_ptr) const;
 		shared_itype		operator*(const shared_itype& rhs_ptr) const;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 17:35:18 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 21:54:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 class Complex;
 class Matrix;
+class Function;
 
 /**
  * Rational		: { - } digit { digit | { . digit } }
@@ -44,6 +45,7 @@ class Rational: public IType {
 		Rational&		operator=(const Rational& rhs);
 
 		/* IType Operators -------------------------------------------------------- */
+		shared_itype	clone() const;
 		shared_itype	operator+(const shared_itype& rhs) const;
 		shared_itype	operator-(const shared_itype& rhs) const;
 		shared_itype	operator*(const shared_itype& rhs) const;

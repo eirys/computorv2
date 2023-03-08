@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   complex.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 17:45:54 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 21:42:30 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,11 @@ Complex::~Complex() {}
 
 Complex::Complex(const Complex& x):
 	_re(x.getReal()),
-	_im(x.getImaginary()) {
-		// LOG("Complex copy");
-}
+	_im(x.getImaginary()) {}
 
 Complex::Complex(const Rational& x, const Rational& y):
 	_re(x),
-	_im(y) {
-		// LOG("Complex rational");
-}
+	_im(y) {}
 
 /* -------------------------------------------------------------------------- */
 
@@ -47,6 +43,10 @@ Complex& Complex::operator=(const Complex& rhs) {
 }
 
 /* IType operators ---------------------------------------------------------- */
+
+Complex::shared_itype	Complex::clone() const {
+	return shared_itype(new Complex(*this));
+}
 
 Complex::shared_itype	Complex::operator+(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);

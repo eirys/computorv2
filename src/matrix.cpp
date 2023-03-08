@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 17:41:49 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 22:18:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ Matrix::Matrix(const Matrix& x):
  * Usage:
  * Matrix m = Matrix::matrix { {...}, ... };
  */
-Matrix::Matrix(const Matrix::matrix&& x) {
+Matrix::Matrix(const matrix&& x) {
 	if (x.empty()) {
 		_n = 0;
 		_p = 0;
 	} else {
 		_p = x[0].size();
-		for (Matrix::matrix::const_iterator it = x.begin();
+		for (matrix::const_iterator it = x.begin();
 		it != x.end();
 		++it) {
 			if (it->size() != _p) {
@@ -49,24 +49,15 @@ Matrix::Matrix(const Matrix::matrix&& x) {
 	}
 }
 
-Matrix::Matrix(const IType& x) {
-	try {
-		const Matrix&	tmp = dynamic_cast<const Matrix&>(x);
-		*this = tmp;
-	} catch (const std::bad_cast& e) {
-		throw math::operation_undefined();
-	}
-}
-
 /**
  *	Identity matrix / Scalar matrix
  */
-Matrix::Matrix(size_t n, const Rational&& lambda):
+Matrix::Matrix(size_t n, const Rational&& factor):
 	_n(n),
 	_p(n),
 	_matrix(n, row(n)) {
 		for (size_t i = 0; i < getNbColumns(); ++i) {
-			_matrix[i][i] = lambda;
+			_matrix[i][i] = factor;
 		}
 	}
 
@@ -101,6 +92,10 @@ const Matrix::row&	Matrix::operator[](size_t index) const {
 }
 
 /* IType operators ---------------------------------------------------------- */
+
+Matrix::shared_itype		Matrix::clone() const {
+	return shared_itype(new Matrix(*this));
+}
 
 Matrix::shared_itype		Matrix::operator+(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
@@ -487,7 +482,7 @@ std::ostream& operator<<(std::ostream& o, const Matrix& x) {
 		++ite) {
 			os << *ite;
 			if (ite + 1 != it->end())
-				os << ',';
+				os << ", ";
 		}
 		os << ']';
 		if (it + 1 != x.getMatrix().end())

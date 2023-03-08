@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/03/04 17:29:42 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/08 21:42:48 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ Rational& Rational::operator=(const Rational& rhs) {
 }
 
 /* IType operators ---------------------------------------------------------- */
+
+Rational::shared_itype	Rational::clone() const {
+	return shared_itype(new Rational(*this));
+}
 
 Rational::shared_itype	Rational::operator+(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
@@ -225,7 +229,7 @@ Rational Rational::operator^(const Rational& rhs) const {
 Rational& Rational::operator%=(const Rational& rhs) {
 	if (!isInteger() || !rhs.isInteger())
 		throw math::operation_undefined();
-	_val = math::remainder(getVal(), rhs.getVal());
+	_val = math::modulo(getVal(), rhs.getVal());
 	return *this;
 }
 

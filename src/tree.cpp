@@ -1,32 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   function.cpp                                       :+:      :+:    :+:   */
+/*   tree.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/08 22:10:55 by eli              ###   ########.fr       */
+/*   Created: 2023/03/08 22:03:44 by eli               #+#    #+#             */
+/*   Updated: 2023/03/08 22:16:30 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "function.hpp"
+#include "tree.hpp"
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
 /* ========================================================================== */
 
-Function::Function():
-    _body() {}
+Tree::Tree():
+	_head(nullptr) {}
 
-Function::~Function() {}
+Tree::~Tree() {}
 
-Function::Function(const Function& x):
-    _body(x.getBody()) {}
+Tree::Tree(const Tree& x):
+	_head(std::move(x._head->toNode())) {}
+
+Tree::Tree(unique_node&& head):
+	_head(std::move(head)) {}
 
 
-/* Getter ------------------------------------------------------------------- */
+/* Main Functions ----------------------------------------------------------- */
 
-const Tree& Function::getBody() const {
-    return _body;
+void	Tree::print() const {
+	return _head->print();
+}
+
+Tree::shared_itype	Tree::eval() const {
+	return _head->eval();
 }
