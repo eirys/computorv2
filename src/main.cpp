@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 11:14:36 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/09 14:28:15 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void test8() {
 			Parser::result_tree	output = parser.parse();
 
 			(*output)->print();
-			std::cout << " = " << (*output)->eval() << NL;
+			std::cout << " = " << *(*output)->eval() << NL;
 		} catch (const Tokenizer::EmptyInput& empty) {
 			break;
 		} catch (const Parser::EmptyContent& ws) {

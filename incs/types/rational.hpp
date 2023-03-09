@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 12:04:52 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/09 14:18:39 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ class Rational: public IType {
 		Function		operator*(const Function& rhs) const;
 		Function		operator/(const Function& rhs) const;
 		Function		operator^(const Function& rhs) const;
-		Function		operator%(const Function& rhs) const;	// undefined
+		Function		operator%(const Function& rhs) const;
 
 		/* Getter ----------------------------------------------------------------- */
 		long double		getVal() const;

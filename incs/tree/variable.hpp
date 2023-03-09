@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 12:53:09 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/09 14:12:01 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VARIABLE_HPP
 
 # include "atree_node.hpp"
+# include "function.hpp"
 
 /**
  * Variable		: Rational

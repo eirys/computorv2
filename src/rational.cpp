@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 12:41:40 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/09 14:18:48 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,8 +344,7 @@ Function Rational::operator+(const Function& rhs) const {
 }
 
 Function Rational::operator-(const Function& rhs) const {
-	(void)rhs;
-	throw math::operation_undefined();
+	return rhs.operator-(*this);
 }
 
 Function Rational::operator*(const Function& rhs) const {
@@ -357,13 +356,11 @@ Function Rational::operator/(const Function& rhs) const {
 }
 
 Function Rational::operator^(const Function& rhs) const {
-	(void)rhs;
-	throw math::operation_undefined();
+	return rhs.operator^(*this);
 }
 
 Function Rational::operator%(const Function& rhs) const {
-	(void)rhs;
-	throw math::operation_undefined();
+	return rhs.operator%(*this);
 }
 
 /* Getters ------------------------------------------------------------------ */

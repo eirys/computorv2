@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 12:53:29 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/09 14:10:36 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include "rational.hpp"
 # include "complex.hpp"
 # include "matrix.hpp"
-# include "function.hpp"
 # include "indeterminates.hpp"
 
 class ATreeNode {

@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 11:25:13 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/09 14:26:36 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ Parser::~Parser() {}
 /* Main Function ------------------------------------------------------------ */
 
 Parser::result_tree Parser::parse() {
-	result_tree	tree;
-	*tree = (this->*_parsefn)();
+	unique_node	result = (this->*_parsefn)();
+	result_tree	tree = std::make_shared<unique_node>(std::move(result));
 
 	if (*tree == NULL)
 		throw EmptyContent();

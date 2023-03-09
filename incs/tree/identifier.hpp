@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/06 15:58:18 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/09 15:13:08 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <string>
 
 # include "atree_node.hpp"
-# include "computor.hpp"
 
 /**
  * Identifier	: { char | _ }+
@@ -47,21 +46,20 @@ class Identifier: public ATreeNode {
 		/* ------------------------------------------------------------------------ */
 		const shared_itype		eval() {
 			if (base::getRight() == nullptr) {
+				// Not set, check existing in context
 				shared_itype	value = Computor::find(_name);
 				if (value == nullptr)
 					throw Identifier::ValueNotSet(_name);
 				return value;
+			} else {
+				// Set a new value
+				Computor::push(_name, base::getRight()->eval());
+				return base::getRight()->eval();
 			}
-			Computor::push(_name, base::getRight()->eval());
-			return base::getRight()->eval();
 		}
 
 		void					print() {
 			std::cout << _name;
-			if (base::getRight() == nullptr)
-				return;
-			std::cout << ": ";
-			base::getRight()->print();
 		}
 
 		unique_node				toNode() {
@@ -83,6 +81,11 @@ class Identifier: public ATreeNode {
 			private:
 				const std::string	_specificity;
 		};
+
+		/* Getter ----------------------------------------------------------------- */
+		const std::string&		getName() const {
+			return _name;
+		}
 
 	private:
 		const std::string		_name;
