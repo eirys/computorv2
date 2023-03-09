@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/03/08 21:54:20 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/09 12:04:52 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,14 @@ class Rational: public IType {
 		Matrix			operator/(const Matrix& rhs) const;
 		Matrix			operator^(const Matrix& rhs) const;		// undefined
 		Matrix			operator%(const Matrix& rhs) const;		// undefined
+		
+		/* Function Operators ----------------------------------------------------- */
+		Function		operator+(const Function& rhs) const;
+		Function		operator-(const Function& rhs) const;
+		Function		operator*(const Function& rhs) const;
+		Function		operator/(const Function& rhs) const;
+		Function		operator^(const Function& rhs) const;
+		Function		operator%(const Function& rhs) const;	// undefined
 
 		/* Getter ----------------------------------------------------------------- */
 		long double		getVal() const;
@@ -117,6 +125,10 @@ class Rational: public IType {
 							Matrix (Rational::*f)(const Matrix&) const,
 							const std::shared_ptr<Matrix>& r_ptr
 							) const;
+		shared_itype	_function_operator(
+							Function (Rational::*f)(const Function&) const,
+							const std::shared_ptr<Function>& f_ptr
+						) const;
 };
 
 bool			operator==(const Rational& x, const Rational& y);

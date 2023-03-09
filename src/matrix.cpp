@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/08 22:18:43 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/09 12:59:54 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,6 @@ Matrix& Matrix::operator+=(const Matrix& rhs) {
 
 Matrix Matrix::operator+(const Matrix& rhs) const {
 	Matrix	tmp(*this);
-
 	tmp.operator+=(rhs);
 	return tmp;
 }
@@ -229,7 +228,6 @@ Matrix& Matrix::operator-=(const Matrix& rhs) {
 
 Matrix Matrix::operator-(const Matrix& rhs) const {
 	Matrix	tmp(*this);
-
 	tmp.operator-=(rhs);
 	return tmp;
 }
@@ -254,7 +252,6 @@ Matrix& Matrix::operator*=(const Matrix& rhs) {
 
 Matrix Matrix::operator*(const Matrix& rhs) const {
 	Matrix	tmp(*this);
-
 	tmp.operator*=(rhs);
 	return tmp;
 }
@@ -269,20 +266,9 @@ Matrix	Matrix::operator/(const Matrix& rhs) const {
 	throw math::operation_undefined();
 }
 
-Matrix& Matrix::operator^=(const Rational& rhs) {
-	if (!isSquare() || !rhs.isInteger() || rhs < Rational(0))
-		throw math::operation_undefined();
-	if (rhs == Rational(1) || !*this)
-		return *this;
-	else if (rhs == Rational(0)) {
-		*this = Matrix(getNbColumns(), Rational(1));
-	} else {
-		const Rational	rhs_copy(rhs);
-		for (Rational i = Rational(0); i < rhs_copy; ++i) {
-			operator*=(*this);
-		}
-	}
-	return *this;
+Matrix& Matrix::operator^=(const Matrix& rhs) {
+	(void)rhs;
+	throw math::operation_undefined();
 }
 
 Matrix Matrix::operator^(const Matrix& rhs) const {
@@ -290,7 +276,7 @@ Matrix Matrix::operator^(const Matrix& rhs) const {
 	throw math::operation_undefined();
 }
 
-Matrix& Matrix::operator%=(const Rational& rhs) {
+Matrix& Matrix::operator%=(const Matrix& rhs) {
 	(void)rhs;
 	throw math::operation_undefined();
 }
@@ -339,7 +325,20 @@ Matrix Matrix::operator/(const Rational& rhs) const {
 Matrix Matrix::operator^(const Rational& rhs) const {
 	Matrix	tmp(*this);
 
-	tmp.operator^=(rhs);
+	if (!tmp.isSquare() || !rhs.isInteger() || rhs < Rational(0))
+		throw math::operation_undefined();
+	if (rhs == Rational(1) || !tmp)
+		return *this;
+	else {
+		tmp = math::pow(*this, rhs);
+	// else if (rhs == Rational(0)) {
+	// 	tmp = Matrix(getNbColumns(), Rational(1));
+	// } else {
+	// 	const Rational	rhs_copy(rhs);
+	// 	for (Rational i = Rational(0); i < rhs_copy; ++i) {
+	// 		tmp.operator*=(*this);
+	// 	}
+	}
 	return tmp;
 }
 
@@ -383,7 +382,7 @@ Matrix Matrix::operator^(const Complex& rhs) const {
 		throw math::operation_undefined();
 	Matrix	tmp(*this);
 
-	tmp.operator^=(rhs.getReal());
+	tmp.operator^(rhs.getReal());
 	return tmp;
 }
 

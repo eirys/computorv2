@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   complex.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/03/08 22:07:36 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/09 10:18:42 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ class Complex: public IType {
 		Matrix			operator^(const Matrix& rhs) const;		// undefined
 		Matrix			operator%(const Matrix& rhs) const;		// undefined
 
-		/* Rational Operators ----------------------------------------------------- */
+		/* Function Operators ----------------------------------------------------- */
 		Function		operator+(const Function& rhs) const;
 		Function		operator-(const Function& rhs) const;
 		Function		operator*(const Function& rhs) const;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/08 21:49:55 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/09 12:53:09 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ inline Variable::unique_node	createVariable(const Complex& x) {
 
 inline Variable::unique_node	createVariable(const Matrix& x) {
 	Variable::shared_itype	tmp(new Matrix(x));
+
+	return Variable::unique_node(new Variable(tmp));
+}
+
+inline Variable::unique_node	createVariable(const Function& x) {
+	Variable::shared_itype	tmp(new Function(x));
 
 	return Variable::unique_node(new Variable(tmp));
 }

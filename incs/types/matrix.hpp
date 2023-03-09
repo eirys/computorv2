@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/03/08 22:18:31 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/09 12:57:31 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ class Matrix: public IType {
 		Matrix&				operator/=(const Matrix& rhs);			// undefined
 		Matrix				operator/(const Matrix& rhs) const;		// undefined
 
-		Matrix&				operator^=(const Rational& rhs);
+		Matrix&				operator^=(const Matrix& rhs);			// undefined
 		Matrix				operator^(const Matrix& rhs) const;		// undefined
 
-		Matrix&				operator%=(const Rational& rhs);		// undefined
+		Matrix&				operator%=(const Matrix& rhs);			// undefined
 		Matrix				operator%(const Matrix& rhs) const;		// undefined
 
 		/* Rational Operators ----------------------------------------------------- */
@@ -103,6 +103,8 @@ class Matrix: public IType {
 		Matrix				operator/(const Complex& rhs) const;
 		Matrix				operator^(const Complex& rhs) const;
 		Matrix				operator%(const Complex& rhs) const;	// undefined
+
+		/* Function --------------------------------------------------------------- */
 
 		/* Getter ----------------------------------------------------------------- */
 		size_t				getNbColumns() const;

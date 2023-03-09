@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/08 22:03:29 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/09 11:25:13 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ Parser::~Parser() {}
 /* Main Function ------------------------------------------------------------ */
 
 Parser::result_tree Parser::parse() {
-	unique_node	ret = (this->*_parsefn)();
+	result_tree	tree;
+	*tree = (this->*_parsefn)();
 
-	if (ret == NULL)
+	if (*tree == NULL)
 		throw EmptyContent();
-	return result_tree(std::move(ret));
+	return tree;
 }
 
 /* ========================================================================== */

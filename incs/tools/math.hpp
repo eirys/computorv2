@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/08 17:36:30 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/09 12:59:29 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ template <typename T, typename U>
 		else if (n == 0)
 			return T(0);
 		else
-			return T(n * pow(n, exp - 1));
+			return T(n * pow(n, exp - U(1)));
 	}
 
 /*   square root

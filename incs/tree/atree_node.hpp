@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atree_node.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/03/08 21:49:27 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/09 12:53:29 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "rational.hpp"
 # include "complex.hpp"
 # include "matrix.hpp"
+# include "function.hpp"
 # include "indeterminates.hpp"
 
 class ATreeNode {
@@ -31,6 +32,8 @@ class ATreeNode {
 		typedef				std::unique_ptr<IType>			unique_itype;
 		typedef				std::shared_ptr<IType>			shared_itype;
 		typedef				std::weak_ptr<IType>			weak_itype;
+
+		typedef				std::shared_ptr<unique_node>	tree_head;
 
 		/* Virtual Destructor ----------------------------------------------------- */
 		virtual	~ATreeNode() {}
