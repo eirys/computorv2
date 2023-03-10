@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/09 15:27:35 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/10 23:38:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ Function&   Function::operator=(const Function& rhs) {
 }
 
 /* IType Operators ---------------------------------------------------------- */
+
+//TODO
+
 Function::shared_itype	Function::clone() const {
 	return shared_itype(new Function(*this));
 }
@@ -342,7 +345,7 @@ Function::tree_head Function::getBody() const {
 /* ========================================================================== */
 
 bool operator==(const Function& lhs, const Function& rhs) {
-	return lhs.getVarName() == rhs.getVarName() && *lhs.getBody() == *rhs.getBody();
+	return lhs.getVarName() == rhs.getVarName() && (*lhs.getBody())->eval() == (*rhs.getBody())->eval();
 }
 
 std::ostream&	operator<<(std::ostream& o, const Function& x) {

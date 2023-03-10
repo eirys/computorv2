@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 11:18:25 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/10 23:43:28 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ class Parser {
 		std::string			_token;
 		e_tokentype			_ret;
 		unique_node			(Parser::*_parsefn)();
+		/**
+		 * TODO:
+		 * 	Once expression parsed, need to do sth with it accordingly
+		*/
+		// void				(Parser::*_execute)();
 
 		/* Parse Function Helper -------------------------------------------------- */
 		unique_node			_parseA();

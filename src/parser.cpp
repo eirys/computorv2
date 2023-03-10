@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 14:26:36 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/10 23:42:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ Parser::Parser(const std::string& raw):
 	_tokenizer(raw),
 	_ret(EEMPTY) {
 		if (raw.find(EQUAL) != std::string::npos) {
+			// There is an `=`
 			if (raw.find(QUESTION_MARK) != std::string::npos) {
 				_parsefn = &Parser::_parseS;
 			} else {
 				_parsefn = &Parser::_parseA;
 			}
+			// _execute = &Parser::
 		} else {
 			_parsefn = &Parser::_parseE;
 		}

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 22:52:20 by eli               #+#    #+#             */
-/*   Updated: 2023/03/08 21:48:12 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/10 23:33:59 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "rational.hpp"
 #include "complex.hpp"
 #include "matrix.hpp"
+#include "function.hpp"
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -38,7 +39,13 @@ std::ostream&	operator<<(std::ostream& o, const IType& x) {
 				const Matrix&	m_ref = dynamic_cast<const Matrix&>(x);
 				o << m_ref;
 			} catch (const std::bad_cast& exception3) {
-				throw std::exception();
+				try {
+					const Function&	f_ref = dynamic_cast<const Function&>(x)
+					o << f_ref;
+				} catch (const std::bad_cast& exception4) {
+					//TODO
+					throw std::exception();
+				}
 			}
 		}
 	}
