@@ -6,14 +6,22 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 23:26:21 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 00:06:08 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
 
 /* Context ------------------------------------------------------------------ */
+
+/**
+ * Global scope context.
+*/
 Computor::context		Computor::_memory;
+
+/**
+ * Specific context.
+*/
 Computor::context_map	Computor::_local_memory;
 
 /* ========================================================================== */
@@ -72,17 +80,16 @@ const Computor::value_ptr	Computor::find(
  * Flushes all temporary contexts.
 */
 void	Computor::flush() {
-	for (context_map::iterator it = _local_memory.begin();
-	it != _local_memory.end();
-	++it) {
-		it->second = context();
-	}
+	_local_memory.clear();
 }
 
+/**
+ * Displays every contexts.
+*/
 void	Computor::show() const {
 	context		cpy(_memory);
 
-	std::cout << "==== Current state: ====\n";
+	std::cout << "Global context:\n";
 	while (!cpy.empty()) {
 		std::cout << cpy.top().first << '=' << *cpy.top().second << NL;
 		cpy.pop();
@@ -92,12 +99,13 @@ void	Computor::show() const {
 		it != _local_memory.end();
 		++it
 	) {
-		std::cout << '\'' << it->first << '\'' << NL;
+		std::cout << "Context `" << it->first << '\'' << NL;
 		context	current(it->second);
 		while (!current.empty()) {
 			std::cout << current.top().first << '=' << *current.top().second << NL;
 			current.pop();
 		}
+		std::cout <<NL;
 	}
 
 }

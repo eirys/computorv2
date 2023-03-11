@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/11 23:13:19 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 00:16:35 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,15 @@ class Identifier: public ATreeNode {
 		Identifier(
 			const std::string& name,
 			unique_node&& value,
-			const std::string& context_name = std::string()
+			const std::string& context_name = std::string(),
+			const std::string& extra = std::string()
 			):
 				base(nullptr, std::move(value)),
 				_name(name),
-				_context_name(context_name) {
+				_context_name(context_name),
+				_extra(extra) {
 					LOG("Creating identifier `"<< name <<"` in context `" << context_name <<
-					"`" );
+					"` with extra: `" +extra+"`" );
 				}
 
 		/* Destructor ------------------------------------------------------------- */
@@ -76,11 +78,18 @@ class Identifier: public ATreeNode {
 
 		void					print() {
 			std::cout << _name;
+			if (!_extra.empty())
+				std::cout << '(' << _extra << ')';
 		}
 
 		unique_node				toNode() {
 			return unique_node(
-				new Identifier(_name, std::move(base::getRight()), _context_name)
+				new Identifier(
+					_name,
+					std::move(base::getRight()),
+					_context_name,
+					_extra
+				)
 			);
 		}
 
@@ -106,6 +115,7 @@ class Identifier: public ATreeNode {
 	private:
 		const std::string		_name;
 		const std::string		_context_name;
+		const std::string		_extra;
 };
 
 #endif

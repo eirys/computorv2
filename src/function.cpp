@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 23:13:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 00:14:59 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,7 +392,7 @@ bool operator==(const Function& lhs, const Function& rhs) {
 
 std::ostream&	operator<<(std::ostream& o, const Function& x) {
 	// LOG("ICI");
-	o << '(' << x.getVarName() << ") = ";
+	// o << '(' << x.getVarName() << ") = ";
 	(*x.getBody())->print();
 	return o;
 }

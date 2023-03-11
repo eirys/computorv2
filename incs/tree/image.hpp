@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 23:06:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/11 23:31:18 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 # include "atree_node.hpp"
 # include "computor.hpp"
 
+/**
+ * Image	: Identifier ( E )
+ * 
+ * example:	f(22)
+ * 			f(a + 22*3)
+*/
 class Image: public ATreeNode {
 	public:
 		typedef 			ATreeNode					base;
@@ -28,8 +34,6 @@ class Image: public ATreeNode {
 		typedef typename	base::weak_itype			weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
-		// Image(unique_node&& func, unique_node&& x, const std::string& func_name):
-		// 	base(std::move(func), std::move(x)) {}
 		Image(const std::string& func_name, unique_node&& x):
 			base(nullptr, std::move(x)),
 			_func_name(func_name) {}
@@ -39,7 +43,6 @@ class Image: public ATreeNode {
 
 		/* ------------------------------------------------------------------------ */
 		const shared_itype	eval() {
-			// Replace occurence of x
 			shared_itype	x_value = base::getRight()->eval();
 			shared_itype	f_ptr = Computor::find(_func_name);
 			if (f_ptr == nullptr)

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/11 23:03:00 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 00:14:25 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ Parser::Parser(const std::string& raw):
 			} else {
 				_parsefn = &Parser::_parseA;
 			}
-			// _execute = &Parser::
 		} else {
 			_parsefn = &Parser::_parseE;
 		}
@@ -48,7 +47,10 @@ Parser::~Parser() {}
 
 Parser::result_tree Parser::parse() {
 	unique_node	result = (this->*_parsefn)("");
-	LOG("Getting main tree now");
+	LOG("Getting main tree now");	
+	if (_ret != EEMPTY)
+		throw IncorrectSyntax("Unexpected token: `" + _token + "`");
+
 	result_tree	tree = std::make_shared<unique_node>(std::move(result));
 
 	if (*tree == NULL)
@@ -83,20 +85,20 @@ Parser::unique_node	Parser::_parseA(const std::string& context_name) {
 
 	if (_ret == ENAME) {
 		// Identifier
+		unique_node		a;
 		std::string		identifier(_token);
+		std::string		var_name;	// potentially empty
 		_ret = _tokenizer.scanToken(_token);
-		unique_node	value;
 		if (_token == EQUAL) {
 			// Simple variable
-			value = _parseE(context_name);
+			a = _parseE(context_name);
 		} else if (_token == L_PARENTHESIS) {
 			// Function
-			value = _parseFunction(identifier);
-			LOG("Left parsefunction");
+			a = _parseFunction(identifier, var_name);
 		}
-		if (value == nullptr)
+		if (a == nullptr)
 			throw IncorrectSyntax("Expected expression after `=`");
-		Identifier	id(identifier, std::move(value), context_name);
+		Identifier	id(identifier, std::move(a), context_name, var_name);
 		return id.toNode();
 	}
 	throw IncorrectSyntax("Bad assignation");
@@ -114,6 +116,8 @@ Parser::unique_node	Parser::_parseE(const std::string& context_name) {
 	LOG("In _parseE");
 	unique_node	a = _parseT(context_name);
 
+	if (a == nullptr)
+		throw IncorrectSyntax("Unexpected token: `" + _token + "`");
 	while (_ret != EEMPTY) {
 		if (_token == ADDITION) {
 			// T + T
@@ -129,13 +133,10 @@ Parser::unique_node	Parser::_parseE(const std::string& context_name) {
 				throw IncorrectSyntax("Expecting term after `-`");
 			Substract	sub(std::move(a), std::move(b));
 			a = sub.toNode();
-		} else if (_ret != EEMPTY) {
-			throw IncorrectSyntax("Unexpected token: `" + _token + "`");
 		} else {
 			break;
 		}
 	}
-	_ret = EEXPRESSION;
 	return a;
 }
 
@@ -155,26 +156,19 @@ Parser::unique_node	Parser::_parseF(const std::string& context_name) {
 	_ret = _tokenizer.scanToken(_token);
 
 	if (_ret == ENAME) {
-		// Identifier
-		// Identifier	id(_token, nullptr);
-		// _ret = _tokenizer.scanToken(_token);
-		// return id.toNode();
-
 		std::string		id_name(_token);
 		_ret = _tokenizer.scanToken(_token);
 		if (_token == L_PARENTHESIS) {
 			// Image
-			unique_node	a = _parseF(context_name);
+			unique_node	a = _parseE(context_name);
 			if (a == nullptr)
-				throw Parser::IncorrectSyntax("Expecting value inside parenthesis");
+				throw IncorrectSyntax("Expecting value inside parenthesis");
 			if (_token == R_PARENTHESIS) {
 				_ret = _tokenizer.scanToken(_token);
 				Image	img(id_name, std::move(a));
 				return img.toNode();
-				// Identifier	func_id(id_name, std::move(a));
-				// return func_id.toNode();
 			}
-			throw Parser::IncorrectSyntax("Expecting closing parenthesis `)`");
+			throw IncorrectSyntax("Expecting closing parenthesis `)`");
 		}
 		Identifier		id(id_name, nullptr, context_name);
 		return id.toNode();
@@ -187,12 +181,12 @@ Parser::unique_node	Parser::_parseF(const std::string& context_name) {
 			// Parenthesis
 			unique_node	a = _parseE(context_name);
 			if (a == nullptr)
-				throw Parser::IncorrectSyntax("Expecting content inside parenthesis");
+				throw IncorrectSyntax("Expecting content inside parenthesis");
 			if (_token == R_PARENTHESIS) {
 				_ret = _tokenizer.scanToken(_token);
 				return a;
 			}
-			throw Parser::IncorrectSyntax("Expecting final `)`");
+			throw IncorrectSyntax("Expecting final `)`");
 		} else if (_token == L_BRACKET) {
 			// Matrix
 			return _parseMatrix();
@@ -200,8 +194,11 @@ Parser::unique_node	Parser::_parseF(const std::string& context_name) {
 	} else if (_ret == ESYMBOL) {
 		// Negate operation
 		if (_token == NEGATE) {
-			_ret = _tokenizer.scanToken(_token);
-			Negate	negation(_parseF(context_name));
+			// _ret = _tokenizer.scanToken(_token);
+			unique_node	a = _parseF(context_name);
+			if (a == nullptr)
+				throw IncorrectSyntax("Expecting value after `-`");
+			Negate	negation(std::move(a));
 			return negation.toNode();
 		}
 	}
@@ -222,8 +219,8 @@ Parser::unique_node	Parser::_parseT(const std::string& context_name) {
 	LOG("In _parseT");
 	unique_node	a = _parseF(context_name);
 
-	if (a == nullptr)
-		throw IncorrectSyntax("Expecting value before `" + _token + "`");
+	// if (a == nullptr)
+		// throw IncorrectSyntax("Expecting value before `" + _token + "`");
 	if (_token == MULTIPLICATION) {
 		// F * T
 		unique_node	b = _parseT(context_name);
@@ -258,15 +255,17 @@ Parser::unique_node	Parser::_parseT(const std::string& context_name) {
 
 /* Utils -------------------------------------------------------------------- */
 
-Parser::unique_node	Parser::_parseFunction(const std::string& func_name) {
+Parser::unique_node	Parser::_parseFunction(
+	const std::string& func_name,
+	std::string& var_name
+) {
 	LOG("In _parseFunction");
 	// Function
 	_ret = _tokenizer.scanToken(_token);
 
 	if (_ret == ENAME) {
 		// Variable name
-		// Identifier			var_name(_token, nullptr, func_name);
-		std::string			var_name(_token);
+		var_name = _token;
 		_ret = _tokenizer.scanToken(_token);
 		if (_token != R_PARENTHESIS)
 			throw IncorrectSyntax("Expecting `)`");
