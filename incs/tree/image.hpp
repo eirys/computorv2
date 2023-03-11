@@ -41,7 +41,7 @@ class Image: public ATreeNode {
 		const shared_itype	eval() {
 			// Replace occurence of x
 			shared_itype	x_value = base::getRight()->eval();
-			shared_itype	f_ptr = Computor::find(_func_name);
+			shared_itype	f_ptr = Computor::find(_func_name); // replace
 			if (f_ptr == nullptr)
 				throw std::exception();
 			Function&		function = *(std::dynamic_pointer_cast<Function>(f_ptr));
