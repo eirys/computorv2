@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 19:29:31 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 19:31:55 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	Computor::push(
 		LOG("Pushing value to global context");
 		_memory.push(std::make_pair(variable_name, value));
 	} else {
-		LOG("Pushing value "<< *value << " to context: " << context_name);
+		LOG("Pushing value " << variable_name << "=" << *value << " to context: " << context_name);
 		// context_map::iterator	memory = _local_memory.find(context_name);
 		// if (memory == _local_memory.end())
 			// throw ContextInexistent();

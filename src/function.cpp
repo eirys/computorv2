@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 18:40:18 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 19:33:22 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,11 +358,11 @@ Function	Function::operator%(const Matrix& rhs) const {
 
 /* Getter ------------------------------------------------------------------- */
 
-const std::string&	Function::getName() const {
+const std::string	Function::getName() const {
 	return _name;
 }
 
-const std::string&  Function::getVarName() const {
+const std::string  Function::getVarName() const {
 	return _var_name;
 }
 

@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:58:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 16:08:36 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 19:32:59 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ class Function: public IType {
 		Function			operator%(const Matrix& rhs) const;		// undefined
 
 		/* Getter ----------------------------------------------------------------- */
-		const std::string&	getName() const;
-		const std::string&	getVarName() const;
+		const std::string	getName() const;
+		const std::string	getVarName() const;
 		tree_head			getBody() const;
 
 	private:
