@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 15:13:08 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 15:55:44 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <string>
 
 # include "atree_node.hpp"
+# include "computor.hpp"
 
 /**
  * Identifier	: { char | _ }+
@@ -36,9 +37,14 @@ class Identifier: public ATreeNode {
 		typedef typename	base::weak_itype			weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
-		Identifier(const std::string& name, unique_node&& value = nullptr):
-			base(nullptr, std::move(value)),
-			_name(name) {}
+		Identifier(
+			const std::string& name,
+			unique_node&& value,
+			const std::string& context_name = std::string()
+			):
+				base(nullptr, std::move(value)),
+				_name(name),
+				_context_name(context_name) {}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Identifier() {}
@@ -46,14 +52,21 @@ class Identifier: public ATreeNode {
 		/* ------------------------------------------------------------------------ */
 		const shared_itype		eval() {
 			if (base::getRight() == nullptr) {
-				// Not set, check existing in context
-				shared_itype	value = Computor::find(_name);
+				// Not set, check existing in local context
+				shared_itype	value;
+				if (!_context_name.empty()) {
+					value = Computor::find(_name, _context_name);
+					if (value != nullptr)
+						return value;
+				}
+				// Not set, check existing in global context
+				value = Computor::find(_name);
 				if (value == nullptr)
 					throw Identifier::ValueNotSet(_name);
 				return value;
 			} else {
 				// Set a new value
-				Computor::push(_name, base::getRight()->eval());
+				Computor::push(_name, base::getRight()->eval(), _context_name);
 				return base::getRight()->eval();
 			}
 		}
@@ -89,6 +102,7 @@ class Identifier: public ATreeNode {
 
 	private:
 		const std::string		_name;
+		const std::string		_context_name;
 };
 
 #endif

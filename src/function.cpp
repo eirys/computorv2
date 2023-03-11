@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/10 23:38:26 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/11 16:22:36 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ Function::~Function() {}
 Function::Function(const Function& x):
 	_body(x.getBody()) {}
 
-Function::Function(const std::string& var_name, tree_head body):
+Function::Function(const std::string& name, const std::string& var_name, tree_head body):
+	_name(name),
 	_var_name(var_name),
 	_body(body) {}
 
@@ -92,7 +93,9 @@ Function	Function::operator-() const {
 	Negate	neg(std::move(*tmp._body));
 	*tmp._body = neg.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	// return _eval((*tmp._body)->eval());
+	return tmp._eval();
 }
 
 Function&	Function::operator+=(const Function& rhs) {
@@ -100,14 +103,16 @@ Function&	Function::operator+=(const Function& rhs) {
 
 	*_body = add.toNode();
 	// return *this;
-	return *(*_body)->eval();
+	// return *(*_body)->eval();
+	return _eval();
 }
 
 Function	Function::operator+(const Function& rhs) const {
 	Function	tmp(*this);
 	tmp.operator+=(rhs);
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function&	Function::operator-=(const Function& rhs) {
@@ -115,14 +120,16 @@ Function&	Function::operator-=(const Function& rhs) {
 
 	*_body = sub.toNode();
 	// return *this;
-	return *(*_body)->eval();
+	// return *(*_body)->eval();
+	return _eval();
 }
 
 Function	Function::operator-(const Function& rhs) const {
 	Function	tmp(*this);
 	tmp.operator-=(rhs);
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function&	Function::operator*=(const Function& rhs) {
@@ -130,14 +137,16 @@ Function&	Function::operator*=(const Function& rhs) {
 
 	*_body = mul.toNode();
 	// return *this;
-	return *(*_body)->eval();
+	// return *(*_body)->eval();
+	return _eval();
 }
 
 Function	Function::operator*(const Function& rhs) const {
 	Function	tmp(*this);
 	tmp.operator*=(rhs);
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function&	Function::operator/=(const Function& rhs) {
@@ -145,14 +154,16 @@ Function&	Function::operator/=(const Function& rhs) {
 
 	*_body = div.toNode();
 	// return *this;
-	return *(*_body)->eval();
+	// return *(*_body)->eval();
+	return _eval();
 }
 
 Function	Function::operator/(const Function& rhs) const {
 	Function	tmp(*this);
 	tmp.operator/=(rhs);
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function&	Function::operator^=(const Function& rhs) {
@@ -160,14 +171,16 @@ Function&	Function::operator^=(const Function& rhs) {
 
 	*_body = pow.toNode();
 	// return *this;
-	return *(*_body)->eval();
+	// return *(*_body)->eval();
+	return _eval();
 }
 
 Function	Function::operator^(const Function& rhs) const {
 	Function	tmp(*this);
 	tmp.operator^=(rhs);
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function&	Function::operator%=(const Function& rhs) {
@@ -175,14 +188,16 @@ Function&	Function::operator%=(const Function& rhs) {
 
 	*_body = mod.toNode();
 	// return *this;
-	return *(*_body)->eval();
+	// return *(*_body)->eval();
+	return _eval();
 }
 
 Function	Function::operator%(const Function& rhs) const {
 	Function	tmp(*this);
 	tmp.operator%=(rhs);
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -192,7 +207,8 @@ Function	Function::operator+(const Rational& rhs) const {
 	Add			add(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = add.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator-(const Rational& rhs) const {
@@ -200,7 +216,8 @@ Function	Function::operator-(const Rational& rhs) const {
 	Substract	sub(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = sub.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator*(const Rational& rhs) const {
@@ -208,7 +225,8 @@ Function	Function::operator*(const Rational& rhs) const {
 	Multiply	mul(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = mul.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator/(const Rational& rhs) const {
@@ -216,7 +234,8 @@ Function	Function::operator/(const Rational& rhs) const {
 	Divide	div(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = div.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator^(const Rational& rhs) const {
@@ -224,7 +243,8 @@ Function	Function::operator^(const Rational& rhs) const {
 	Power		pow(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = pow.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator%(const Rational& rhs) const {
@@ -232,7 +252,8 @@ Function	Function::operator%(const Rational& rhs) const {
 	Modulo		mod(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = mod.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -242,7 +263,8 @@ Function	Function::operator+(const Complex& rhs) const {
 	Add			add(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = add.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator-(const Complex& rhs) const {
@@ -250,7 +272,8 @@ Function	Function::operator-(const Complex& rhs) const {
 	Substract	sub(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = sub.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator*(const Complex& rhs) const {
@@ -258,7 +281,8 @@ Function	Function::operator*(const Complex& rhs) const {
 	Multiply	mul(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = mul.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator/(const Complex& rhs) const {
@@ -266,7 +290,8 @@ Function	Function::operator/(const Complex& rhs) const {
 	Divide	div(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = div.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator^(const Complex& rhs) const {
@@ -274,7 +299,8 @@ Function	Function::operator^(const Complex& rhs) const {
 	Power		pow(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = pow.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator%(const Complex& rhs) const {
@@ -282,7 +308,8 @@ Function	Function::operator%(const Complex& rhs) const {
 	Modulo		mod(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = mod.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -292,7 +319,8 @@ Function	Function::operator+(const Matrix& rhs) const {
 	Add			add(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = add.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator-(const Matrix& rhs) const {
@@ -300,7 +328,8 @@ Function	Function::operator-(const Matrix& rhs) const {
 	Substract	sub(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = sub.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator*(const Matrix& rhs) const {
@@ -308,7 +337,8 @@ Function	Function::operator*(const Matrix& rhs) const {
 	Multiply	mul(std::move(*tmp._body), createVariable(rhs));
 	*tmp._body = mul.toNode();
 	// return tmp;
-	return *(*tmp._body)->eval();
+	// return *(*tmp._body)->eval();
+	return tmp._eval();
 }
 
 Function	Function::operator/(const Matrix& rhs) const {
@@ -341,6 +371,16 @@ Function::tree_head Function::getBody() const {
 }
 
 /* ========================================================================== */
+/*                                   PRIVATE                                  */
+/* ========================================================================== */
+
+Function&	Function::_eval() const {
+	Function&		cast_result = dynamic_cast<Function&>(*(*_body)->eval());
+
+	return cast_result;
+}
+
+/* ========================================================================== */
 /*                                    OTHER                                   */
 /* ========================================================================== */
 
@@ -349,7 +389,7 @@ bool operator==(const Function& lhs, const Function& rhs) {
 }
 
 std::ostream&	operator<<(std::ostream& o, const Function& x) {
-	o << '(' << x.getVarName() << ") = ";
+	o << x.getName() << '(' << x.getVarName() << ") = ";
 	(*x.getBody())->print();
 	return o;
 }

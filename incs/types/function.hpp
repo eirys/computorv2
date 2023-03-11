@@ -6,14 +6,16 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:58:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/09 14:55:14 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 16:08:36 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FUNCTION_HPP
 # define FUNCTION_HPP
 
+# include <memory>
 # include <iostream>
+
 # include "itype.hpp"
 # include "atree_node.hpp"
 # include "computor.hpp"
@@ -100,6 +102,7 @@ class Function: public IType {
 		std::string			_var_name;
 		tree_head			_body;
 
+		Function&			_eval() const;
 };
 
 bool			operator==(const Function& lhs, const Function& rhs);

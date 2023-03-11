@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itype.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 22:52:20 by eli               #+#    #+#             */
-/*   Updated: 2023/03/10 23:33:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/11 16:10:24 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ std::ostream&	operator<<(std::ostream& o, const IType& x) {
 				o << m_ref;
 			} catch (const std::bad_cast& exception3) {
 				try {
-					const Function&	f_ref = dynamic_cast<const Function&>(x)
+					const Function&	f_ref = dynamic_cast<const Function&>(x);
 					o << f_ref;
 				} catch (const std::bad_cast& exception4) {
 					//TODO
