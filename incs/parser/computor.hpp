@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 15:56:51 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 23:26:04 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class Computor {
 		virtual ~Computor();
 
 		/* ------------------------------------------------------------------------ */
+
 		static void				push(
 									const name_type& variable_name,
 									const value_ptr& value,
@@ -40,18 +41,11 @@ class Computor {
 									const name_type& variable_name,
 									const name_type& context_name = std::string()
 								);
+		static void				flush();
 		void					show() const;
-		// static void				push_context(
-		// 							const name_type& context_name,
-		// 							const name_type& variable_name,
-		// 							const value_ptr& value = nullptr
-		// 						);
-		// static const value_ptr	find_context(
-		// 							const name_type& context_name,
-		// 							const name_type& variable_name
-		// 						);
 
 		/* Exception -------------------------------------------------------------- */
+
 		class ContextInexistent: public std::exception {
 			public:
 				virtual const char* what() const throw() {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 19:33:22 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 23:13:57 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ Function::Function():
 Function::~Function() {}
 
 Function::Function(const Function& x):
+	_name(x.getName()),
+	_var_name(x.getVarName()),
 	_body(x.getBody()) {}
 
 Function::Function(const std::string& name, const std::string& var_name, tree_head body):
@@ -390,7 +392,7 @@ bool operator==(const Function& lhs, const Function& rhs) {
 
 std::ostream&	operator<<(std::ostream& o, const Function& x) {
 	// LOG("ICI");
-	// o << x.getName() << '(' << x.getVarName() << ") = ";
+	o << '(' << x.getVarName() << ") = ";
 	(*x.getBody())->print();
 	return o;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/11 15:55:44 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 23:13:19 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ class Identifier: public ATreeNode {
 			):
 				base(nullptr, std::move(value)),
 				_name(name),
-				_context_name(context_name) {}
+				_context_name(context_name) {
+					LOG("Creating identifier `"<< name <<"` in context `" << context_name <<
+					"`" );
+				}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Identifier() {}
@@ -77,7 +80,7 @@ class Identifier: public ATreeNode {
 
 		unique_node				toNode() {
 			return unique_node(
-				new Identifier(_name, std::move(base::getRight()))
+				new Identifier(_name, std::move(base::getRight()), _context_name)
 			);
 		}
 

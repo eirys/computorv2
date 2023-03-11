@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 19:31:55 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 23:26:21 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,25 @@ Computor::~Computor() {}
 
 /* Function ----------------------------------------------------------------- */
 
+/**
+ * Pushes new value to context.
+*/
 void	Computor::push(
 	const name_type& variable_name,
 	const value_ptr& value,
 	const name_type& context_name
 ) {
 	if (context_name.empty()) {
-		LOG("Pushing value to global context");
 		_memory.push(std::make_pair(variable_name, value));
 	} else {
-		LOG("Pushing value " << variable_name << "=" << *value << " to context: " << context_name);
-		// context_map::iterator	memory = _local_memory.find(context_name);
-		// if (memory == _local_memory.end())
-			// throw ContextInexistent();
 		variable	var = std::make_pair(variable_name, value);
 		_local_memory[context_name].push(var);
 	}
 }
 
+/**
+ * Returns variable_name if in context.
+*/
 const Computor::value_ptr	Computor::find(
 	const name_type& variable_name,
 	const name_type& context_name
@@ -65,6 +66,17 @@ const Computor::value_ptr	Computor::find(
 		cpy.pop();
 	}
 	return nullptr;
+}
+
+/**
+ * Flushes all temporary contexts.
+*/
+void	Computor::flush() {
+	for (context_map::iterator it = _local_memory.begin();
+	it != _local_memory.end();
+	++it) {
+		it->second = context();
+	}
 }
 
 void	Computor::show() const {
@@ -89,19 +101,3 @@ void	Computor::show() const {
 	}
 
 }
-
-// void	Computor::push_context(
-// 	const Identifier& context_name,
-// 	const name_type& name,
-// 	const value_ptr& value
-// ) {
-// 	context_map::iterator	local = _local_memory.find(context_name);
-// 	if (local != _local_memory.end()) {
-// 		// Il existe deja un contexte avec ce nom
-// 		if (local->second.)
-// 	} else {
-// 		// Il n'y en a pas
-// 		Computor::variable	var_pair = std::make_pair(name, value);
-// 		_local_memory[context_name] = context();
-// 	}
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 14:28:15 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 23:22:39 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,11 @@ void test8() {
 			Parser				parser(entry);
 			Parser::result_tree	output = parser.parse();
 
+			LOG("Out of parser");
+
 			(*output)->print();
 			std::cout << " = " << *(*output)->eval() << NL;
+			Computor::flush();
 		} catch (const Tokenizer::EmptyInput& empty) {
 			break;
 		} catch (const Parser::EmptyContent& ws) {

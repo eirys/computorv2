@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/11 18:53:00 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 23:03:00 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ Parser::~Parser() {}
 
 Parser::result_tree Parser::parse() {
 	unique_node	result = (this->*_parsefn)("");
+	LOG("Getting main tree now");
 	result_tree	tree = std::make_shared<unique_node>(std::move(result));
 
 	if (*tree == NULL)
@@ -91,6 +92,7 @@ Parser::unique_node	Parser::_parseA(const std::string& context_name) {
 		} else if (_token == L_PARENTHESIS) {
 			// Function
 			value = _parseFunction(identifier);
+			LOG("Left parsefunction");
 		}
 		if (value == nullptr)
 			throw IncorrectSyntax("Expected expression after `=`");

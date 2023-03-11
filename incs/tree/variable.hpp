@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/11 16:10:56 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 21:52:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ inline Variable::unique_node	createVariable(const Matrix& x) {
 }
 
 inline Variable::unique_node	createVariable(const Function& x) {
-	Variable::shared_itype	tmp(new Function(x));
+	Variable::shared_itype	tmp = std::make_shared<Function>(x);
 
 	return Variable::unique_node(new Variable(tmp));
 }
