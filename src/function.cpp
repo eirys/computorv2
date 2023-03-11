@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 16:22:36 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 18:40:18 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,7 +389,8 @@ bool operator==(const Function& lhs, const Function& rhs) {
 }
 
 std::ostream&	operator<<(std::ostream& o, const Function& x) {
-	o << x.getName() << '(' << x.getVarName() << ") = ";
+	// LOG("ICI");
+	// o << x.getName() << '(' << x.getVarName() << ") = ";
 	(*x.getBody())->print();
 	return o;
 }

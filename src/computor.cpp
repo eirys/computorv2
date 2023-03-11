@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 16:18:54 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/11 19:29:31 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,15 @@ void	Computor::push(
 	const name_type& context_name
 ) {
 	if (context_name.empty()) {
+		LOG("Pushing value to global context");
 		_memory.push(std::make_pair(variable_name, value));
 	} else {
-		context_map::iterator	memory = _local_memory.find(context_name);
-		if (memory == _local_memory.end())
-			throw ContextInexistent();
-		memory->second.push(std::make_pair(variable_name, value));
+		LOG("Pushing value "<< *value << " to context: " << context_name);
+		// context_map::iterator	memory = _local_memory.find(context_name);
+		// if (memory == _local_memory.end())
+			// throw ContextInexistent();
+		variable	var = std::make_pair(variable_name, value);
+		_local_memory[context_name].push(var);
 	}
 }
 
@@ -72,6 +75,19 @@ void	Computor::show() const {
 		std::cout << cpy.top().first << '=' << *cpy.top().second << NL;
 		cpy.pop();
 	}
+
+	for (context_map::const_iterator it = _local_memory.begin();
+		it != _local_memory.end();
+		++it
+	) {
+		std::cout << '\'' << it->first << '\'' << NL;
+		context	current(it->second);
+		while (!current.empty()) {
+			std::cout << current.top().first << '=' << *current.top().second << NL;
+			current.pop();
+		}
+	}
+
 }
 
 // void	Computor::push_context(
