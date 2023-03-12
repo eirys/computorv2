@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 23:31:18 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 12:38:35 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ class Image: public ATreeNode {
 		/* Constructor ------------------------------------------------------------ */
 		Image(const std::string& func_name, unique_node&& x):
 			base(nullptr, std::move(x)),
-			_func_name(func_name) {}
+			_func_name(func_name) {
+				LOG("Creating image");
+			}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Image() {}
@@ -53,6 +55,7 @@ class Image: public ATreeNode {
 		}
 
 		void				print() {
+			LOG("[img]");
 			std::cout << _func_name << '(';
 			base::getRight()->print();
 			std::cout << ')';

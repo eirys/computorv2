@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 14:18:39 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/12 11:22:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,11 @@ class Rational: public IType {
 							) const;
 		shared_itype	_complex_operator(
 							Complex (Rational::*f)(const Complex&) const,
-							const std::shared_ptr<Complex>& r_ptr
+							const std::shared_ptr<Complex>& c_ptr
 							) const;
 		shared_itype	_matrix_operator(
 							Matrix (Rational::*f)(const Matrix&) const,
-							const std::shared_ptr<Matrix>& r_ptr
+							const std::shared_ptr<Matrix>& m_ptr
 							) const;
 		shared_itype	_function_operator(
 							Function (Rational::*f)(const Function&) const,

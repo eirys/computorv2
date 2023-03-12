@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:39:57 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 10:55:22 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 12:38:50 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,14 @@ class Multiply: public virtual ATreeNode {
 			std::shared_ptr<Matrix>		arg3 = std::dynamic_pointer_cast<Matrix>(tmp);
 			if (arg3.get())
 				return *arg3 * base::getRight()->eval();
+			std::shared_ptr<Function>	arg4 = std::dynamic_pointer_cast<Function>(tmp);
+			if (arg4.get())
+				return *arg4 * base::getRight()->eval();
 			return nullptr;
 		}
 
 		void				print() {
+			LOG("[mult]");
 			base::getLeft()->print();
 			std::cout << '*';
 			base::getRight()->print();

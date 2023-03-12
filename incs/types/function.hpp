@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:58:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/11 19:32:59 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/12 11:26:02 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,22 @@ class Function: public IType {
 		tree_head			_body;
 
 		Function&			_eval() const;
+		shared_itype	_rational_operator(
+							Function (Function::*f)(const Rational&) const,
+							const std::shared_ptr<Rational>& r_ptr
+							) const;
+		shared_itype	_complex_operator(
+							Function (Function::*f)(const Complex&) const,
+							const std::shared_ptr<Complex>& c_ptr
+							) const;
+		shared_itype	_matrix_operator(
+							Function (Function::*f)(const Matrix&) const,
+							const std::shared_ptr<Matrix>& m_ptr
+							) const;
+		shared_itype	_function_operator(
+							Function (Function::*f)(const Function&) const,
+							const std::shared_ptr<Function>& f_ptr
+						) const;
 };
 
 bool			operator==(const Function& lhs, const Function& rhs);

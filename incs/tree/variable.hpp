@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/11 21:52:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 12:39:16 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ class Variable: virtual public ATreeNode {
 		}
 
 		void				print() {
+			LOG("[var]");
 			std::cout << *_val_ptr;
 		}
 

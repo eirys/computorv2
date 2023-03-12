@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/12 00:14:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 14:17:21 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,32 +58,98 @@ Function::shared_itype	Function::clone() const {
 }
 
 Function::shared_itype	Function::operator+(const shared_itype& rhs_ptr) const {
-	(void)rhs_ptr;
+	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Function::operator+, r_ptr);
+	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Function::operator+, c_ptr);
+	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Function::operator+, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr.get())
+		return _function_operator(&Function::operator+, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator-(const shared_itype& rhs_ptr) const {
-	(void)rhs_ptr;
+	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Function::operator-, r_ptr);
+	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Function::operator-, c_ptr);
+	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Function::operator-, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr.get())
+		return _function_operator(&Function::operator-, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator*(const shared_itype& rhs_ptr) const {
-	(void)rhs_ptr;
+	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Function::operator*, r_ptr);
+	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Function::operator*, c_ptr);
+	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Function::operator*, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr.get())
+		return _function_operator(&Function::operator*, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator/(const shared_itype& rhs_ptr) const {
-	(void)rhs_ptr;
+	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Function::operator/, r_ptr);
+	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Function::operator/, c_ptr);
+	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Function::operator/, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr.get())
+		return _function_operator(&Function::operator/, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator^(const shared_itype& rhs_ptr) const {
-	(void)rhs_ptr;
+	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Function::operator^, r_ptr);
+	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Function::operator^, c_ptr);
+	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Function::operator^, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr.get())
+		return _function_operator(&Function::operator^, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator%(const shared_itype& rhs_ptr) const {
-	(void)rhs_ptr;
+	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr.get())
+		return _rational_operator(&Function::operator%, r_ptr);
+	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr.get())
+		return _complex_operator(&Function::operator%, c_ptr);
+	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr.get())
+		return _matrix_operator(&Function::operator%, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr.get())
+		return _function_operator(&Function::operator%, f_ptr);
 	return nullptr;
 }
 
@@ -92,8 +158,11 @@ Function::shared_itype	Function::operator%(const shared_itype& rhs_ptr) const {
 Function	Function::operator-() const {
 	Function	tmp(*this);
 
-	Negate	neg(std::move(*tmp._body));
+	unique_node	new_var = createVariable(*this);
+	Negate	neg(std::move(new_var));
+
 	*tmp._body = neg.toNode();
+
 	// return tmp;
 	// return *(*tmp._body)->eval();
 	// return _eval((*tmp._body)->eval());
@@ -382,6 +451,34 @@ Function&	Function::_eval() const {
 	return cast_result;
 }
 
+Function::shared_itype	Function::_rational_operator(
+	Function (Function::*f)(const Rational&) const,
+	const std::shared_ptr<Rational>& r_ptr
+) const {
+	return shared_itype(new Function((this->*f)(*r_ptr)));
+}
+
+Function::shared_itype	Function::_complex_operator(
+	Function (Function::*f)(const Complex&) const,
+	const std::shared_ptr<Complex>& c_ptr
+) const {
+	return shared_itype(new Function((this->*f)(*c_ptr)));
+}
+
+Function::shared_itype	Function::_matrix_operator(
+	Function (Function::*f)(const Matrix&) const,
+	const std::shared_ptr<Matrix>& m_ptr
+) const {
+	return shared_itype(new Function((this->*f)(*m_ptr)));
+}
+
+Function::shared_itype	Function::_function_operator(
+	Function (Function::*f)(const Function&) const,
+	const std::shared_ptr<Function>& f_ptr
+) const {
+	return shared_itype(new Function((this->*f)(*f_ptr)));
+}
+
 /* ========================================================================== */
 /*                                    OTHER                                   */
 /* ========================================================================== */
@@ -391,8 +488,7 @@ bool operator==(const Function& lhs, const Function& rhs) {
 }
 
 std::ostream&	operator<<(std::ostream& o, const Function& x) {
-	// LOG("ICI");
-	// o << '(' << x.getVarName() << ") = ";
+	// LOG("fun <<");
 	(*x.getBody())->print();
 	return o;
 }

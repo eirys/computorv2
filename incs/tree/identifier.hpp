@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 00:16:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 14:04:58 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ class Identifier: public ATreeNode {
 				_name(name),
 				_context_name(context_name),
 				_extra(extra) {
-					LOG("Creating identifier `"<< name <<"` in context `" << context_name <<
-					"` with extra: `" +extra+"`" );
+					LOG("Creating identifier `"<< name <<"` in context `"
+					<< context_name << "` with extra: `" +extra+"`" );
 				}
 
 		/* Destructor ------------------------------------------------------------- */
@@ -77,6 +77,7 @@ class Identifier: public ATreeNode {
 		}
 
 		void					print() {
+			LOG("[id]");
 			std::cout << _name;
 			if (!_extra.empty())
 				std::cout << '(' << _extra << ')';

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 15:10:38 by eli               #+#    #+#             */
-/*   Updated: 2023/02/12 10:55:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 12:38:55 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,14 @@ class Negate: public virtual ATreeNode {
 			std::shared_ptr<Matrix>		arg3 = std::dynamic_pointer_cast<Matrix>(tmp);
 			if (arg3.get())
 				return shared_itype(new Matrix(-*arg3));
+			std::shared_ptr<Function>	arg4 = std::dynamic_pointer_cast<Function>(tmp);
+			if (arg4.get())
+				return shared_itype(new Function(-*arg4));
 			return nullptr;
 		}
 
 		void				print() {
+			LOG("[neg]");
 			std::cout << "(-";
 			base::getRight()->print();
 			std::cout <<')';			

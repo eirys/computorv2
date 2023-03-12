@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modulo.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:05:58 by etran             #+#    #+#             */
-/*   Updated: 2023/03/04 17:42:21 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/12 12:38:41 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,14 @@ class Modulo: public virtual ATreeNode {
 			std::shared_ptr<Matrix>		arg3 = std::dynamic_pointer_cast<Matrix>(tmp);
 			if (arg3.get())
 				return *arg3 % base::getRight()->eval();
+			std::shared_ptr<Function>	arg4 = std::dynamic_pointer_cast<Function>(tmp);
+			if (arg4.get())
+				return *arg4 % base::getRight()->eval();
 			return nullptr;
 		}
 
 		void				print() {
+			LOG("[mod]");
 			base::getLeft()->print();
 			std::cout << '%';
 			base::getRight()->print();

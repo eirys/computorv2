@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 14:18:48 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/12 12:08:27 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,6 +441,7 @@ bool operator>=(const Rational& x, const Rational& y) {
 /* I/O stream operator ------------------------------------------------------ */
 
 std::ostream&	operator<<(std::ostream& o, const Rational& x) {
+	// LOG("rat <<");
 	o << x.getVal();
 	return o;
 }

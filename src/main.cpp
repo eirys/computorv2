@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/11 23:22:39 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 14:07:27 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,132 +36,6 @@
 using std::cout;
 using std::cerr;
 
-void test1() {
-  		Matrix	m1 = Matrix::matrix { { 2, 2 },
-									  { 1, 1 } };
-		Matrix	m2 = Matrix::matrix { { 5, 4, 3 },
-									  { 1, 2, 0 } };
-
-		cout << m1;
-
-		cout << m2;
-
-		Matrix m3 = m1 * m2;
-
-		cout << m3;
-
-		Matrix m4(2, Rational(1));
-
-		Matrix m5 = m1 * m4;
-
-		cout << m5;
-}
-
-void test2() {
-		Rational tmp(6);
-
-		Complex b(tmp);
-		cout << b << NL;
-		
-		b*= Complex(1, 1);
-
-		cout << b << NL;
-
-		b*= b;
-		cout << b << NL;
-
-		// b/= b;
-		// cout << b << NL;
-
-}
-
-void test3() {
-	Matrix m = Matrix::matrix { { 1, 22, 1 } };
-	cout << m;
-
-	m+=m;
-
-	cout << m;
-
-	m = m * m[0][0];
-	cout << m;
-}
-
-void test4() {
-	Matrix m = Matrix::matrix { { 1, 11, 22 } };
-	Complex c(5, 2);
-	Rational r(2);
-
-	cout << (m * r);
-	cout << (r * m);
-	cout << (m * Rational(1));
-	cout << (Rational(1) * m);
-	
-	cout << (m * m[0][1]);
-
-	cout << (c * r) << NL;
-	cout << (r * c) << NL;
-	cout << (c * Rational(1)) << NL;
-	cout << (Rational(1) * c) << NL;
-
-	cout << (c * c.getReal()) << NL;
-}
-
-
-// void test6() {
-// 	try {
-// 	typedef std::shared_ptr<ATreeNode>	shared_node;
-
-// 	Rational		a(5);
-// 	Complex			b(1, 1);
-// 	Matrix			c = Matrix::matrix { { 1, 1, 1 } };
-
-// 	shared_node		node_a = createVariable(a);	// 5
-// 	shared_node		node_b = createVariable(b);	// 1 + i
-// 	shared_node		node_c = createVariable(c);	// [ 1, 1, 1 ]
-
-// 	Add				add1(node_a, node_b);
-// 	Add				add2(node_c, node_c);
-// 	Multiply		mul(node_a, node_c);
-// 	Identifier		ide("var_A", node_a);
-
-// 	shared_node		id = ide.toNode();
-
-// 	cout << *add1.eval() << NL;
-// 	cout << *add2.eval() << NL;
-// 	Matrix			m = *mul.eval();
-
-// 	m[0][1] = 0.266;
-
-// 	cout << m << NL;
-
-// 	id->print();
-// 	cout << NL;
-
-// 	} catch (const std::exception& e) {
-// 		cerr << e.what() << NL;
-// 	}
-// }
-
-void test7() {
-	try {
-		std::string abc = "waewae";
-		cout << "Raw:" <<NL << abc << NL; 
-		Tokenizer	__toke(abc);
-
-		std::string tmp;
-		Tokenizer::e_tokentype	ret = __toke.scanToken(tmp);
-		
-		while (!tmp.empty()) {
-			std::cout << "[ret = " << ret << "] Tmp is: \"" << tmp << '"' << NL;
-			ret = __toke.scanToken(tmp);
-		}
-		
-	} catch (const std::exception& e){
-		std::cerr << e.what() << NL;
-	}
-}
-
 void test8() {
 	Computor	computor_context;
 	while (true) {
@@ -172,11 +46,11 @@ void test8() {
 
 			Parser				parser(entry);
 			Parser::result_tree	output = parser.parse();
-
+	
 			LOG("Out of parser");
 
 			(*output)->print();
-			std::cout << " = " << *(*output)->eval() << NL;
+			cout << " = " << *(*output)->eval() << NL;
 			Computor::flush();
 		} catch (const Tokenizer::EmptyInput& empty) {
 			break;
@@ -189,13 +63,6 @@ void test8() {
 }
 
 int main() {
-	// test1();
-	// test2();
-	// test3();
-	// test4();
-	// test5();
-	// test6();
-	// test7();
 	test8();
 	return 0;
 }
