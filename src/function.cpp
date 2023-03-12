@@ -6,11 +6,12 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/12 14:17:21 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 22:20:40 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "function.hpp"
+#include "identifier.hpp"
 #include "negate.hpp"
 #include "add.hpp"
 #include "substract.hpp"
@@ -156,17 +157,13 @@ Function::shared_itype	Function::operator%(const shared_itype& rhs_ptr) const {
 /* Arith Operators ---------------------------------------------------------- */
 
 Function	Function::operator-() const {
+	Identifier	id(getName(), nullptr, getName(), getVarName());
+	Negate	neg(std::move(id.toNode()));
+
 	Function	tmp(*this);
+	tmp._body = std::make_shared<unique_node>(neg.toNode());
 
-	unique_node	new_var = createVariable(*this);
-	Negate	neg(std::move(new_var));
-
-	*tmp._body = neg.toNode();
-
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	// return _eval((*tmp._body)->eval());
-	return tmp._eval();
+	return tmp;
 }
 
 Function&	Function::operator+=(const Function& rhs) {

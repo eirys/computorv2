@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 14:07:27 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/12 22:06:00 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,21 @@ void test8() {
 	}
 }
 
+void test9() {
+
+	Rational	deux(2);
+	Identifier	id("x", nullptr);
+	Add			add(createVariable(deux), id.toNode());
+	Function	func("f", "x", std::make_shared<Function::unique_node>(add.toNode()));
+
+	ATreeNode::unique_node	result = createVariable(func);
+
+	result->print();
+	cout << *result->eval() << NL;
+}
+
 int main() {
 	test8();
+	// test9();
 	return 0;
 }
