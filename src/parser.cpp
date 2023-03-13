@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 00:14:25 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 18:44:11 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ Parser::unique_node	Parser::_parseA(const std::string& context_name) {
 		}
 		if (a == nullptr)
 			throw IncorrectSyntax("Expected expression after `=`");
-		Identifier	id(identifier, std::move(a), context_name, var_name);
+		Identifier	id(identifier, std::move(a), /* context_name,  */var_name);
 		return id.toNode();
 	}
 	throw IncorrectSyntax("Bad assignation");
@@ -170,7 +170,7 @@ Parser::unique_node	Parser::_parseF(const std::string& context_name) {
 			}
 			throw IncorrectSyntax("Expecting closing parenthesis `)`");
 		}
-		Identifier		id(id_name, nullptr, context_name);
+		Identifier		id(id_name, nullptr/* , context_name */);
 		return id.toNode();
 
 	} else if (_ret == ERATIONAL || _ret == EIMAGINARY) {

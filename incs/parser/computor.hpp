@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/12 14:06:53 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 18:45:53 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ class Computor {
 		typedef typename	ATreeNode::shared_itype			value_ptr;
 		typedef				std::string						name_type;
 		typedef				std::pair<name_type, value_ptr>	variable;
-		typedef				std::stack<variable>			context;
-		typedef				std::map<name_type, context>	context_map;
+		typedef				std::vector<variable>			context;
+		// typedef				std::map<name_type, context>	context_map;
 
 		Computor();
 		virtual ~Computor();
@@ -33,13 +33,14 @@ class Computor {
 		/* ------------------------------------------------------------------------ */
 		static void				push(
 									const name_type& variable_name,
-									const value_ptr& value,
-									const name_type& context_name = std::string()
+									const value_ptr& value
+									// const name_type& context_name = std::string()
 								);
 		static const value_ptr	find(
-									const name_type& variable_name,
-									const name_type& context_name = std::string()
+									const name_type& variable_name
+									// const name_type& context_name = std::string()
 								);
+		static void				create_context();
 		static void				flush();
 		void					show() const;
 
@@ -54,7 +55,8 @@ class Computor {
 
 	private:
 		static context			_memory;
-		static context_map		_local_memory;
+		static size_t			_context_pos;
+		// static context_map		_local_memory;
 };
 
 #endif

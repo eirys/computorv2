@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/12 12:38:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 19:02:14 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ class Image: public ATreeNode {
 			if (f_ptr == nullptr)
 				throw std::exception();
 			Function&		function = *(std::dynamic_pointer_cast<Function>(f_ptr));
-			Computor::push(function.getVarName(), x_value, _func_name);
-			return (*function.getBody())->eval();
+			Computor::create_context();
+			Computor::push(function.getVarName(), x_value/* , _func_name */);
+			shared_itype	ret = (*function.getBody())->eval();
+			return ret;
 		}
 
 		void				print() {
@@ -64,6 +66,12 @@ class Image: public ATreeNode {
 		unique_node			toNode() {
 			return unique_node(
 				new Image(_func_name, std::move(base::getRight()))
+			);
+		}
+
+		unique_node			clone() const {
+			return unique_node(
+				new Image(_func_name, base::getRight()->clone())
 			);
 		}
 

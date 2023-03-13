@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atree_node.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 14:10:36 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/13 13:27:18 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,26 @@ class ATreeNode {
 		virtual	~ATreeNode() {}
 
 		/* Base Functions --------------------------------------------------------- */
+
 		unique_node&				getLeft() {
 			return _left;
 		}
+		const unique_node&			getLeft() const {
+			return _left;
+		}
+
 		unique_node&				getRight() {
 			return _right;
 		}
-		void						setLeft(unique_node&& new_left) {
-			_left = std::move(new_left);
-		}
-		void						setRight(unique_node&& new_right) {
-			_right = std::move(new_right);
+		const unique_node&			getRight() const {
+			return _right;
 		}
 
 		/* Override --------------------------------------------------------------- */
 		virtual const shared_itype	eval() = 0;
 		virtual void				print() = 0;
 		virtual unique_node			toNode() = 0;
+		virtual unique_node			clone() const = 0;
 
 		// virtual Indeterminates		collapse() = 0;
 

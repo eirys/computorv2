@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/12 22:20:40 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 13:36:09 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,8 @@ Function::shared_itype	Function::operator%(const shared_itype& rhs_ptr) const {
 /* Arith Operators ---------------------------------------------------------- */
 
 Function	Function::operator-() const {
-	Identifier	id(getName(), nullptr, getName(), getVarName());
-	Negate	neg(std::move(id.toNode()));
+	// Identifier	id(getName(), nullptr, getName());
+	Negate	neg((*_body)->clone());
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(neg.toNode());
@@ -166,247 +166,226 @@ Function	Function::operator-() const {
 	return tmp;
 }
 
-Function&	Function::operator+=(const Function& rhs) {
-	Add	add(std::move(*_body), std::move(*rhs._body));
-
-	*_body = add.toNode();
-	// return *this;
-	// return *(*_body)->eval();
-	return _eval();
-}
-
 Function	Function::operator+(const Function& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
+	Add			add(id.toNode(), id_rhs.toNode());
+
 	Function	tmp(*this);
-	tmp.operator+=(rhs);
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
-}
+	tmp._body = std::make_shared<unique_node>(add.toNode());
 
-Function&	Function::operator-=(const Function& rhs) {
-	Substract	sub(std::move(*_body), std::move(*rhs._body));
-
-	*_body = sub.toNode();
-	// return *this;
-	// return *(*_body)->eval();
-	return _eval();
+	return tmp;
 }
 
 Function	Function::operator-(const Function& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
+	Substract	sub(id.toNode(), id_rhs.toNode());
+
 	Function	tmp(*this);
-	tmp.operator-=(rhs);
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
-}
+	tmp._body = std::make_shared<unique_node>(sub.toNode());
 
-Function&	Function::operator*=(const Function& rhs) {
-	Multiply	mul(std::move(*_body), std::move(*rhs._body));
-
-	*_body = mul.toNode();
-	// return *this;
-	// return *(*_body)->eval();
-	return _eval();
+	return tmp;
 }
 
 Function	Function::operator*(const Function& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
+	Multiply	mul(id.toNode(), id_rhs.toNode());
+
 	Function	tmp(*this);
-	tmp.operator*=(rhs);
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
-}
+	tmp._body = std::make_shared<unique_node>(mul.toNode());
 
-Function&	Function::operator/=(const Function& rhs) {
-	Divide	div(std::move(*_body), std::move(*rhs._body));
-
-	*_body = div.toNode();
-	// return *this;
-	// return *(*_body)->eval();
-	return _eval();
+	return tmp;
 }
 
 Function	Function::operator/(const Function& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
+	Divide		div(id.toNode(), id_rhs.toNode());
+
 	Function	tmp(*this);
-	tmp.operator/=(rhs);
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
-}
+	tmp._body = std::make_shared<unique_node>(div.toNode());
 
-Function&	Function::operator^=(const Function& rhs) {
-	Power	pow(std::move(*_body), std::move(*rhs._body));
-
-	*_body = pow.toNode();
-	// return *this;
-	// return *(*_body)->eval();
-	return _eval();
+	return tmp;
 }
 
 Function	Function::operator^(const Function& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
+	Power		pow(id.toNode(), id_rhs.toNode());
+
 	Function	tmp(*this);
-	tmp.operator^=(rhs);
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
-}
+	tmp._body = std::make_shared<unique_node>(pow.toNode());
 
-Function&	Function::operator%=(const Function& rhs) {
-	Modulo		mod(std::move(*_body), std::move(*rhs._body));
-
-	*_body = mod.toNode();
-	// return *this;
-	// return *(*_body)->eval();
-	return _eval();
+	return tmp;
 }
 
 Function	Function::operator%(const Function& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
+	Modulo		mod(id.toNode(), id_rhs.toNode());
+
 	Function	tmp(*this);
-	tmp.operator%=(rhs);
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(mod.toNode());
+
+	return tmp;
 }
 
-/* -------------------------------------------------------------------------- */
+/* Rational ----------------------------------------------------------------- */
 
 Function	Function::operator+(const Rational& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Add			add(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Add			add(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = add.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(add.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator-(const Rational& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Substract	sub(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Substract	sub(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = sub.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(sub.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator*(const Rational& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Multiply	mul(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Multiply	mul(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = mul.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(mul.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator/(const Rational& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Divide		div(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Divide	div(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = div.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(	div.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator^(const Rational& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Power		pow(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Power		pow(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = pow.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(pow.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator%(const Rational& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Modulo		mod(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Modulo		mod(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = mod.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(mod.toNode());
+
+	return tmp;
 }
 
-/* -------------------------------------------------------------------------- */
+/* Complex ------------------------------------------------------------------ */
 
 Function	Function::operator+(const Complex& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Add			add(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Add			add(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = add.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(add.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator-(const Complex& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Substract	sub(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Substract	sub(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = sub.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(sub.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator*(const Complex& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Multiply	mul(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Multiply	mul(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = mul.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(mul.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator/(const Complex& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Divide		div(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Divide	div(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = div.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(	div.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator^(const Complex& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Power		pow(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Power		pow(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = pow.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(pow.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator%(const Complex& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Modulo		mod(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Modulo		mod(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = mod.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(mod.toNode());
+
+	return tmp;
 }
 
-/* -------------------------------------------------------------------------- */
+/* Matrix ------------------------------------------------------------------- */
 
 Function	Function::operator+(const Matrix& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Add			add(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Add			add(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = add.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(add.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator-(const Matrix& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Substract	sub(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Substract	sub(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = sub.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(sub.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator*(const Matrix& rhs) const {
+	Identifier	id(getName(), nullptr, getName());
+	Multiply	mul(id.toNode(), createVariable(rhs));
+
 	Function	tmp(*this);
-	Multiply	mul(std::move(*tmp._body), createVariable(rhs));
-	*tmp._body = mul.toNode();
-	// return tmp;
-	// return *(*tmp._body)->eval();
-	return tmp._eval();
+	tmp._body = std::make_shared<unique_node>(mul.toNode());
+
+	return tmp;
 }
 
 Function	Function::operator/(const Matrix& rhs) const {

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:08:46 by etran             #+#    #+#             */
-/*   Updated: 2023/03/12 12:39:00 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 13:27:56 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ class Power: public virtual ATreeNode {
 		unique_node			toNode() {
 			return unique_node(
 				new Power(std::move(base::getLeft()), std::move(base::getRight()))
+			);
+		}
+
+		unique_node			clone() const {
+			return unique_node(
+				new Power(base::getLeft()->clone(), base::getRight()->clone())
 			);
 		}
 };

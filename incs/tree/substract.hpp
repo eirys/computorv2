@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 14:34:39 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 12:39:06 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 13:23:49 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,12 @@ class Substract: virtual public ATreeNode {
 		unique_node			toNode() {
 			return unique_node(
 				new Substract(std::move(base::getLeft()), std::move(base::getRight()))
+			);
+		}
+
+		unique_node			clone() const {
+			return unique_node(
+				new Substract(base::getLeft()->clone(), base::getRight()->clone())
 			);
 		}
 };

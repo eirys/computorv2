@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 18:18:44 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 12:37:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 13:27:37 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ class Divide: public virtual ATreeNode {
 		unique_node			toNode() {
 			return unique_node(
 				new Divide(std::move(base::getLeft()), std::move(base::getRight()))
+			);
+		}
+
+		unique_node			clone() const {
+			return unique_node(
+				new Divide(base::getLeft()->clone(), base::getRight()->clone())
 			);
 		}
 };

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 15:10:38 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 12:38:55 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 13:22:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ class Negate: public virtual ATreeNode {
 		unique_node			toNode() {
 			return unique_node(
 				new Negate(std::move(base::getRight()))
+			);
+		}
+
+		unique_node			clone() const {
+			return unique_node(
+				new Negate(base::getRight()->clone())
 			);
 		}
 };

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 14:04:58 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 19:03:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,14 @@ class Identifier: public ATreeNode {
 		Identifier(
 			const std::string& name,
 			unique_node&& value,
-			const std::string& context_name = std::string(),
+			// const std::string& context_name = std::string(),
 			const std::string& extra = std::string()
 			):
 				base(nullptr, std::move(value)),
 				_name(name),
-				_context_name(context_name),
+				// _context_name(context_name),
 				_extra(extra) {
-					LOG("Creating identifier `"<< name <<"` in context `"
-					<< context_name << "` with extra: `" +extra+"`" );
+					LOG("Creating identifier `"<< name <<"` with extra: `" +extra+"`" );
 				}
 
 		/* Destructor ------------------------------------------------------------- */
@@ -59,19 +58,22 @@ class Identifier: public ATreeNode {
 			if (base::getRight() == nullptr) {
 				// Not set, check existing in local context
 				shared_itype	value;
-				if (!_context_name.empty()) {
-					value = Computor::find(_name, _context_name);
-					if (value != nullptr)
-						return value;
-				}
+				// if (!_context_name.empty()) {
+				// 	value = Computor::find(_name/* , _context_name */);
+				// 	if (value != nullptr) {
+				// 		LOG("Found in local context");
+				// 		return value;
+				// 	}
+				// }
 				// Not set, check existing in global context
 				value = Computor::find(_name);
 				if (value == nullptr)
 					throw Identifier::ValueNotSet(_name);
+				// LOG("Found in global context");
 				return value;
 			} else {
 				// Set a new value
-				Computor::push(_name, base::getRight()->eval(), _context_name);
+				Computor::push(_name, base::getRight()->eval()/* , _context_name */);
 				return base::getRight()->eval();
 			}
 		}
@@ -88,7 +90,21 @@ class Identifier: public ATreeNode {
 				new Identifier(
 					_name,
 					std::move(base::getRight()),
-					_context_name,
+					// _context_name,
+					_extra
+				)
+			);
+		}
+
+		unique_node				clone() const {
+			unique_node		new_right;
+			if (base::getRight() != nullptr)
+				new_right = base::getRight()->clone();
+			return unique_node(
+				new Identifier(
+					_name,
+					std::move(new_right),
+					// _context_name,
 					_extra
 				)
 			);
@@ -115,7 +131,7 @@ class Identifier: public ATreeNode {
 
 	private:
 		const std::string		_name;
-		const std::string		_context_name;
+		// const std::string		_context_name;
 		const std::string		_extra;
 };
 

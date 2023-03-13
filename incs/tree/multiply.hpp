@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:39:57 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 12:38:50 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 13:22:06 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ class Multiply: public virtual ATreeNode {
 		unique_node			toNode() {
 			return unique_node(
 				new Multiply(std::move(base::getLeft()), std::move(base::getRight()))
+			);
+		}
+
+		unique_node			clone() const {
+			return unique_node(
+				new Multiply(base::getLeft()->clone(), base::getRight()->clone())
 			);
 		}
 };

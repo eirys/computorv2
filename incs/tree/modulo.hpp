@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:05:58 by etran             #+#    #+#             */
-/*   Updated: 2023/03/12 12:38:41 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 13:28:06 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ class Modulo: public virtual ATreeNode {
 		unique_node			toNode() {
 			return unique_node(
 				new Modulo(std::move(base::getLeft()), std::move(base::getRight()))
+			);
+		}
+
+		unique_node			clone() const {
+			return unique_node(
+				new Modulo(base::getLeft()->clone(), base::getRight()->clone())
 			);
 		}
 };
