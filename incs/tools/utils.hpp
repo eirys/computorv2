@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/13 13:14:50 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 19:21:03 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,6 @@ inline bool	isCharset(const char c, const std::string charset) {
 		return true;
 	return false;
 }
-
-// template <class T>
-// std::unique_ptr<T>	clone(const std::unique_ptr<T>& pointer) {
-// 	if (pointer == nullptr)
-// 		return nullptr;
-// 	return std::unique_ptr<T>(new T(*pointer));
-// }
-
 
 } // namespace utils
 

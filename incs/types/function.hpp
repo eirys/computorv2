@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:58:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/13 15:09:46 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 19:12:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class Function: public IType {
 		virtual ~Function();
 
 		Function(const Function& x);
-		Function(const std::string& name, const std::string& var_name, tree_head body);
+		Function(const std::string& var_name, tree_head body);
 
 		Function&			operator=(const Function& rhs);
 
@@ -82,16 +82,13 @@ class Function: public IType {
 		Function			operator%(const Matrix& rhs) const;		// undefined
 
 		/* Getter ----------------------------------------------------------------- */
-		const std::string	getName() const;
 		const std::string	getVarName() const;
 		tree_head			getBody() const;
 
 	private:
-		std::string			_name;
 		std::string			_var_name;
 		tree_head			_body;
 
-		Function&			_eval() const;
 		shared_itype		_rational_operator(
 								Function (Function::*f)(const Rational&) const,
 								const std::shared_ptr<Rational>& r_ptr

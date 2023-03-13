@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/13 19:04:48 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 19:20:47 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ void	Computor::create_context() {
 */
 void	Computor::flush() {
 	// _local_memory.clear();
-	if (_context_pos) {
+	// if (_context_pos) {
 		_memory.resize(_context_pos);
-		_context_pos = 0;
-	}
+		// _context_pos = 0;
+	// }
 }
 
 /**

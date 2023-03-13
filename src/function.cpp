@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/13 13:36:09 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 19:15:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,10 @@ Function::Function():
 Function::~Function() {}
 
 Function::Function(const Function& x):
-	_name(x.getName()),
 	_var_name(x.getVarName()),
 	_body(x.getBody()) {}
 
-Function::Function(const std::string& name, const std::string& var_name, tree_head body):
-	_name(name),
+Function::Function(const std::string& var_name, tree_head body):
 	_var_name(var_name),
 	_body(body) {}
 
@@ -157,19 +155,16 @@ Function::shared_itype	Function::operator%(const shared_itype& rhs_ptr) const {
 /* Arith Operators ---------------------------------------------------------- */
 
 Function	Function::operator-() const {
-	// Identifier	id(getName(), nullptr, getName());
-	Negate	neg((*_body)->clone());
+	Negate	negate((*_body)->clone());
 
 	Function	tmp(*this);
-	tmp._body = std::make_shared<unique_node>(neg.toNode());
+	tmp._body = std::make_shared<unique_node>(negate.toNode());
 
 	return tmp;
 }
 
 Function	Function::operator+(const Function& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
-	Add			add(id.toNode(), id_rhs.toNode());
+	Add			add((*_body)->clone(), (*rhs.getBody())->clone());
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(add.toNode());
@@ -178,9 +173,7 @@ Function	Function::operator+(const Function& rhs) const {
 }
 
 Function	Function::operator-(const Function& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
-	Substract	sub(id.toNode(), id_rhs.toNode());
+	Substract	sub((*_body)->clone(), (*rhs.getBody())->clone());
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(sub.toNode());
@@ -189,9 +182,7 @@ Function	Function::operator-(const Function& rhs) const {
 }
 
 Function	Function::operator*(const Function& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
-	Multiply	mul(id.toNode(), id_rhs.toNode());
+	Multiply	mul((*_body)->clone(), (*rhs.getBody())->clone());
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(mul.toNode());
@@ -200,9 +191,7 @@ Function	Function::operator*(const Function& rhs) const {
 }
 
 Function	Function::operator/(const Function& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
-	Divide		div(id.toNode(), id_rhs.toNode());
+	Divide		div((*_body)->clone(), (*rhs.getBody())->clone());
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(div.toNode());
@@ -211,9 +200,7 @@ Function	Function::operator/(const Function& rhs) const {
 }
 
 Function	Function::operator^(const Function& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
-	Power		pow(id.toNode(), id_rhs.toNode());
+	Power		pow((*_body)->clone(), (*rhs.getBody())->clone());
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(pow.toNode());
@@ -222,9 +209,7 @@ Function	Function::operator^(const Function& rhs) const {
 }
 
 Function	Function::operator%(const Function& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Identifier	id_rhs(rhs.getName(), nullptr, rhs.getName());
-	Modulo		mod(id.toNode(), id_rhs.toNode());
+	Modulo		mod((*_body)->clone(), (*rhs.getBody())->clone());
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(mod.toNode());
@@ -235,8 +220,7 @@ Function	Function::operator%(const Function& rhs) const {
 /* Rational ----------------------------------------------------------------- */
 
 Function	Function::operator+(const Rational& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Add			add(id.toNode(), createVariable(rhs));
+	Add			add((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(add.toNode());
@@ -245,8 +229,7 @@ Function	Function::operator+(const Rational& rhs) const {
 }
 
 Function	Function::operator-(const Rational& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Substract	sub(id.toNode(), createVariable(rhs));
+	Substract	sub((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(sub.toNode());
@@ -255,8 +238,7 @@ Function	Function::operator-(const Rational& rhs) const {
 }
 
 Function	Function::operator*(const Rational& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Multiply	mul(id.toNode(), createVariable(rhs));
+	Multiply	mul((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(mul.toNode());
@@ -265,8 +247,7 @@ Function	Function::operator*(const Rational& rhs) const {
 }
 
 Function	Function::operator/(const Rational& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Divide		div(id.toNode(), createVariable(rhs));
+	Divide		div((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(	div.toNode());
@@ -275,8 +256,7 @@ Function	Function::operator/(const Rational& rhs) const {
 }
 
 Function	Function::operator^(const Rational& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Power		pow(id.toNode(), createVariable(rhs));
+	Power		pow((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(pow.toNode());
@@ -285,8 +265,7 @@ Function	Function::operator^(const Rational& rhs) const {
 }
 
 Function	Function::operator%(const Rational& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Modulo		mod(id.toNode(), createVariable(rhs));
+	Modulo		mod((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(mod.toNode());
@@ -297,8 +276,7 @@ Function	Function::operator%(const Rational& rhs) const {
 /* Complex ------------------------------------------------------------------ */
 
 Function	Function::operator+(const Complex& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Add			add(id.toNode(), createVariable(rhs));
+	Add			add((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(add.toNode());
@@ -307,8 +285,7 @@ Function	Function::operator+(const Complex& rhs) const {
 }
 
 Function	Function::operator-(const Complex& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Substract	sub(id.toNode(), createVariable(rhs));
+	Substract	sub((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(sub.toNode());
@@ -317,8 +294,7 @@ Function	Function::operator-(const Complex& rhs) const {
 }
 
 Function	Function::operator*(const Complex& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Multiply	mul(id.toNode(), createVariable(rhs));
+	Multiply	mul((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(mul.toNode());
@@ -327,8 +303,7 @@ Function	Function::operator*(const Complex& rhs) const {
 }
 
 Function	Function::operator/(const Complex& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Divide		div(id.toNode(), createVariable(rhs));
+	Divide		div((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(	div.toNode());
@@ -337,8 +312,7 @@ Function	Function::operator/(const Complex& rhs) const {
 }
 
 Function	Function::operator^(const Complex& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Power		pow(id.toNode(), createVariable(rhs));
+	Power		pow((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(pow.toNode());
@@ -347,8 +321,7 @@ Function	Function::operator^(const Complex& rhs) const {
 }
 
 Function	Function::operator%(const Complex& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Modulo		mod(id.toNode(), createVariable(rhs));
+	Modulo		mod((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(mod.toNode());
@@ -359,8 +332,7 @@ Function	Function::operator%(const Complex& rhs) const {
 /* Matrix ------------------------------------------------------------------- */
 
 Function	Function::operator+(const Matrix& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Add			add(id.toNode(), createVariable(rhs));
+	Add			add((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(add.toNode());
@@ -369,8 +341,7 @@ Function	Function::operator+(const Matrix& rhs) const {
 }
 
 Function	Function::operator-(const Matrix& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Substract	sub(id.toNode(), createVariable(rhs));
+	Substract	sub((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(sub.toNode());
@@ -379,8 +350,7 @@ Function	Function::operator-(const Matrix& rhs) const {
 }
 
 Function	Function::operator*(const Matrix& rhs) const {
-	Identifier	id(getName(), nullptr, getName());
-	Multiply	mul(id.toNode(), createVariable(rhs));
+	Multiply	mul((*_body)->clone(), createVariable(rhs));
 
 	Function	tmp(*this);
 	tmp._body = std::make_shared<unique_node>(mul.toNode());
@@ -405,10 +375,6 @@ Function	Function::operator%(const Matrix& rhs) const {
 
 /* Getter ------------------------------------------------------------------- */
 
-const std::string	Function::getName() const {
-	return _name;
-}
-
 const std::string  Function::getVarName() const {
 	return _var_name;
 }
@@ -420,12 +386,6 @@ Function::tree_head Function::getBody() const {
 /* ========================================================================== */
 /*                                   PRIVATE                                  */
 /* ========================================================================== */
-
-Function&	Function::_eval() const {
-	Function&		cast_result = dynamic_cast<Function&>(*(*_body)->eval());
-
-	return cast_result;
-}
 
 Function::shared_itype	Function::_rational_operator(
 	Function (Function::*f)(const Rational&) const,
@@ -460,11 +420,10 @@ Function::shared_itype	Function::_function_operator(
 /* ========================================================================== */
 
 bool operator==(const Function& lhs, const Function& rhs) {
-	return lhs.getVarName() == rhs.getVarName() && (*lhs.getBody())->eval() == (*rhs.getBody())->eval();
+	return lhs.getVarName() == rhs.getVarName() && lhs.getBody() == rhs.getBody();
 }
 
 std::ostream&	operator<<(std::ostream& o, const Function& x) {
-	// LOG("fun <<");
 	(*x.getBody())->print();
 	return o;
 }

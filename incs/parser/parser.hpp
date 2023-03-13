@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 00:13:41 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/13 19:14:01 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,18 @@ class Parser {
 		Tokenizer			_tokenizer;
 		std::string			_token;
 		e_tokentype			_ret;
-		unique_node			(Parser::*_parsefn)(const std::string&);
+		unique_node			(Parser::*_parsefn)();
 
 		/* Parse Function Helper -------------------------------------------------- */
-		unique_node			_parseA(const std::string& context_name);
-		unique_node			_parseS(const std::string& context_name);
-		unique_node			_parseE(const std::string& context_name);
-		unique_node			_parseF(const std::string& context_name);
-		unique_node			_parseT(const std::string& context_name);
+		unique_node			_parseA();
+		unique_node			_parseS();
+		unique_node			_parseE();
+		unique_node			_parseF();
+		unique_node			_parseT();
 
 		/* Utils ------------------------------------------------------------------ */
-		unique_node			_parseFunction(
-								const std::string& func_name,
-								std::string& var_name
-							);
-		unique_node			_parseSimpleValue(const std::string& context_name);
+		unique_node			_parseFunction(std::string& var_name);
+		unique_node			_parseSimpleValue();
 		unique_node			_parseMatrix();
 		Matrix::row			_parseMatrixRow();
 };
