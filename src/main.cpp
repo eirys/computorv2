@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 12:34:06 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 12:56:58 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ void test8() {
 			LOG("Out of parser");
 
 			(*output)->print();
-			cout << " = " << *(*output)->eval() << NL;
+			Parser::shared_itype	res = (*output)->eval();
+			if (res != nullptr)
+				cout << " = " << *res << NL;
 			Computor::flush();
 		} catch (const Tokenizer::EmptyInput& empty) {
 			continue;

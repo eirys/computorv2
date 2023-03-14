@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 09:17:24 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 12:56:25 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Parser {
 		typedef typename	ATreeNode::unique_node	unique_node;
 		typedef typename	ATreeNode::tree_head	result_tree;
 		typedef typename	Tokenizer::e_tokentype	e_tokentype;
+		typedef typename	ATreeNode::shared_itype	shared_itype;
 
 		Parser(const std::string& raw);
 		virtual ~Parser();

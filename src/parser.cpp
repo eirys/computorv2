@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 09:30:28 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 12:58:02 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "power.hpp"
 #include "negate.hpp"
 #include "image.hpp"
+#include "equality.hpp"
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -67,9 +68,24 @@ Parser::result_tree Parser::parse() {
  * Solver parsing
  *
  * GRAMMAR:
- * S	: E = ?
+ * S	: E = E ?
+ * 		| E = ?
 */
 Parser::unique_node	Parser::_parseS() {
+	unique_node	lhs = _parseE();
+
+	if (lhs == nullptr)
+		throw IncorrectSyntax("Left hand side expression incorrect");
+	if (_ret != EEMPTY && _token == EQUAL) {
+		// Equality
+		unique_node	rhs = _parseE();
+		if (rhs == nullptr)
+			throw IncorrectSyntax("Right hand side expression incorrect");
+		Equality	eq(std::move(lhs), std::move(rhs));
+		return eq.toNode();
+	} else {
+		// Solve
+	}
 	return nullptr;
 }
 
