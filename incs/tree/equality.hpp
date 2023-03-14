@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/14 12:54:58 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 13:11:34 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,23 @@ class Equality: public ATreeNode {
 		virtual ~Equality() {}
 
 		const shared_itype	eval() {
-			if (base::getLeft() == base::getRight())
-				std::cout << "True";
+			shared_itype	lhs = base::getLeft()->eval();
+			shared_itype	rhs = base::getRight()->eval();
+
+			if (lhs == nullptr || rhs == nullptr)
+				throw std::exception();
+			if (*lhs == *rhs)
+				std::cout << "True\n";
 			else
-				std::cout << "False";
+				std::cout << "False\n";
 			return nullptr;
 		}
 
 		void				print() {
 			base::getLeft()->print();
-			std::cout << " == "
+			std::cout << " == ";
 			base::getRight()->print();
+			std::cout << " ? ";
 		}
 
 		unique_node			toNode() {

@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 12:56:25 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 13:02:57 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ class Parser {
 		/* Parse Function Helper -------------------------------------------------- */
 		unique_node			_parseA();
 		unique_node			_parseS();
+		unique_node			_parseC();
 		unique_node			_parseE();
 		unique_node			_parseF();
 		unique_node			_parseT();

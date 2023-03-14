@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 12:58:02 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 13:06:19 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ Parser::Parser(const std::string& raw):
 				_parsefn = &Parser::_parseA;
 			}
 		} else {
-			_parsefn = &Parser::_parseE;
+			_parsefn = &Parser::_parseC;
 		}
 	}
 
@@ -49,9 +49,7 @@ Parser::~Parser() {}
 
 Parser::result_tree Parser::parse() {
 	unique_node	result = (this->*_parsefn)();
-	LOG("Getting main tree now");	
-	if (_ret != EEMPTY)
-		throw IncorrectSyntax("Unexpected token: `" + _token + "`");
+	LOG("Getting main tree now");
 
 	result_tree	tree = std::make_shared<unique_node>(std::move(result));
 
@@ -73,6 +71,7 @@ Parser::result_tree Parser::parse() {
 */
 Parser::unique_node	Parser::_parseS() {
 	unique_node	lhs = _parseE();
+	unique_node	result;
 
 	if (lhs == nullptr)
 		throw IncorrectSyntax("Left hand side expression incorrect");
@@ -82,11 +81,13 @@ Parser::unique_node	Parser::_parseS() {
 		if (rhs == nullptr)
 			throw IncorrectSyntax("Right hand side expression incorrect");
 		Equality	eq(std::move(lhs), std::move(rhs));
-		return eq.toNode();
+		result = eq.toNode();
 	} else {
 		// Solve
 	}
-	return nullptr;
+	if (_ret == EEMPTY || _token != QUESTION_MARK)
+		throw IncorrectSyntax("Bad equation syntax");
+	return result;
 }
 
 /**
@@ -118,6 +119,20 @@ Parser::unique_node	Parser::_parseA() {
 		return id.toNode();
 	}
 	throw IncorrectSyntax("Bad assignation");
+}
+
+/**
+ * Computation parsing
+ * 
+ * GRAMMAR:
+ * C	: E
+*/
+Parser::unique_node	Parser::_parseC() {
+	unique_node	ret = _parseE();
+
+	if (_ret != EEMPTY)
+		throw IncorrectSyntax("Unexpected token: `" + _token + "`");
+	return ret;
 }
 
 /**

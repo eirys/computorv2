@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:58:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/06 15:25:01 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 13:00:13 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@
 # define NAME			LETTER UNDERSCORE
 # define DELIMITER		L_PARENTHESIS R_PARENTHESIS L_BRACKET R_BRACKET COMA SEMICOLON
 # define SYMBOL			EQUAL MULTIPLICATION DIVISION ADDITION\
-						SUBSTRACTION MODULO POWER
+						SUBSTRACTION MODULO POWER QUESTION_MARK
 
 #endif
