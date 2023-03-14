@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 12:56:58 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 17:57:18 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void test8() {
 				cout << " = " << *res << NL;
 			Computor::flush();
 		} catch (const Tokenizer::EmptyInput& empty) {
-			continue;
-		} catch (const Parser::EmptyContent& ws) {
 			continue;
 		} catch (const std::exception& e) {
 			cerr << e.what() << NL;

@@ -6,13 +6,23 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 16:43:41 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 17:52:27 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.hpp"
 #include "complex.hpp"
 #include "function.hpp"
+
+#include "identifier.hpp"
+#include "negate.hpp"
+#include "add.hpp"
+#include "substract.hpp"
+#include "multiply.hpp"
+#include "divide.hpp"
+#include "power.hpp"
+#include "modulo.hpp"
+#include "variable.hpp"
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -194,6 +204,22 @@ Matrix::shared_itype		Matrix::operator^(const shared_itype& rhs_ptr) const {
 	return nullptr;
 }
 
+bool	Matrix::operator==(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr != nullptr)
+		return operator==(*r_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr != nullptr)
+		return operator==(*c_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr != nullptr)
+		return operator==(*m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr != nullptr)
+		return operator==(*f_ptr);
+	throw IType::ImpossibleComparison();
+}
+
 /* Arith operators ---------------------------------------------------------- */
 
 Matrix Matrix::operator-() const {
@@ -364,6 +390,11 @@ Matrix Matrix::operator%(const Rational& rhs) const {
 	throw math::operation_undefined();
 }
 
+bool	Matrix::operator==(const Rational& rhs) const {
+	(void)rhs;
+	throw IType::ImpossibleComparison();
+}
+
 /* Complex ------------------------------------------------------------------ */
 
 Matrix	Matrix::operator+(const Complex& rhs) const {
@@ -408,32 +439,59 @@ Matrix Matrix::operator%(const Complex& rhs) const {
 	throw math::operation_undefined();
 }
 
+bool	Matrix::operator==(const Complex& rhs) const {
+	(void)rhs;
+	throw IType::ImpossibleComparison();
+}
+
 /* Function ----------------------------------------------------------------- */
 
 Function	Matrix::operator+(const Function& rhs) const {
-	
+	Add			add(createVariable(*this), (*rhs.getBody())->clone());
+
+	Function	tmp(rhs.getVarName(), std::make_shared<unique_node>(add.toNode()));
+	return tmp;
 }
 
 Function	Matrix::operator-(const Function& rhs) const {
-	
+	Substract	sub(createVariable(*this), (*rhs.getBody())->clone());
+
+	Function	tmp(rhs.getVarName(), std::make_shared<unique_node>(sub.toNode()));
+	return tmp;
 }
 
 Function	Matrix::operator*(const Function& rhs) const {
-	
+	Multiply	mul(createVariable(*this), (*rhs.getBody())->clone());
+
+	Function	tmp(rhs.getVarName(), std::make_shared<unique_node>(mul.toNode()));
+	return tmp;
 }
 
 Function	Matrix::operator/(const Function& rhs) const {
-	
+	Divide	div(createVariable(*this), (*rhs.getBody())->clone());
+
+	Function	tmp(rhs.getVarName(), std::make_shared<unique_node>(div.toNode()));
+	return tmp;
 }
 
 Function	Matrix::operator^(const Function& rhs) const {
-	
+	Power	pow(createVariable(*this), (*rhs.getBody())->clone());
+
+	Function	tmp(rhs.getVarName(), std::make_shared<unique_node>(pow.toNode()));
+	return tmp;
 }
 
 Function	Matrix::operator%(const Function& rhs) const {
-	
+	Modulo	mod(createVariable(*this), (*rhs.getBody())->clone());
+
+	Function	tmp(rhs.getVarName(), std::make_shared<unique_node>(mod.toNode()));
+	return tmp;
 }
 
+bool	Matrix::operator==(const Function& rhs) const {
+	(void)rhs;
+	throw IType::ImpossibleComparison();
+}
 
 /* Getters ------------------------------------------------------------------ */
 
@@ -497,16 +555,23 @@ Matrix::shared_itype	Matrix::_rational_operator(
 
 Matrix::shared_itype	Matrix::_complex_operator(
 	Matrix (Matrix::*f)(const Complex&) const,
-	const std::shared_ptr<Complex>& r_ptr
+	const std::shared_ptr<Complex>& c_ptr
 	) const {
-		return shared_itype(new Matrix((this->*f)(*r_ptr)));
+		return shared_itype(new Matrix((this->*f)(*c_ptr)));
 	}
 
 Matrix::shared_itype	Matrix::_matrix_operator(
 	Matrix (Matrix::*f)(const Matrix&) const,
-	const std::shared_ptr<Matrix>& r_ptr
+	const std::shared_ptr<Matrix>& m_ptr
 	) const {
-		return shared_itype(new Matrix((this->*f)(*r_ptr)));
+		return shared_itype(new Matrix((this->*f)(*m_ptr)));
+	}
+
+Matrix::shared_itype	Matrix::_function_operator(
+	Function (Matrix::*f)(const Function&) const,
+	const std::shared_ptr<Function>& f_ptr
+	) const {
+		return shared_itype(new Function((this->*f)(*f_ptr)));
 	}
 
 /* ========================================================================== */

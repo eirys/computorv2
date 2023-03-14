@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 13:06:19 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 18:00:09 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ Parser::result_tree Parser::parse() {
 	unique_node	result = (this->*_parsefn)();
 	LOG("Getting main tree now");
 
-	result_tree	tree = std::make_shared<unique_node>(std::move(result));
-
-	if (*tree == NULL)
+	if (result == NULL)
 		throw EmptyContent();
+		
+	result_tree	tree = std::make_shared<unique_node>(std::move(result));
 	return tree;
 }
 
@@ -83,7 +83,7 @@ Parser::unique_node	Parser::_parseS() {
 		Equality	eq(std::move(lhs), std::move(rhs));
 		result = eq.toNode();
 	} else {
-		// Solve
+		/// TODO: Solve
 	}
 	if (_ret == EEMPTY || _token != QUESTION_MARK)
 		throw IncorrectSyntax("Bad equation syntax");

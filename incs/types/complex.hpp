@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 16:57:20 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 17:42:54 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 class Matrix;
 class Function;
+class ATreeNode;
 
 /**	
  * Complex		: real + imaginary
@@ -39,9 +40,10 @@ class Function;
 */
 class Complex: public IType {
 	public:
-		typedef typename	IType::unique_itype		unique_itype;
-		typedef typename	IType::shared_itype		shared_itype;
-		typedef typename	IType::weak_itype		weak_itype;
+		typedef typename	IType::unique_itype				unique_itype;
+		typedef typename	IType::shared_itype				shared_itype;
+		typedef typename	IType::weak_itype				weak_itype;
+		typedef				std::unique_ptr<ATreeNode>		unique_node;
 
 		Complex();
 		virtual ~Complex();

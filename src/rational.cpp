@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 16:54:17 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 17:40:13 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,16 +159,16 @@ Rational::shared_itype	Rational::operator^(const shared_itype& rhs_ptr) const {
 }
 
 bool	Rational::operator==(const shared_itype& rhs_ptr) const {
-	std::shared_ptr<Rational>	r_ptr = std::dynamic_cast<Rational>(rhs_ptr);
+	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
 	if (r_ptr != nullptr)
 		return operator==(*r_ptr);
-	std::shared_ptr<Complex>	c_ptr = std::dynamic_cast<Complex>(rhs_ptr);
+	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
 	if (c_ptr != nullptr)
 		return operator==(*c_ptr);
-	std::shared_ptr<Matrix>		m_ptr = std::dynamic_cast<Matrix>(rhs_ptr);
+	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
 	if (m_ptr != nullptr)
 		return operator==(*m_ptr);
-	std::shared_ptr<Function>	f_ptr = std::dynamic_cast<Function>(rhs_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
 	if (f_ptr != nullptr)
 		return operator==(*f_ptr);
 	throw IType::ImpossibleComparison();
@@ -335,7 +335,7 @@ Complex Rational::operator%(const Complex& rhs) const {
 
 bool	Rational::operator==(const Complex& rhs) const {
 	if (rhs.isReal())
-		return getVal() == rhs.getReal();
+		return operator==(rhs.getReal());
 	return false;
 }
 
@@ -498,6 +498,10 @@ Rational::shared_itype	Rational::_function_operator(
 ) const {
 		return shared_itype(new Function((this->*f)(*f_ptr)));
 }
+
+/* ========================================================================== */
+/*                                    OTHER                                   */
+/* ========================================================================== */
 
 /* I/O stream operator ------------------------------------------------------ */
 

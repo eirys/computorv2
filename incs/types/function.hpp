@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:58:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/13 19:12:17 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/14 17:36:05 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ class Function: public IType {
 		shared_itype		operator/(const shared_itype& rhs_ptr) const;
 		shared_itype		operator^(const shared_itype& rhs_ptr) const;
 		shared_itype		operator%(const shared_itype& rhs_ptr) const;
+		bool				operator==(const shared_itype& rhs_ptr) const;
 
 		/* Arith Operators -------------------------------------------------------- */
 		Function			operator-() const;
@@ -64,6 +65,7 @@ class Function: public IType {
 		Function			operator/(const Rational& rhs) const;
 		Function			operator^(const Rational& rhs) const;
 		Function			operator%(const Rational& rhs) const;
+		bool				operator==(const Rational& rhs) const;
 
 		/* Complex Operators ------------------------------------------------------ */
 		Function			operator+(const Complex& rhs) const;
@@ -72,6 +74,7 @@ class Function: public IType {
 		Function			operator/(const Complex& rhs) const;
 		Function			operator^(const Complex& rhs) const;
 		Function			operator%(const Complex& rhs) const;
+		bool				operator==(const Complex& rhs) const;
 
 		/* Matrix Operators ------------------------------------------------------- */
 		Function			operator+(const Matrix& rhs) const;
@@ -80,10 +83,15 @@ class Function: public IType {
 		Function			operator/(const Matrix& rhs) const;		// undefined
 		Function			operator^(const Matrix& rhs) const;		// undefined
 		Function			operator%(const Matrix& rhs) const;		// undefined
+		bool				operator==(const Matrix& rhs) const;
 
 		/* Getter ----------------------------------------------------------------- */
 		const std::string	getVarName() const;
 		tree_head			getBody() const;
+
+		/* Relational Operators --------------------------------------------------- */
+		bool				operator==(const Function& rhs) const;
+		bool				operator!=(const Function& rhs) const;
 
 	private:
 		std::string			_var_name;
@@ -107,7 +115,6 @@ class Function: public IType {
 							) const;
 };
 
-bool			operator==(const Function& lhs, const Function& rhs);
 std::ostream&	operator<<(std::ostream& o, const Function& x);
 
 #endif

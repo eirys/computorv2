@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:25:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 15:36:47 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 17:41:05 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,5 @@ class IType {
 
 /* Utils -------------------------------------------------------------------- */
 std::ostream&	operator<<(std::ostream& o, const IType& x);
-bool			operator==(const IType& lhs, const IType& rhs);
 
 #endif

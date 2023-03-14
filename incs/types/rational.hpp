@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 16:54:02 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 17:42:18 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define RATIONAL_HPP
 
 # include <string>
+# include <memory>
 
 # include "utils.hpp"
 # include "itype.hpp"
@@ -21,6 +22,7 @@
 class Complex;
 class Matrix;
 class Function;
+class ATreeNode;
 
 /**
  * Rational		: { - } digit { digit | { . digit } }
@@ -31,9 +33,10 @@ class Function;
 */
 class Rational: public IType {
 	public:
-		typedef typename	IType::unique_itype		unique_itype;
-		typedef typename	IType::shared_itype		shared_itype;
-		typedef typename	IType::weak_itype		weak_itype;
+		typedef typename	IType::unique_itype				unique_itype;
+		typedef typename	IType::shared_itype				shared_itype;
+		typedef typename	IType::weak_itype				weak_itype;
+		typedef				std::unique_ptr<ATreeNode>		unique_node;
 
 		Rational();
 		virtual ~Rational();

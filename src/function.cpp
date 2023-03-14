@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   function.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/13 19:15:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/14 17:47:12 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "function.hpp"
+
 #include "identifier.hpp"
 #include "negate.hpp"
 #include "add.hpp"
@@ -58,98 +59,114 @@ Function::shared_itype	Function::clone() const {
 
 Function::shared_itype	Function::operator+(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Function::operator+, r_ptr);
 	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Function::operator+, c_ptr);
 	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Function::operator+, m_ptr);
 	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
-	if (f_ptr.get())
+	if (f_ptr != nullptr)
 		return _function_operator(&Function::operator+, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator-(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Function::operator-, r_ptr);
 	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Function::operator-, c_ptr);
 	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Function::operator-, m_ptr);
 	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
-	if (f_ptr.get())
+	if (f_ptr != nullptr)
 		return _function_operator(&Function::operator-, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator*(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Function::operator*, r_ptr);
 	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Function::operator*, c_ptr);
 	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Function::operator*, m_ptr);
 	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
-	if (f_ptr.get())
+	if (f_ptr != nullptr)
 		return _function_operator(&Function::operator*, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator/(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Function::operator/, r_ptr);
 	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Function::operator/, c_ptr);
 	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Function::operator/, m_ptr);
 	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
-	if (f_ptr.get())
+	if (f_ptr != nullptr)
 		return _function_operator(&Function::operator/, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator^(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Function::operator^, r_ptr);
 	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Function::operator^, c_ptr);
 	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Function::operator^, m_ptr);
 	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
-	if (f_ptr.get())
+	if (f_ptr != nullptr)
 		return _function_operator(&Function::operator^, f_ptr);
 	return nullptr;
 }
 
 Function::shared_itype	Function::operator%(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Function::operator%, r_ptr);
 	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Function::operator%, c_ptr);
 	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Function::operator%, m_ptr);
 	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
-	if (f_ptr.get())
+	if (f_ptr != nullptr)
 		return _function_operator(&Function::operator%, f_ptr);
 	return nullptr;
+}
+
+bool	Function::operator==(const shared_itype& rhs_ptr) const {
+	std::shared_ptr<Rational> r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
+	if (r_ptr != nullptr)
+		return operator==(*r_ptr);
+	std::shared_ptr<Complex> c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
+	if (c_ptr != nullptr)
+		return operator==(*c_ptr);
+	std::shared_ptr<Matrix>	m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
+	if (m_ptr != nullptr)
+		return operator==(*m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr != nullptr)
+		return operator==(*f_ptr);
+	throw IType::ImpossibleComparison();
 }
 
 /* Arith Operators ---------------------------------------------------------- */
@@ -273,6 +290,11 @@ Function	Function::operator%(const Rational& rhs) const {
 	return tmp;
 }
 
+bool	Function::operator==(const Rational& rhs) const {
+	(void)rhs;
+	throw IType::ImpossibleComparison();
+}
+
 /* Complex ------------------------------------------------------------------ */
 
 Function	Function::operator+(const Complex& rhs) const {
@@ -329,6 +351,11 @@ Function	Function::operator%(const Complex& rhs) const {
 	return tmp;
 }
 
+bool	Function::operator==(const Complex& rhs) const {
+	(void)rhs;
+	throw IType::ImpossibleComparison();
+}
+
 /* Matrix ------------------------------------------------------------------- */
 
 Function	Function::operator+(const Matrix& rhs) const {
@@ -373,6 +400,11 @@ Function	Function::operator%(const Matrix& rhs) const {
 	throw math::operation_undefined();
 }
 
+bool	Function::operator==(const Matrix& rhs) const {
+	(void)rhs;
+	throw IType::ImpossibleComparison();
+}
+
 /* Getter ------------------------------------------------------------------- */
 
 const std::string  Function::getVarName() const {
@@ -381,6 +413,16 @@ const std::string  Function::getVarName() const {
 
 Function::tree_head Function::getBody() const {
 	return _body;
+}
+
+/* Relational Operators ----------------------------------------------------- */
+
+bool	Function::operator==(const Function& rhs) const {
+	return getVarName() == rhs.getVarName() && getBody() == rhs.getBody();
+}
+
+bool	Function::operator!=(const Function& rhs) const {
+	return !operator==(rhs);
 }
 
 /* ========================================================================== */
@@ -418,10 +460,6 @@ Function::shared_itype	Function::_function_operator(
 /* ========================================================================== */
 /*                                    OTHER                                   */
 /* ========================================================================== */
-
-bool operator==(const Function& lhs, const Function& rhs) {
-	return lhs.getVarName() == rhs.getVarName() && lhs.getBody() == rhs.getBody();
-}
 
 std::ostream&	operator<<(std::ostream& o, const Function& x) {
 	(*x.getBody())->print();

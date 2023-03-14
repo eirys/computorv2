@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/14 13:11:34 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 17:47:48 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ class Equality: public ATreeNode {
 
 			if (lhs == nullptr || rhs == nullptr)
 				throw std::exception();
-			if (*lhs == *rhs)
+			if (*lhs == rhs)
 				std::cout << "True\n";
 			else
 				std::cout << "False\n";

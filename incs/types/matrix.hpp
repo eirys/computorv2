@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 16:42:39 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 17:50:08 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 class Rational;
 class Complex;
 class Function;
+class ATreeNode;
 
 /**
  * Matrix	: [ row { ; row } ]
@@ -38,6 +39,7 @@ class Matrix: public IType {
 		typedef typename	IType::unique_itype			unique_itype;
 		typedef typename	IType::shared_itype			shared_itype;
 		typedef typename	IType::weak_itype			weak_itype;
+		typedef				std::unique_ptr<ATreeNode>		unique_node;
 
 		typedef				std::vector<Rational>		row;
 		typedef typename	std::vector<row>			matrix;
@@ -96,7 +98,7 @@ class Matrix: public IType {
 		Matrix				operator/(const Rational& rhs) const;
 		Matrix				operator^(const Rational& rhs) const;
 		Matrix				operator%(const Rational& rhs) const;	// undefined
-		bool				operator==(const Rational& rhs) const;
+		bool				operator==(const Rational& rhs) const;	// undefined
 
 		/* Complex Operators ------------------------------------------------------ */
 		Matrix				operator+(const Complex& rhs) const;	// undefined
@@ -105,7 +107,7 @@ class Matrix: public IType {
 		Matrix				operator/(const Complex& rhs) const;
 		Matrix				operator^(const Complex& rhs) const;
 		Matrix				operator%(const Complex& rhs) const;	// undefined
-		bool				operator==(const Complex& rhs) const;
+		bool				operator==(const Complex& rhs) const;	// undefined
 
 		/* Function --------------------------------------------------------------- */
 		Function			operator+(const Function& rhs) const;	// undefined
@@ -114,7 +116,7 @@ class Matrix: public IType {
 		Function			operator/(const Function& rhs) const;
 		Function			operator^(const Function& rhs) const;
 		Function			operator%(const Function& rhs) const;	// undefined
-		bool				operator==(const Function& rhs) const;
+		bool				operator==(const Function& rhs) const;	// undefined
 
 		/* Getter ----------------------------------------------------------------- */
 		size_t				getNbColumns() const;
