@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 12:28:10 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 12:34:06 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,18 @@
 #include "computor.hpp"
 #include "parser.hpp"
 
+using std::cin;
 using std::cout;
 using std::cerr;
 
 void test8() {
 	Computor	computor_context;
-	while (!std::cin.eof()) {
+	while (!cin.eof()) {
 		computor_context.show();
 		try {
+			cout << PROMPT;
 			std::string			entry;
-			std::getline(std::cin, entry);
+			std::getline(cin, entry);
 
 			Parser				parser(entry);
 			Parser::result_tree	output = parser.parse();

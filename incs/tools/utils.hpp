@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/13 19:21:03 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/14 12:34:30 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 
 # define NL std::endl
 # define FLOAT_PRECISION 3
+# define PROMPT ">_ "
 
 #ifdef DEBUG
 # define LOG(X) std::cerr << X << NL
 #else
 # define LOG(X)
 #endif
-
 
 namespace utils {
 
