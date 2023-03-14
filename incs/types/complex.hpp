@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 10:18:42 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 16:57:20 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ class Complex: public IType {
 		shared_itype	operator/(const shared_itype& rhs_ptr) const;
 		shared_itype	operator^(const shared_itype& rhs_ptr) const;
 		shared_itype	operator%(const shared_itype& rhs_ptr) const;
+		bool			operator==(const shared_itype& rhs_ptr) const;
 
 		/* Arith. Operators ------------------------------------------------------- */
 		Complex			operator-() const;
@@ -89,14 +90,16 @@ class Complex: public IType {
 		Complex			operator/(const Rational& rhs) const;
 		Complex			operator^(const Rational& rhs) const;
 		Complex			operator%(const Rational& rhs) const;
+		bool			operator==(const Rational& rhs) const;
 
 		/* Matrix Operators ------------------------------------------------------- */
 		Matrix			operator+(const Matrix& rhs) const;		// undefined
 		Matrix			operator-(const Matrix& rhs) const;		// undefined
 		Matrix			operator*(const Matrix& rhs) const;
-		Matrix			operator/(const Matrix& rhs) const;
+		Matrix			operator/(const Matrix& rhs) const;		// undefined
 		Matrix			operator^(const Matrix& rhs) const;		// undefined
 		Matrix			operator%(const Matrix& rhs) const;		// undefined
+		bool			operator==(const Matrix& rhs) const;	// undefined
 
 		/* Function Operators ----------------------------------------------------- */
 		Function		operator+(const Function& rhs) const;
@@ -105,16 +108,21 @@ class Complex: public IType {
 		Function		operator/(const Function& rhs) const;
 		Function		operator^(const Function& rhs) const;
 		Function		operator%(const Function& rhs) const;
+		bool			operator==(const Function& rhs) const;	// undefined
 
 		/* Getter ----------------------------------------------------------------- */
-		Rational		getReal() const;
-		Rational		getImaginary() const;
+		const Rational&	getReal() const;
+		const Rational&	getImaginary() const;
 
 		/* Tools ------------------------------------------------------------------ */
 		bool			operator!() const;
 		bool			isComplex() const;
 		bool			isReal() const;
 		bool			isImaginary() const;
+
+		/* Relational Operators --------------------------------------------------- */
+		bool			operator==(const Complex& y) const;
+		bool			operator!=(const Complex& y) const;
 
 	private:
 		Rational		_re;
@@ -124,19 +132,20 @@ class Complex: public IType {
 		shared_itype	_rational_operator(
 							Complex (Complex::*f)(const Rational&) const,
 							const std::shared_ptr<Rational>& r_ptr
-							) const;
+						) const;
 		shared_itype	_complex_operator(
 							Complex (Complex::*f)(const Complex&) const,
 							const std::shared_ptr<Complex>& c_ptr
-							) const;
+						) const;
 		shared_itype	_matrix_operator(
 							Matrix (Complex::*f)(const Matrix&) const,
 							const std::shared_ptr<Matrix>& m_ptr
-							) const;
+						) const;
+		shared_itype	_function_operator(
+							Function (Complex::*f)(const Function&) const,
+							const std::shared_ptr<Function>& f_ptr
+						) const;
 };
-
-bool					operator==(const Complex& x, const Complex& y);
-bool					operator!=(const Complex& x, const Complex& y);
 
 std::ostream&			operator<<(std::ostream& o, const Complex& x);
 

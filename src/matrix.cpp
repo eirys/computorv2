@@ -6,12 +6,13 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 12:59:54 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 16:43:41 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.hpp"
 #include "complex.hpp"
+#include "function.hpp"
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -99,79 +100,97 @@ Matrix::shared_itype		Matrix::clone() const {
 
 Matrix::shared_itype		Matrix::operator+(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Matrix::operator+, r_ptr);
 	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Matrix::operator+, c_ptr);
 	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Matrix::operator+, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr != nullptr)
+		return _function_operator(&Matrix::operator+, f_ptr);
 	return nullptr;
 }
 
 Matrix::shared_itype		Matrix::operator-(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Matrix::operator-, r_ptr);
 	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Matrix::operator-, c_ptr);
 	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Matrix::operator-, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr != nullptr)
+		return _function_operator(&Matrix::operator-, f_ptr);
 	return nullptr;
 }
 
 Matrix::shared_itype		Matrix::operator*(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Matrix::operator*, r_ptr);
 	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Matrix::operator*, c_ptr);
 	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Matrix::operator*, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr != nullptr)
+		return _function_operator(&Matrix::operator*, f_ptr);
 	return nullptr;
 }
 
 Matrix::shared_itype		Matrix::operator/(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Matrix::operator/, r_ptr);
 	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Matrix::operator/, c_ptr);
 	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Matrix::operator/, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr != nullptr)
+		return _function_operator(&Matrix::operator/, f_ptr);
 	return nullptr;
 }
 
 Matrix::shared_itype		Matrix::operator%(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Matrix::operator%, r_ptr);
 	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Matrix::operator%, c_ptr);
 	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Matrix::operator%, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr != nullptr)
+		return _function_operator(&Matrix::operator%, f_ptr);
 	return nullptr;
 }
 
 Matrix::shared_itype		Matrix::operator^(const shared_itype& rhs_ptr) const {
 	std::shared_ptr<Rational>	r_ptr = std::dynamic_pointer_cast<Rational>(rhs_ptr);
-	if (r_ptr.get())
+	if (r_ptr != nullptr)
 		return _rational_operator(&Matrix::operator^, r_ptr);
 	std::shared_ptr<Complex>	c_ptr = std::dynamic_pointer_cast<Complex>(rhs_ptr);
-	if (c_ptr.get())
+	if (c_ptr != nullptr)
 		return _complex_operator(&Matrix::operator^, c_ptr);
 	std::shared_ptr<Matrix>		m_ptr = std::dynamic_pointer_cast<Matrix>(rhs_ptr);
-	if (m_ptr.get())
+	if (m_ptr != nullptr)
 		return _matrix_operator(&Matrix::operator^, m_ptr);
+	std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(rhs_ptr);
+	if (f_ptr != nullptr)
+		return _function_operator(&Matrix::operator^, f_ptr);
 	return nullptr;
 }
 
@@ -286,7 +305,7 @@ Matrix Matrix::operator%(const Matrix& rhs) const {
 	throw math::operation_undefined();
 }
 
-/* -------------------------------------------------------------------------- */
+/* Rational ----------------------------------------------------------------- */
 
 Matrix	Matrix::operator+(const Rational& rhs) const {
 	(void)rhs;
@@ -329,15 +348,13 @@ Matrix Matrix::operator^(const Rational& rhs) const {
 		throw math::operation_undefined();
 	if (rhs == Rational(1) || !tmp)
 		return *this;
-	else {
-		tmp = math::pow(*this, rhs);
-	// else if (rhs == Rational(0)) {
-	// 	tmp = Matrix(getNbColumns(), Rational(1));
-	// } else {
-	// 	const Rational	rhs_copy(rhs);
-	// 	for (Rational i = Rational(0); i < rhs_copy; ++i) {
-	// 		tmp.operator*=(*this);
-	// 	}
+	else if (rhs == Rational(0)) {
+		tmp = Matrix(getNbColumns(), Rational(1));
+	} else {
+		const Rational	rhs_copy(rhs);
+		for (Rational i = Rational(0); i < rhs_copy; ++i) {
+			tmp.operator*=(*this);
+		}
 	}
 	return tmp;
 }
@@ -347,7 +364,7 @@ Matrix Matrix::operator%(const Rational& rhs) const {
 	throw math::operation_undefined();
 }
 
-/* -------------------------------------------------------------------------- */
+/* Complex ------------------------------------------------------------------ */
 
 Matrix	Matrix::operator+(const Complex& rhs) const {
 	(void)rhs;
@@ -391,6 +408,33 @@ Matrix Matrix::operator%(const Complex& rhs) const {
 	throw math::operation_undefined();
 }
 
+/* Function ----------------------------------------------------------------- */
+
+Function	Matrix::operator+(const Function& rhs) const {
+	
+}
+
+Function	Matrix::operator-(const Function& rhs) const {
+	
+}
+
+Function	Matrix::operator*(const Function& rhs) const {
+	
+}
+
+Function	Matrix::operator/(const Function& rhs) const {
+	
+}
+
+Function	Matrix::operator^(const Function& rhs) const {
+	
+}
+
+Function	Matrix::operator%(const Function& rhs) const {
+	
+}
+
+
 /* Getters ------------------------------------------------------------------ */
 
 size_t Matrix::getNbRows() const {
@@ -427,6 +471,19 @@ bool Matrix::isSquare() const {
 	return getNbColumns() == getNbRows();
 }
 
+/* Relational operators ----------------------------------------------------- */
+
+bool Matrix::operator==(const Matrix& y) const {
+	if (isSameSize(y))
+		if (getMatrix() == y.getMatrix())
+			return true;
+	return false;
+}
+
+bool Matrix::operator!=(const Matrix& y) const {
+	return !operator==(y);
+}
+
 /* ========================================================================== */
 /*                                   PRIVATE                                  */
 /* ========================================================================== */
@@ -452,18 +509,9 @@ Matrix::shared_itype	Matrix::_matrix_operator(
 		return shared_itype(new Matrix((this->*f)(*r_ptr)));
 	}
 
-/* Relational operators ----------------------------------------------------- */
-
-bool operator==(const Matrix& x, const Matrix& y) {
-	if (x.isSameSize(y))
-		if (x.getMatrix() == y.getMatrix())
-			return true;
-	return false;
-}
-
-bool operator!=(const Matrix& x, const Matrix& y) {
-	return !operator==(x,y);
-}
+/* ========================================================================== */
+/*                                    OTHER                                   */
+/* ========================================================================== */
 
 /* I/O stream operator ------------------------------------------------------ */
 

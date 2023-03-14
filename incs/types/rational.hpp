@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/03/12 11:22:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/14 16:54:02 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ class Rational: public IType {
 		shared_itype	operator/(const shared_itype& rhs) const;
 		shared_itype	operator^(const shared_itype& rhs) const;
 		shared_itype	operator%(const shared_itype& rhs) const;
+		bool			operator==(const shared_itype& rhs) const;
 
 		/* Arith Operators -------------------------------------------------------- */
 		Rational		operator-() const;
@@ -85,14 +86,16 @@ class Rational: public IType {
 		Complex			operator/(const Complex& rhs) const;
 		Complex			operator^(const Complex& rhs) const;
 		Complex			operator%(const Complex& rhs) const;
+		bool			operator==(const Complex& rhs) const;
 
 		/* Matrix Operators ------------------------------------------------------- */
 		Matrix			operator+(const Matrix& rhs) const;		// undefined
 		Matrix			operator-(const Matrix& rhs) const;		// undefined
 		Matrix			operator*(const Matrix& rhs) const;
-		Matrix			operator/(const Matrix& rhs) const;
+		Matrix			operator/(const Matrix& rhs) const;		// undefined
 		Matrix			operator^(const Matrix& rhs) const;		// undefined
 		Matrix			operator%(const Matrix& rhs) const;		// undefined
+		bool			operator==(const Matrix& rhs) const;	// undefined
 		
 		/* Function Operators ----------------------------------------------------- */
 		Function		operator+(const Function& rhs) const;
@@ -101,6 +104,7 @@ class Rational: public IType {
 		Function		operator/(const Function& rhs) const;
 		Function		operator^(const Function& rhs) const;
 		Function		operator%(const Function& rhs) const;
+		bool			operator==(const Function& rhs) const;	// undefined
 
 		/* Getter ----------------------------------------------------------------- */
 		long double		getVal() const;
@@ -109,6 +113,14 @@ class Rational: public IType {
 		bool			operator!() const;
 		bool			isInteger() const;
 
+		/* Relational Operators --------------------------------------------------- */
+		bool			operator==(const Rational& y) const;
+		bool			operator<(const Rational& y) const;
+		bool			operator!=(const Rational& y) const;
+		bool			operator<=(const Rational& y) const;
+		bool			operator>(const Rational& y) const;
+		bool			operator>=(const Rational& y) const;
+
 	private:
 		long double		_val;
 
@@ -116,27 +128,20 @@ class Rational: public IType {
 		shared_itype	_rational_operator(
 							Rational (Rational::*f)(const Rational&) const,
 							const std::shared_ptr<Rational>& r_ptr
-							) const;
+						) const;
 		shared_itype	_complex_operator(
 							Complex (Rational::*f)(const Complex&) const,
 							const std::shared_ptr<Complex>& c_ptr
-							) const;
+						) const;
 		shared_itype	_matrix_operator(
 							Matrix (Rational::*f)(const Matrix&) const,
 							const std::shared_ptr<Matrix>& m_ptr
-							) const;
+						) const;
 		shared_itype	_function_operator(
 							Function (Rational::*f)(const Function&) const,
 							const std::shared_ptr<Function>& f_ptr
 						) const;
 };
-
-bool			operator==(const Rational& x, const Rational& y);
-bool			operator<(const Rational& x, const Rational& y);
-bool			operator!=(const Rational& x, const Rational& y);
-bool			operator<=(const Rational& x, const Rational& y);
-bool			operator>(const Rational& x, const Rational& y);
-bool			operator>=(const Rational& x, const Rational& y);
 
 std::ostream&	operator<<(std::ostream& o, const Rational& x);
 

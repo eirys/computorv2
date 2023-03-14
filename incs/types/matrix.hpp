@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 12:57:31 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 16:42:39 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ class Matrix: public IType {
 		shared_itype		operator/(const shared_itype& rhs_ptr) const;
 		shared_itype		operator^(const shared_itype& rhs_ptr) const;
 		shared_itype		operator%(const shared_itype& rhs_ptr) const;
+		bool				operator==(const shared_itype& rhs_ptr) const;
 
 		/* Arith Operators -------------------------------------------------------- */
 		Matrix				operator-() const;
@@ -95,6 +96,7 @@ class Matrix: public IType {
 		Matrix				operator/(const Rational& rhs) const;
 		Matrix				operator^(const Rational& rhs) const;
 		Matrix				operator%(const Rational& rhs) const;	// undefined
+		bool				operator==(const Rational& rhs) const;
 
 		/* Complex Operators ------------------------------------------------------ */
 		Matrix				operator+(const Complex& rhs) const;	// undefined
@@ -103,8 +105,16 @@ class Matrix: public IType {
 		Matrix				operator/(const Complex& rhs) const;
 		Matrix				operator^(const Complex& rhs) const;
 		Matrix				operator%(const Complex& rhs) const;	// undefined
+		bool				operator==(const Complex& rhs) const;
 
 		/* Function --------------------------------------------------------------- */
+		Function			operator+(const Function& rhs) const;	// undefined
+		Function			operator-(const Function& rhs) const;	// undefined
+		Function			operator*(const Function& rhs) const;
+		Function			operator/(const Function& rhs) const;
+		Function			operator^(const Function& rhs) const;
+		Function			operator%(const Function& rhs) const;	// undefined
+		bool				operator==(const Function& rhs) const;
 
 		/* Getter ----------------------------------------------------------------- */
 		size_t				getNbColumns() const;
@@ -116,6 +126,10 @@ class Matrix: public IType {
 		bool				isSameSize(const Matrix& rhs) const;
 		bool				isSquare() const;
 
+		/* Relational Operators --------------------------------------------------- */
+		bool				operator==(const Matrix& y) const;
+		bool				operator!=(const Matrix& y) const;
+
 	private:
 		size_t				_n;			// nb rows
 		size_t				_p;			// nb columns
@@ -125,19 +139,21 @@ class Matrix: public IType {
 		shared_itype		_rational_operator(
 								Matrix (Matrix::*f)(const Rational&) const,
 								const std::shared_ptr<Rational>& r_ptr
-								) const;
+							) const;
 		shared_itype		_complex_operator(
 								Matrix (Matrix::*f)(const Complex&) const,
-								const std::shared_ptr<Complex>& r_ptr
-								) const;
+								const std::shared_ptr<Complex>& c_ptr
+							) const;
 		shared_itype		_matrix_operator(
 								Matrix (Matrix::*f)(const Matrix&) const,
-								const std::shared_ptr<Matrix>& r_ptr
-								) const;
-};
+								const std::shared_ptr<Matrix>& m_ptr
+							) const;
+		shared_itype		_function_operator(
+								Function (Matrix::*f)(const Function&) const,
+								const std::shared_ptr<Function>& f_ptr
+							) const;
 
-bool			operator==(const Matrix& x, const Matrix& y);
-bool			operator!=(const Matrix& x, const Matrix& y);
+};
 
 std::ostream&	operator<<(std::ostream& o, const Matrix& x);
 
