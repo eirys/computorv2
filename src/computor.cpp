@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/13 19:20:47 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/14 09:36:40 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ Computor::context	Computor::_memory;
  * Local context start position.
 */
 size_t				Computor::_context_pos = 0;
+
+bool				Computor::_context_active = false;
 
 // /**
 //  * Specific context.
@@ -60,7 +62,8 @@ void	Computor::push(
  * Returns variable_name if in context.
 */
 const Computor::value_ptr	Computor::find(
-	const name_type& variable_name
+	const name_type& variable_name,
+	bool in_context
 	// const name_type& context_name
 ) {
 	// context cpy;
@@ -80,8 +83,15 @@ const Computor::value_ptr	Computor::find(
 	// 	cpy.pop();
 	// }
 
+	context::const_iterator	end;
+
+	if (in_context || !_context_active)
+		end = _memory.end();
+	else
+		end = _memory.begin() + _context_pos;
+
 	for (context::const_iterator it = _memory.begin();
-	it != _memory.end();
+	it != end;
 	++it) {
 		if (it->first == variable_name)
 			return it->second;
@@ -93,6 +103,7 @@ const Computor::value_ptr	Computor::find(
  * Locks a new _context_pos.
 */
 void	Computor::create_context() {
+	_context_active = true;
 	_context_pos = _memory.size();
 }
 
@@ -102,7 +113,10 @@ void	Computor::create_context() {
 void	Computor::flush() {
 	// _local_memory.clear();
 	// if (_context_pos) {
-		_memory.resize(_context_pos);
+		if (_context_active) {
+			_memory.resize(_context_pos);
+			_context_active = false;
+		}
 		// _context_pos = 0;
 	// }
 }

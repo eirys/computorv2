@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/13 18:45:53 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/14 09:12:26 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ class Computor {
 		static void				push(
 									const name_type& variable_name,
 									const value_ptr& value
-									// const name_type& context_name = std::string()
 								);
 		static const value_ptr	find(
-									const name_type& variable_name
-									// const name_type& context_name = std::string()
+									const name_type& variable_name,
+									bool in_context = false
 								);
 		static void				create_context();
 		static void				flush();
@@ -56,6 +55,7 @@ class Computor {
 	private:
 		static context			_memory;
 		static size_t			_context_pos;
+		static bool				_context_active;
 		// static context_map		_local_memory;
 };
 

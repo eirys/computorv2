@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/13 19:16:45 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/14 09:34:46 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ class Identifier: public ATreeNode {
 		Identifier(
 			const std::string& name,
 			unique_node&& value,
+			bool in_context = false,
 			const std::string& extra = std::string()
 			):
 				base(nullptr, std::move(value)),
 				_name(name),
+				_context(in_context),
 				_extra(extra) {
-					LOG("Creating identifier `"<< name <<"` with extra: `" +extra+"`" );
+					LOG("Creating " << (in_context ? "contexted" : "") <<"identifier `"
+					<< name <<"` with extra: `" +extra+"`" );
 				}
 
 		/* Destructor ------------------------------------------------------------- */
@@ -56,7 +59,7 @@ class Identifier: public ATreeNode {
 			if (base::getRight() == nullptr) {
 				// Not set, check existing in local context
 				shared_itype	value;
-				value = Computor::find(_name);
+				value = Computor::find(_name, _context);
 				if (value == nullptr)
 					throw Identifier::ValueNotSet(_name);
 				return value;
@@ -79,6 +82,7 @@ class Identifier: public ATreeNode {
 				new Identifier(
 					_name,
 					std::move(base::getRight()),
+					_context,
 					_extra
 				)
 			);
@@ -92,6 +96,7 @@ class Identifier: public ATreeNode {
 				new Identifier(
 					_name,
 					std::move(new_right),
+					_context,
 					_extra
 				)
 			);
@@ -118,6 +123,7 @@ class Identifier: public ATreeNode {
 
 	private:
 		const std::string		_name;
+		bool					_context;
 		const std::string		_extra;
 };
 
