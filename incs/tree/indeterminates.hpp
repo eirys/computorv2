@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   indeterminates.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/08 21:47:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/14 18:18:03 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,47 +19,29 @@
 # include "itype.hpp"
 # include "rational.hpp"
 
-struct VariableWithExponent {
-	/* Constructor ------------------------------------------------------------- */
-	VariableWithExponent(const std::string& var_name, Rational exponent):
-		variable_name(var_name),
-		exponent(exponent) {}
-
-	/* Attributes -------------------------------------------------------------- */
-	const std::string	variable_name;	// address of the shared_ptr
-	Rational			exponent;		// exponent
-
-	bool	operator==(const VariableWithExponent& rhs) const {
-		return variable_name == rhs.variable_name && exponent == rhs.exponent;
-	}
-
-	bool	operator<(const VariableWithExponent& rhs) const {
-		return variable_name < rhs.variable_name && exponent < rhs.exponent;
-	}
-};
-
-
-// class KeysetComparator {
-// 	public:
-// 		typedef				VariableWithExponent					key_type;
-// 		typedef				std::set<key_type>						key_set;
-
-// 		bool operator() (const key_set& lhs, const key_set& rhs) const {
-// 			key_set::const_iterator it_lhs = lhs.begin();
-// 			key_set::const_iterator	it_rhs = rhs.begin();
-
-// 			while (it_lhs != lhs.end()) {
-
-// 			}
-// 			return true;
-// 		}
-// }
-
-
 class Indeterminates {
 	public:
+		struct WeigthedValue {
+			/* Constructor ------------------------------------------------------------- */
+			WeigthedValue(const std::string& var_name, Rational exponent):
+				variable_name(var_name),
+				exponent(exponent) {}
+
+			/* Attributes -------------------------------------------------------------- */
+			const std::string	variable_name;	// address of the shared_ptr
+			Rational			exponent;		// exponent
+
+			bool	operator==(const WeigthedValue& rhs) const {
+				return variable_name == rhs.variable_name && exponent == rhs.exponent;
+			}
+
+			bool	operator<(const WeigthedValue& rhs) const {
+				return variable_name < rhs.variable_name && exponent < rhs.exponent;
+			}
+		};
+
 		typedef typename	IType::shared_itype								factor;
-		typedef				VariableWithExponent							key_type;
+		typedef				WeigthedValue									key_type;
 		// typedef				KeysetComparator								key_comparator;
 
 		typedef				std::set<key_type>								key_set;
