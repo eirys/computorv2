@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/14 09:12:26 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 12:03:38 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Computor {
 		typedef				std::string						name_type;
 		typedef				std::pair<name_type, value_ptr>	variable;
 		typedef				std::vector<variable>			context;
-		// typedef				std::map<name_type, context>	context_map;
+		typedef				std::list<size_t>				context_pos;
 
 		Computor();
 		virtual ~Computor();
@@ -43,20 +43,10 @@ class Computor {
 		static void				flush();
 		void					show() const;
 
-		/* Exception -------------------------------------------------------------- */
-
-		class ContextInexistent: public std::exception {
-			public:
-				virtual const char* what() const throw() {
-					return "Context does not exist";
-				}
-		};
-
 	private:
 		static context			_memory;
-		static size_t			_context_pos;
-		static bool				_context_active;
-		// static context_map		_local_memory;
+		static context_pos		_subcontext_pos;
+		static uint_fast16_t	_active_context;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/14 09:27:54 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 12:08:02 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define IMAGE_HPP
 
 # include "atree_node.hpp"
+# include "function.hpp"
 # include "computor.hpp"
 
 /**
@@ -45,14 +46,16 @@ class Image: public ATreeNode {
 
 		/* ------------------------------------------------------------------------ */
 		const shared_itype	eval() {
-			shared_itype	x_value = base::getRight()->eval();
-			shared_itype	f_ptr = Computor::find(_func_name, true);
+			shared_itype				x_value = base::getRight()->eval();
+			shared_itype				raw_ptr = Computor::find(_func_name, true);
+			if (raw_ptr == nullptr)
+				throw Identifier::ValueNotSet(_func_name);
+			std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(raw_ptr);
 			if (f_ptr == nullptr)
-				throw std::exception();
-			Function&		function = *(std::dynamic_pointer_cast<Function>(f_ptr));
+				throw NotAFunction(_func_name);
 			Computor::create_context();
-			Computor::push(function.getVarName(), x_value/* , _func_name */);
-			shared_itype	ret = (*function.getBody())->eval();
+			Computor::push(f_ptr->getVarName(), x_value);
+			shared_itype	ret = (*f_ptr->getBody())->eval();
 			return ret;
 		}
 
@@ -74,6 +77,20 @@ class Image: public ATreeNode {
 				new Image(_func_name, base::getRight()->clone())
 			);
 		}
+
+		/* Exception -------------------------------------------------------------- */
+		class NotAFunction: public std::exception {
+			public:
+				NotAFunction() = delete;
+				NotAFunction(const std::string& specificity):
+					_specificity("`" + specificity + "` is not a function") {}
+
+				const char* what() const throw() {
+					return _specificity.c_str();
+				}
+			private:
+				const std::string	_specificity;
+		};
 
 	private:
 		const std::string	_func_name;

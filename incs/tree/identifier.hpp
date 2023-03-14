@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 09:34:46 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 11:21:02 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class Identifier: public ATreeNode {
 				_name(name),
 				_context(in_context),
 				_extra(extra) {
-					LOG("Creating " << (in_context ? "contexted" : "") <<"identifier `"
+					LOG("Creating " << (in_context ? "contexted " : "") <<"identifier `"
 					<< name <<"` with extra: `" +extra+"`" );
 				}
 

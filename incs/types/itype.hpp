@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:25:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 09:27:20 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 12:03:26 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ class IType {
 		/* Exception -------------------------------------------------------------- */
 		class UndefinedValue: public std::exception {
 			public:
-				virtual const char* what() const throw() {
+				const char* what() const throw() {
 					return "Undefined value cast";
 				}
 		};

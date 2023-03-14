@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/09 12:59:29 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/14 12:03:18 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ namespace math {
 
 class operation_undefined: public std::exception {
 	public:
-		virtual const char* what() const throw() {
+		const char* what() const throw() {
 			return ("Operation undefined");
 		}
 };
