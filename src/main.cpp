@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/13 19:17:09 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/14 12:28:10 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ using std::cerr;
 
 void test8() {
 	Computor	computor_context;
-	while (true) {
+	while (!std::cin.eof()) {
 		computor_context.show();
 		try {
 			std::string			entry;
@@ -53,7 +53,7 @@ void test8() {
 			cout << " = " << *(*output)->eval() << NL;
 			Computor::flush();
 		} catch (const Tokenizer::EmptyInput& empty) {
-			break;
+			continue;
 		} catch (const Parser::EmptyContent& ws) {
 			continue;
 		} catch (const std::exception& e) {
