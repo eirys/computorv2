@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/14 12:08:02 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/15 17:34:54 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ class Image: public ATreeNode {
 		/* ------------------------------------------------------------------------ */
 		const shared_itype	eval() {
 			shared_itype				x_value = base::getRight()->eval();
-			shared_itype				raw_ptr = Computor::find(_func_name, true);
+			shared_itype				raw_ptr = Computor::find(_func_name);
 			if (raw_ptr == nullptr)
 				throw Identifier::ValueNotSet(_func_name);
 			std::shared_ptr<Function>	f_ptr = std::dynamic_pointer_cast<Function>(raw_ptr);
 			if (f_ptr == nullptr)
 				throw NotAFunction(_func_name);
-			Computor::create_context();
-			Computor::push(f_ptr->getVarName(), x_value);
+			// Computor::create_context();
+			Computor::push(f_ptr->getVarName(), x_value, _func_name);
 			shared_itype	ret = (*f_ptr->getBody())->eval();
 			return ret;
 		}

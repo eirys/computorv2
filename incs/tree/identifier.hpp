@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 12:18:34 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/15 17:45:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,14 @@ class Identifier: public ATreeNode {
 		Identifier(
 			const std::string& name,
 			unique_node&& value,
-			bool in_context = false,
+			const std::string& context = std::string(),
 			const std::string& extra = std::string()
 			):
 				base(nullptr, std::move(value)),
 				_name(name),
-				_context(in_context),
+				_context(context),
 				_extra(extra) {
-					if (name == "i")
-						throw InvalidName();
-					LOG("Creating " << (in_context ? "contexted " : "") <<"identifier `"
+					LOG("Creating " << (!context.empty()? context : "") <<"identifier `"
 					<< name <<"` with extra: `" +extra+"`" );
 				}
 
@@ -58,6 +56,8 @@ class Identifier: public ATreeNode {
 
 		/* ------------------------------------------------------------------------ */
 		const shared_itype		eval() {
+			DEBUG("Identifier " << _name << " in context: "
+			<< (_context.empty() ? "none" : _context));
 			if (base::getRight() == nullptr) {
 				// Not set, check existing in local context
 				shared_itype	value;
@@ -118,13 +118,6 @@ class Identifier: public ATreeNode {
 				const std::string	_specificity;
 		};
 
-		class InvalidName: public std::exception {
-			public:
-				const char* what() const throw() {
-					return "Can't use `i` as identifier name";
-				}
-		};
-
 		/* Getter ----------------------------------------------------------------- */
 		const std::string&		getName() const {
 			return _name;
@@ -132,7 +125,7 @@ class Identifier: public ATreeNode {
 
 	private:
 		const std::string		_name;
-		bool					_context;
+		const std::string		_context;
 		const std::string		_extra;
 };
 

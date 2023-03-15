@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: etran <etran@student.42.fr>                +#+  +:+       +#+         #
+#    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/03/13 13:30:24 by eli              ###   ########.fr        #
+#    Updated: 2023/03/15 17:44:42 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,11 @@ SRC		= $(addprefix src/, $(SRCS))
 OBJ		= $(addprefix obj/, $(OBJS))
 
 ifdef debug
-	CFLAGS	+= -DDEBUG=1
+	CFLAGS	+= -D__DEBUG=1
+endif
+
+ifdef verbose
+	CFLAGS	+= -D__VERBOSE=1
 endif
 
 # ============================================================================ #
@@ -56,9 +60,13 @@ obj/%.o: src/%.cpp
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 .PHONY: debug
-debug:
-	make fclean
+debug: fclean
 	make debug=1
+
+.PHONY: verbose
+verbose: fclean
+	make verbose=1
+	
 
 .PHONY: clean
 clean:

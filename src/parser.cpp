@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 18:00:09 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/15 17:47:53 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@
 
 Parser::Parser(const std::string& raw):
 	_tokenizer(raw),
-	_ret(EEMPTY),
-	_in_context(false) {
+	_ret(EEMPTY) {
 		if (raw.find(EQUAL) != std::string::npos) {
 			// There is an `=`
 			if (raw.find(QUESTION_MARK) != std::string::npos) {
@@ -111,11 +110,12 @@ Parser::unique_node	Parser::_parseA() {
 			a = _parseE();
 		} else if (_token == L_PARENTHESIS) {
 			// Function
+			_context = identifier;
 			a = _parseFunction(var_name);
 		}
 		if (a == nullptr)
 			throw IncorrectSyntax("Expected expression after `=`");
-		Identifier	id(identifier, std::move(a), _in_context, var_name);
+		Identifier	id(identifier, std::move(a), _context, var_name);
 		return id.toNode();
 	}
 	throw IncorrectSyntax("Bad assignation");
@@ -201,7 +201,7 @@ Parser::unique_node	Parser::_parseF() {
 			}
 			throw IncorrectSyntax("Expecting closing parenthesis `)`");
 		}
-		Identifier		id(id_name, nullptr, _in_context/* ,  */);
+		Identifier		id(id_name, nullptr, _context);
 		return id.toNode();
 
 	} else if (_ret == ERATIONAL || _ret == EIMAGINARY) {
@@ -292,7 +292,7 @@ Parser::unique_node	Parser::_parseFunction(
 	LOG("In _parseFunction");
 	// Function
 	_ret = _tokenizer.scanToken(_token);
-	_in_context = true;
+	// _in_context = true;
 
 	if (_ret == ENAME) {
 		// Variable name
@@ -311,7 +311,7 @@ Parser::unique_node	Parser::_parseFunction(
 
 		Function::tree_head	tree = std::make_shared<unique_node>(std::move(body));
 		Function			fun(var_name, tree);
-		_in_context = false;
+		_context.clear();
 		return createVariable(fun);
 	}
 	throw IncorrectSyntax("Expecting variable name in parenthesis");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/14 12:03:38 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/15 17:29:10 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ class Computor {
 		typedef				std::string						name_type;
 		typedef				std::pair<name_type, value_ptr>	variable;
 		typedef				std::vector<variable>			context;
-		typedef				std::list<size_t>				context_pos;
+		// typedef				std::list<size_t>				context_pos;
+		typedef				std::map<name_type, context>	context_map;
 
 		Computor();
 		virtual ~Computor();
@@ -33,20 +34,22 @@ class Computor {
 		/* ------------------------------------------------------------------------ */
 		static void				push(
 									const name_type& variable_name,
-									const value_ptr& value
+									const value_ptr& value,
+									const name_type& context_name = name_type()
 								);
 		static const value_ptr	find(
 									const name_type& variable_name,
-									bool in_context = false
+									const name_type& context_name = name_type()
 								);
-		static void				create_context();
+		// static void				create_context();
 		static void				flush();
 		void					show() const;
 
 	private:
 		static context			_memory;
-		static context_pos		_subcontext_pos;
-		static uint_fast16_t	_active_context;
+		static context_map		_subcontexts;
+		// static context_pos		_subcontext_pos;
+		// static size_t			_active_context;
 };
 
 #endif
