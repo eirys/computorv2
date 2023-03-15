@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/15 17:45:20 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/15 18:16:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,24 @@ class Identifier: public ATreeNode {
 			unique_node&& value,
 			const std::string& context = std::string(),
 			const std::string& extra = std::string()
-			):
-				base(nullptr, std::move(value)),
-				_name(name),
-				_context(context),
-				_extra(extra) {
-					LOG("Creating " << (!context.empty()? context : "") <<"identifier `"
-					<< name <<"` with extra: `" +extra+"`" );
-				}
+		):
+			base(nullptr, std::move(value)),
+			_name(name),
+			_context(context),
+			_extra(extra) {
+				LOG("Creating " << (!context.empty()? context : "") <<"identifier `"
+				<< name <<"` with extra: `" +extra+"`" );
+			}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Identifier() {}
 
 		/* ------------------------------------------------------------------------ */
 		const shared_itype		eval() {
-			DEBUG("Identifier " << _name << " in context: "
-			<< (_context.empty() ? "none" : _context));
+			DEBUG(
+				"Identifier " << _name << " in context: "
+				<< (_context.empty() ? "none" : _context)
+			);
 			if (base::getRight() == nullptr) {
 				// Not set, check existing in local context
 				shared_itype	value;
