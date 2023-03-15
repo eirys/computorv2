@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/15 18:13:39 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/15 19:32:05 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ Parser::unique_node	Parser::_parseA() {
 			// Function
 			_context = identifier;
 			a = _parseFunction(var_name);
+			Computor::create_context(identifier, var_name);
 		}
 		if (a == nullptr)
 			throw IncorrectSyntax("Expected expression after `=`");
@@ -311,6 +312,7 @@ Parser::unique_node	Parser::_parseFunction(
 
 		Function::tree_head	tree = std::make_shared<unique_node>(std::move(body));
 		Function			fun(var_name, tree);
+
 		return createVariable(fun);
 	}
 	throw IncorrectSyntax("Expecting variable name in parenthesis");

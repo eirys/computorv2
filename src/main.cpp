@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 17:57:18 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/15 21:37:57 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void test8() {
 			Parser::shared_itype	res = (*output)->eval();
 			if (res != nullptr)
 				cout << " = " << *res << NL;
-			Computor::flush();
+			computor_context.flush();
 		} catch (const Tokenizer::EmptyInput& empty) {
 			continue;
 		} catch (const std::exception& e) {

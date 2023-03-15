@@ -6,18 +6,18 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/15 19:09:01 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/15 21:34:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMPUTOR_HPP
 # define COMPUTOR_HPP
 
-# include <vector>
-# include <map>
 # include <list>
 # include <utility>
 # include <string>
+# include <vector>
+# include <map>
 
 # include "atree_node.hpp"
 
@@ -68,6 +68,7 @@ class Computor {
 				UnknownFunctionElement() = delete;
 				UnknownFunctionElement(const name_type& element):
 					_spec("Unknown function element: `" + element + "`") {}
+
 				const char* what() const throw() {
 					return _spec.c_str();
 				}

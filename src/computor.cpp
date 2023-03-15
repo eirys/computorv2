@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/15 19:08:05 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/15 21:37:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	Computor::push(
 	} else {
 		// Check if context is valid before doing anything
 		bool	valid = false;
-		for (context::const_iterator it =_memory.rbegin();
+		for (context::const_iterator it =_memory.begin();
 		it != _memory.end();
-		++i) {
+		++it) {
 			if (it->first == context_name) {
 				valid = true;
 				break;
@@ -76,7 +76,6 @@ void	Computor::push(
 		if (!valid)
 			throw std::exception(); //TODO
 
-		
 		// Find expected context
 		context_map::iterator	context_list = _subcontexts.find(context_name);
 		if (context_list == _subcontexts.end())
@@ -90,7 +89,7 @@ void	Computor::push(
 				return;
 			}
 		}
-		throw UnknownFunctionElement();
+		throw UnknownFunctionElement(variable_name);
 		// _subcontexts[context_name].push_back(std::make_pair(variable_name, value));
 	}
 }
@@ -113,21 +112,19 @@ const Computor::value_ptr	Computor::find(
 		}
 		return nullptr;
 	} else {
-
 		// Check if set in specific context
 		context_map::const_iterator	context_it = _subcontexts.find(context_name);
 		if (context_it == _subcontexts.end()) {
 			// No such context
 			return nullptr;
 		}
-		for (context::const_reverse_iterator it = context_it->second.rbegin();
-		it != _memory.rend();
+		for (subcontext::const_iterator it = context_it->second.begin();
+		it != context_it->second.end();
 		++it) {
 			if (it->first == variable_name)
 				return it->second;
 		}
 		return nullptr;
-
 	}
 }
 
@@ -138,7 +135,7 @@ void	Computor::create_context(
 	const name_type& context_name,
 	const name_type& variable_name
 ) {
-	if (_subcontexts.find(context_name)) {
+	if (_subcontexts.find(context_name) != _subcontexts.end()) {
 		// Context already exists
 		return;
 	}
@@ -166,9 +163,23 @@ void	Computor::flush() {
 */
 void	Computor::prune() {
 	context_map::iterator	it = _subcontexts.begin();
+
+	bool	valid;
+
 	while (it != _subcontexts.end()) {
-		if (!_memory.find(it->first)) {
-			// Subcontext is invalid
+		valid = false;
+		// For every subcontext
+		for (context::const_iterator ite = _memory.begin();
+		ite != _memory.end();
+		++ite) {
+			// For every memory element
+			if (it->first == ite->first) {
+				// Subcontext is valid
+				valid = true;
+				break;
+			}
+		}
+		if (!valid) {
 			_subcontexts.erase(it++);
 		} else {
 			++it;
@@ -182,7 +193,7 @@ void	Computor::prune() {
  * Resets memory.
 */
 void	Computor::reset() {
-
+	return;
 }
 
 /**
@@ -201,8 +212,8 @@ void	Computor::show() const {
 	it != _subcontexts.end();
 	++it) {
 		cout << "-- context `" << it->first << "` --" << NL;
-		for (context::const_reverse_iterator ite = it->second.rbegin();
-		ite != it->second.rend();
+		for (subcontext::const_iterator ite = it->second.begin();
+		ite != it->second.end();
 		++ite)
 			cout << ite->first << '=' << *ite->second << NL;
 	}
