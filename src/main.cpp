@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 11:09:18 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 17:24:28 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void test8() {
 		} catch (const Tokenizer::EmptyInput& empty) {
 			continue;
 		} catch (const std::exception& e) {
-			cerr << e.what() << NL;
+			cerr << "Error: " << e.what() << NL;
 		}
 	}
 }

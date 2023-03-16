@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 16:36:14 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 17:05:35 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ Parser::unique_node	Parser::_parseF() {
 				throw IncorrectSyntax("Expecting value inside parenthesis");
 			if (_token == R_PARENTHESIS) {
 				_ret = _tokenizer.scanToken(_token);
-				Image	img(id_name, std::move(a));
+				Image	img(id_name, std::move(a), _context);
 				return img.toNode();
 			}
 			throw IncorrectSyntax("Expecting closing parenthesis `)`");

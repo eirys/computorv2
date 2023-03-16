@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 10:52:48 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 17:01:29 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,17 @@ void	Computor::push(
 	} else {
 		name_duo	names = std::make_pair(utils::toLower(context_name), context_name);
 		// Check if context is valid before doing anything
-		bool	valid = false;
-		for (context::const_iterator it =_memory.begin();
-		it != _memory.end();
-		++it) {
-			if (it->first.first == names.first) {
-				valid = true;
-				break;
-			}
-		}
-		if (!valid)
-			throw std::exception(); //TODO
+		// bool	valid = false;
+		// for (context::const_iterator it =_memory.begin();
+		// it != _memory.end();
+		// ++it) {
+		// 	if (it->first.first == names.first) {
+		// 		valid = true;
+		// 		break;
+		// 	}
+		// }
+		// if (!valid)
+		// 	throw std::exception(); //TODO
 
 		// Find expected context
 		context_map::iterator	context_list = _subcontexts.find(names);

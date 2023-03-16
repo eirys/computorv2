@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 14:58:43 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 17:07:55 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ class Image: public ATreeNode {
 		typedef typename	base::weak_itype			weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
-		Image(const std::string& func_name, unique_node&& x):
+		Image(const std::string& func_name, unique_node&& x, const std::string& context = std::string()):
 			base(nullptr, std::move(x)),
 			_func_name(func_name) {
 				LOG("Creating image");
+				if (func_name == context)
+					throw RecursiveCall();
 			}
 
 		/* Destructor ------------------------------------------------------------- */
@@ -89,6 +91,13 @@ class Image: public ATreeNode {
 				}
 			private:
 				const std::string	_specificity;
+		};
+
+		class RecursiveCall: public std::exception {
+			public:
+				const char* what() const throw() {
+					return "Function has a recursive call of itself";
+				}
 		};
 
 	private:
