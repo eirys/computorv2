@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 15:28:06 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 16:36:14 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,28 +271,28 @@ Parser::unique_node	Parser::_parseT() {
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting value after `*`");
 			Multiply	mul(std::move(a), std::move(b));
-			return mul.toNode();
+			a = mul.toNode();
 		} else if (_token == DIVISION) {
 			// T / F
 			unique_node	b = _parseF();
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting value after `/`");
 			Divide		div(std::move(a), std::move(b));
-			return div.toNode();
+			a = div.toNode();
 		} else if (_token == MODULO) {
 			// T % F
 			unique_node b = _parseF();
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting value after `%`");
 			Modulo		mod(std::move(a), std::move(b));
-			return mod.toNode();
+			a = mod.toNode();
 		} else if (_token == POWER) {
 			// T ^ F
 			unique_node b = _parseF();
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting value after `^`");
 			Power		pow(std::move(a), std::move(b));
-			return pow.toNode();
+			a = pow.toNode();
 		} else {
 			break;
 		}
