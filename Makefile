@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
+#    By: etran <etran@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/03/15 17:44:42 by eli              ###   ########.fr        #
+#    Updated: 2023/03/16 11:26:44 by etran            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS	= rational.cpp \
 			tokenizer.cpp \
 			parser.cpp \
 			computor.cpp \
+			indeterminates.cpp \
 			main.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
