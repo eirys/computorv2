@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/15 21:37:20 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/16 09:29:08 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,8 +214,13 @@ void	Computor::show() const {
 		cout << "-- context `" << it->first << "` --" << NL;
 		for (subcontext::const_iterator ite = it->second.begin();
 		ite != it->second.end();
-		++ite)
-			cout << ite->first << '=' << *ite->second << NL;
+		++ite) {
+			cout << ite->first;
+			if (ite->second != nullptr)
+				cout << '=' << *ite->second << NL;
+			else
+				cout << NL;
+		}
 	}
 	cout << "===========================\n";
 }
