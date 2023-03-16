@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 18:32:07 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 18:44:55 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,11 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			// If set already exists, add up exponents and multiply factors
 			const key_set&	this_key_set = this_it->fisrt;
 			key_set			result_set;
-			for (key_set::const_iterator keys = this_key_set.begin();
-			keys != this_key_set.end();
+			for (key_set::const_iterator current_key = this_key_set.begin();
+			current_key != this_key_set.end();
 			++it) {
+				key_type	new_key(current_key->variable_name, current_key->exponent + Rational(1));
+				
 			}
 		}
 		++this_it;
