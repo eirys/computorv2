@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 13:50:27 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 14:02:32 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ Parser::result_tree Parser::parse() {
 	LOG("Getting main tree now");
 
 	if (_ret != EEMPTY)
-		throw IncorrectSyntax("Unexpected token");
+		throw IncorrectSyntax("Unexpected token");	
 	if (result == NULL)
 		throw EmptyContent();
 
@@ -183,6 +183,7 @@ Parser::unique_node	Parser::_parseE() {
  * 		| i * F
  * 		| ( E )
  * 		| - F
+ * 		| + F
  * 		| Image
  **/
 Parser::unique_node	Parser::_parseF() {
@@ -234,6 +235,11 @@ Parser::unique_node	Parser::_parseF() {
 				throw IncorrectSyntax("Expecting value after `-`");
 			Negate	negation(std::move(a));
 			return negation.toNode();
+		} else if (_token == ADDITION) {
+			unique_node a = _parseF();
+			if (a == nullptr)
+				throw IncorrectSyntax("Expecting value after `-`");
+			return a;
 		}
 	}
 	return nullptr;

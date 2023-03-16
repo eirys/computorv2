@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 17:40:13 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 14:01:34 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,7 @@ Rational Rational::operator^(const Rational& rhs) const {
 }
 
 Rational& Rational::operator%=(const Rational& rhs) {
-	if (!isInteger() || !rhs.isInteger())
+	if (!rhs || !isInteger() || !rhs.isInteger())
 		throw math::operation_undefined();
 	_val = math::modulo(getVal(), rhs.getVal());
 	return *this;

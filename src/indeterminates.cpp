@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 13:04:56 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 14:03:22 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ Indeterminates	Indeterminates::operator+(const Indeterminates& other) const {
 	}
 	this_map.insert(to_add.begin(), to_add.end());
 	return copy;
+}
+
+Indeterminates	Indeterminates::operator-(const Indeterminates& other) const {
+	(void)other;
+	return *this;
 }
 
 /* Getter ------------------------------------------------------------------- */
