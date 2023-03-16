@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 12:15:42 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 13:09:56 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,11 @@ class Indeterminates {
 		virtual ~Indeterminates();
 
 		/* Functions -------------------------------------------------------------- */
-		// Indeterminates&		operator+=(const Indeterminates& other);
 		Indeterminates		operator+(const Indeterminates& other) const;
 		Indeterminates		operator-(const Indeterminates& other) const;
 		Indeterminates		operator*(const Indeterminates& other) const;
 		Indeterminates		operator/(const Indeterminates& other) const;
-		Indeterminates		operator+(const Indeterminates& other) const;
+		Indeterminates		operator^(const Indeterminates& other) const;
 		Indeterminates		operator%(const Indeterminates& other) const;
 
 		/* Getter ----------------------------------------------------------------- */
