@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 10:51:12 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 15:04:19 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace utils {
 /* ========================================================================== */
 
 bool		isCharset(const char c, const std::string charset);
-std::string	toLower(std::string& s);
+std::string	toLower(const std::string& s);
 
 /* ========================================================================== */
 /*                                 DEFINITION                                 */

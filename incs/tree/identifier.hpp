@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 10:53:42 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 14:53:33 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,13 @@ class Identifier: public ATreeNode {
 
 		/* ------------------------------------------------------------------------ */
 		const shared_itype		eval() {
+			static int k = 10;
 			DEBUG(
 				"Identifier " << _name << " in context: "
 				<< (_context.empty() ? "none" : _context)
 			);
+			if (!k--)
+				return nullptr;
 			if (base::getRight() == nullptr) {
 				// Not set, check existing in local context
 				shared_itype	value;

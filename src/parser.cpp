@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 14:02:32 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 15:08:36 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "negate.hpp"
 #include "image.hpp"
 #include "equality.hpp"
+#include "utils.hpp"
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -114,6 +115,7 @@ Parser::unique_node	Parser::_parseA() {
 			// Function
 			_context = identifier;
 			a = _parseFunction(var_name);
+
 			Computor::create_context(identifier, var_name);
 		}
 		if (a == nullptr)
@@ -205,6 +207,8 @@ Parser::unique_node	Parser::_parseF() {
 			}
 			throw IncorrectSyntax("Expecting closing parenthesis `)`");
 		}
+		if (utils::toLower(id_name) == utils::toLower(_context))
+			throw IncorrectSyntax("Function definition invalid");
 		Identifier		id(id_name, nullptr, _context);
 		return id.toNode();
 
@@ -238,7 +242,7 @@ Parser::unique_node	Parser::_parseF() {
 		} else if (_token == ADDITION) {
 			unique_node a = _parseF();
 			if (a == nullptr)
-				throw IncorrectSyntax("Expecting value after `-`");
+				throw IncorrectSyntax("Expecting value after `+`");
 			return a;
 		}
 	}
@@ -249,11 +253,11 @@ Parser::unique_node	Parser::_parseF() {
  * Term parsing
  *
  * GRAMMAR:
- * 	T	: F * T
- * 		| F / T
- * 		| F % T
- * 		| F ^ T
- * 		| F
+ * 	T	: F
+ * 		| T * F
+ * 		| T / F
+ * 		| T % F
+ * 		| T ^ F
 */
 Parser::unique_node	Parser::_parseT() {
 	LOG("In _parseT");
@@ -328,9 +332,16 @@ Parser::unique_node	Parser::_parseFunction(
 
 Parser::unique_node	Parser::_parseSimpleValue() {
 	if (_ret == ERATIONAL) {
-		Rational	value(std::stold(_token));
-		_ret = _tokenizer.scanToken(_token);
-		return createVariable(value);
+		// Rational
+		if (_token.size() >= 60)
+			throw IncorrectSyntax("Value too big");
+		try {
+			Rational	value(std::stold(_token));
+			_ret = _tokenizer.scanToken(_token);
+			return createVariable(value);
+		} catch (const std::invalid_argument& e) {
+			throw IncorrectSyntax("Unexpected token");
+		}
 	} else if (_ret == EIMAGINARY) {
 		Complex		value(0, 1);
 		_ret = _tokenizer.scanToken(_token);
@@ -356,7 +367,7 @@ Parser::unique_node Parser::_parseMatrix() {
 			// Parse a new row
 			rows.push_back(_parseMatrixRow());
 			_ret = _tokenizer.scanToken(_token);
-			if (_token == COMA) {
+			if (_token == SEMICOLON) {
 				_ret = _tokenizer.scanToken(_token);
 				if (_token == L_BRACKET)
 					continue;
@@ -364,7 +375,7 @@ Parser::unique_node Parser::_parseMatrix() {
 			} else if (_token == R_BRACKET) {
 				break;
 			} else {
-				throw IncorrectSyntax("Expecting `,` or `]`");
+				throw IncorrectSyntax("Expecting `;` or `]`");
 			}
 		}
 		_ret = _tokenizer.scanToken(_token);
@@ -383,7 +394,7 @@ Matrix::row Parser::_parseMatrixRow() {
 			Rational	value(std::stold(_token));
 			_ret = _tokenizer.scanToken(_token);
 			row.push_back(value);
-			if (_token == SEMICOLON) {
+			if (_token == COMA) {
 				continue;
 			} else if (_token == R_BRACKET) {
 				break;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 07:58:58 by eli               #+#    #+#             */
-/*   Updated: 2023/03/05 10:39:43 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/16 14:43:02 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ class Tokenizer {
 
 		/* Parsing utils ---------------------------------------------------------- */
 		bool					_find(const char* charset) const;
-		size_t					_find_not_of(const char* charset) const;
+		size_t					_find_not_of(
+									const char* charset,
+									size_t pos = std::string::npos
+								) const;
 		std::string				_update_token(const size_t& next_pos) const;
 };
 

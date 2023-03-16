@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 08:45:04 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 18:01:43 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 14:43:32 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,14 @@ Tokenizer::e_tokentype Tokenizer::scanToken(std::string& holder) {
 		&& !utils::isCharset(_raw[_current_pos + 1], NAME)) {
 		next_pos = _find_not_of(IMAGINARY);
 		ret = EIMAGINARY;
-	} else if (utils::isCharset(_raw[_current_pos], RATIONAL)) {
-		next_pos = _find_not_of(RATIONAL);
+	} else if (utils::isCharset(_raw[_current_pos], DIGIT)) {
+		next_pos = _find_not_of(DIGIT);
+		if (utils::isCharset(_raw[next_pos], DOT)) {
+			++next_pos;
+			if (utils::isCharset(_raw[next_pos], DIGIT)) {
+				next_pos = _find_not_of(DIGIT, next_pos);
+			}
+		}
 		ret = ERATIONAL;
 	} else if (utils::isCharset(_raw[_current_pos], NAME)) {
 		next_pos = _find_not_of(NAME);
@@ -85,8 +91,11 @@ bool	Tokenizer::_find(const char* charset) const {
 	return _raw.find_first_of(charset, _current_pos) != std::string::npos;
 }
 
-size_t	Tokenizer::_find_not_of(const char* charset) const {
-	return _raw.find_first_not_of(charset, _current_pos);
+size_t	Tokenizer::_find_not_of(const char* charset, size_t pos) const {
+	if (pos == std::string::npos)
+		return _raw.find_first_not_of(charset, _current_pos);
+	else
+		return _raw.find_first_not_of(charset, pos);
 }
 
 std::string	Tokenizer::_update_token(const size_t& next_pos) const {
