@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 17:01:29 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 17:39:31 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,17 @@ void	Computor::create_context(
 								utils::toLower(context_name),
 								context_name
 							);
-	if (_subcontexts.find(context_names) != _subcontexts.end()) {
-		// Context already exists
-		return;
-	}
 	name_duo	variable_names = std::make_pair(
-									utils::toLower(variable_name),
-									variable_name
-								);
+		utils::toLower(variable_name),
+		variable_name
+	);
+
+	context_map::iterator	context = _subcontexts.find(context_names);
+	if (context != _subcontexts.end()) {
+		// Context already exists: update variable name
+		context->second.clear();
+	}
+
 	variable	var(variable_names, nullptr);
 	_subcontexts[context_names].push_front(var);
 }

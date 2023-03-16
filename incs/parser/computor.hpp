@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 10:30:58 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 17:33:05 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ class Computor {
 		static void				create_context(
 									const name_type& context_name,
 									const name_type& variable_name
-									//TODO: set multiple later
 								);
 		void					flush();
 		void					prune();
