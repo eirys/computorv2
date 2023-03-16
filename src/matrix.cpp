@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 17:52:27 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 13:48:45 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ Matrix::Matrix(const matrix&& x) {
 		it != x.end();
 		++it) {
 			if (it->size() != _p) {
-				throw math::operation_undefined();
+				throw BadMatrixDimensions();
 			}
 		}
 		_matrix = x;

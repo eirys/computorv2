@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 09:51:01 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 13:50:27 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ Parser::result_tree Parser::parse() {
 	unique_node	result = (this->*_parsefn)();
 	LOG("Getting main tree now");
 
+	if (_ret != EEMPTY)
+		throw IncorrectSyntax("Unexpected token");
 	if (result == NULL)
 		throw EmptyContent();
-		
+
 	result_tree	tree = std::make_shared<unique_node>(std::move(result));
 	return tree;
 }
@@ -124,7 +126,7 @@ Parser::unique_node	Parser::_parseA() {
 
 /**
  * Computation parsing
- * 
+ *
  * GRAMMAR:
  * C	: E
 */
@@ -375,13 +377,15 @@ Matrix::row Parser::_parseMatrixRow() {
 			Rational	value(std::stold(_token));
 			_ret = _tokenizer.scanToken(_token);
 			row.push_back(value);
-			if (_token == COMA) {
+			if (_token == SEMICOLON) {
 				continue;
 			} else if (_token == R_BRACKET) {
 				break;
 			} else {
 				throw IncorrectSyntax("Expecting `,` or `]`");
 			}
+		} else if (_ret != EEMPTY) {
+			throw IncorrectSyntax("Unexpected token");
 		} else {
 			throw IncorrectSyntax("Expecting value inside bracket");
 		}

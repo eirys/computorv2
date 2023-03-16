@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 09:26:55 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 13:48:18 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,13 @@ class Matrix: public IType {
 		/* Relational Operators --------------------------------------------------- */
 		bool				operator==(const Matrix& y) const;
 		bool				operator!=(const Matrix& y) const;
+
+		class BadMatrixDimensions: public std::exception {
+			public:
+				const char* what() const throw() {
+					return "Matrix has bad dimensions";
+				}
+		};
 
 	private:
 		size_t				_n;			// nb rows
