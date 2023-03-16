@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 09:47:51 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 10:53:42 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ class Identifier: public ATreeNode {
 				shared_itype	value;
 				value = Computor::find(_name, _context);
 				if (value == nullptr)
-					throw Identifier::ValueNotSet(_name);
+					throw Identifier::ValueNotSet(_name, _context);
 				return value;
 			} else {
 				// Set a new value
@@ -111,8 +111,14 @@ class Identifier: public ATreeNode {
 		class ValueNotSet: public std::exception {
 			public:
 				ValueNotSet() = delete;
-				ValueNotSet(const std::string& name):
-					_specificity("Variable `" + name + "` not set") {}
+				ValueNotSet(
+					const std::string& name,
+					const std::string& context = std::string()
+				):
+					_specificity(
+						"Variable `" + name + "` not set"
+						+ (context.empty() ? "" : (" in context `" + context + "`"))
+					) {}
 
 				const char* what() const throw() {
 					return _specificity.c_str();

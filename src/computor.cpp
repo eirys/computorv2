@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 09:29:08 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 10:52:48 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,10 @@
 */
 Computor::context		Computor::_memory;
 
+/**
+ * Specific named subcontexts.
+*/
 Computor::context_map	Computor::_subcontexts;
-
-/**
- * Subcontext start position.
-*/
-// Computor::context_pos	Computor::_subcontext_pos;
-
-/**
- * Number of active subcontext.
-*/
-// uint_fast16_t			Computor::_active_context = 0;
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -49,6 +42,7 @@ void	Computor::push(
 	const value_ptr& value,
 	const name_type& context_name
 ) {
+	name_type		variable_name_lower = utils::toLower(variable_name);
 
 	if (context_name.empty()) {
 		// Global context
@@ -56,19 +50,21 @@ void	Computor::push(
 		for (context::reverse_iterator it = _memory.rbegin();
 		it != _memory.rend();
 		++it) {
-			if (it->first == variable_name) {
+			if (it->first.first == variable_name_lower) {
 				it->second = value;
 				return;
 			}
 		}
-		_memory.push_back(std::make_pair(variable_name, value));
+		name_duo	names = std::make_pair(variable_name_lower, variable_name);
+		_memory.push_back(std::make_pair(names, value));
 	} else {
+		name_duo	names = std::make_pair(utils::toLower(context_name), context_name);
 		// Check if context is valid before doing anything
 		bool	valid = false;
 		for (context::const_iterator it =_memory.begin();
 		it != _memory.end();
 		++it) {
-			if (it->first == context_name) {
+			if (it->first.first == names.first) {
 				valid = true;
 				break;
 			}
@@ -77,20 +73,19 @@ void	Computor::push(
 			throw std::exception(); //TODO
 
 		// Find expected context
-		context_map::iterator	context_list = _subcontexts.find(context_name);
+		context_map::iterator	context_list = _subcontexts.find(names);
 		if (context_list == _subcontexts.end())
 			throw std::exception();	//TODO
 		for (subcontext::iterator it = context_list->second.begin();
 		it != context_list->second.end();
 		++it) {
-			if (it->first == variable_name) {
+			if (it->first.first == variable_name_lower) {
 				// Erase previous occurence
 				it->second = value;
 				return;
 			}
 		}
 		throw UnknownFunctionElement(variable_name);
-		// _subcontexts[context_name].push_back(std::make_pair(variable_name, value));
 	}
 }
 
@@ -101,19 +96,24 @@ const Computor::value_ptr	Computor::find(
 	const name_type& variable_name,
 	const name_type& context_name
 ) {
+	name_type	lowered_name = utils::toLower(variable_name);
 
 	if (context_name.empty()) {
 		// Variable set in global context
 		for (context::const_reverse_iterator it = _memory.rbegin();
 		it != _memory.rend();
 		++it) {
-			if (it->first == variable_name)
+			if (it->first.first == lowered_name)
 				return it->second;
 		}
 		return nullptr;
 	} else {
+		name_duo	context_names = std::make_pair(
+										utils::toLower(context_name),
+										context_name
+									);
 		// Check if set in specific context
-		context_map::const_iterator	context_it = _subcontexts.find(context_name);
+		context_map::const_iterator	context_it = _subcontexts.find(context_names);
 		if (context_it == _subcontexts.end()) {
 			// No such context
 			return nullptr;
@@ -121,7 +121,7 @@ const Computor::value_ptr	Computor::find(
 		for (subcontext::const_iterator it = context_it->second.begin();
 		it != context_it->second.end();
 		++it) {
-			if (it->first == variable_name)
+			if (it->first.first == lowered_name)
 				return it->second;
 		}
 		return nullptr;
@@ -135,12 +135,20 @@ void	Computor::create_context(
 	const name_type& context_name,
 	const name_type& variable_name
 ) {
-	if (_subcontexts.find(context_name) != _subcontexts.end()) {
+	name_duo	context_names = std::make_pair(
+								utils::toLower(context_name),
+								context_name
+							);
+	if (_subcontexts.find(context_names) != _subcontexts.end()) {
 		// Context already exists
 		return;
 	}
-	variable	var(variable_name, nullptr);
-	_subcontexts[context_name].push_front(var);
+	name_duo	variable_names = std::make_pair(
+									utils::toLower(variable_name),
+									variable_name
+								);
+	variable	var(variable_names, nullptr);
+	_subcontexts[context_names].push_front(var);
 }
 
 /**
@@ -165,7 +173,6 @@ void	Computor::prune() {
 	context_map::iterator	it = _subcontexts.begin();
 
 	bool	valid;
-
 	while (it != _subcontexts.end()) {
 		valid = false;
 		// For every subcontext
@@ -173,7 +180,7 @@ void	Computor::prune() {
 		ite != _memory.end();
 		++ite) {
 			// For every memory element
-			if (it->first == ite->first) {
+			if (it->first.first == ite->first.first) {
 				// Subcontext is valid
 				valid = true;
 				break;
@@ -205,17 +212,17 @@ void	Computor::show() const {
 	for (context::const_reverse_iterator it = _memory.rbegin();
 	it != _memory.rend();
 	++it) {
-		cout << it->first << '=' << *it->second << NL;
+		cout << it->first.second << '=' << *it->second << NL;
 	}
 
 	for (context_map::const_iterator it = _subcontexts.begin();
 	it != _subcontexts.end();
 	++it) {
-		cout << "-- context `" << it->first << "` --" << NL;
+		cout << "-- context `" << it->first.second << "` --" << NL;
 		for (subcontext::const_iterator ite = it->second.begin();
 		ite != it->second.end();
 		++ite) {
-			cout << ite->first;
+			cout << ite->first.second;
 			if (ite->second != nullptr)
 				cout << '=' << *ite->second << NL;
 			else

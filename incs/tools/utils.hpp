@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/15 17:44:37 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/16 10:51:12 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sstream>
 # include <string>
 # include <memory>
+# include <algorithm>
 
 # define NL std::endl
 # define FLOAT_PRECISION 3
@@ -42,24 +43,28 @@ namespace utils {
 /*                                  PROTOTYPE                                 */
 /* ========================================================================== */
 
-template <typename T>
-	void display(const std::list<T>& l);
+bool		isCharset(const char c, const std::string charset);
+std::string	toLower(std::string& s);
 
 /* ========================================================================== */
 /*                                 DEFINITION                                 */
 /* ========================================================================== */
 
-template <typename T>
-	inline void display(const std::list<T>& l) {
-		for (typename std::list<T>::const_iterator it = l.begin(); it != l.end(); ++it)
-			std::cout << '[' << *it << "] ";
-		std::cout << std::endl;
-	}
-
-inline bool	isCharset(const char c, const std::string charset) {
+inline	bool	isCharset(const char c, const std::string charset) {
 	if (charset.find(c) != std::string::npos)
 		return true;
 	return false;
+}
+
+inline std::string	toLower(const std::string& s) {
+	std::string	copy(s);
+	std::transform(
+		copy.begin(),
+		copy.end(),
+		copy.begin(),
+		[](unsigned char c) { return std::tolower(c); }
+	);
+	return copy;
 }
 
 } // namespace utils

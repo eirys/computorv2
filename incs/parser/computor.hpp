@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/15 21:34:26 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/16 10:30:58 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,22 @@ class Computor {
 	public:
 		typedef typename	ATreeNode::shared_itype			value_ptr;
 		typedef				std::string						name_type;
-		typedef				std::pair<name_type, value_ptr>	variable;
+		typedef				std::pair<name_type, name_type>	name_duo;
+		typedef				std::pair<name_duo, value_ptr>	variable;
+
+		struct NameDuoComparator {
+			bool operator() (const name_duo& lhs, const name_duo& rhs) {
+				return lhs.first < rhs.first;
+			}
+		};
+
 		typedef				std::vector<variable>			context;
 		typedef				std::list<variable>				subcontext;
-		typedef				std::map<name_type, subcontext>	context_map;
+		typedef				std::map<
+								name_duo,
+								subcontext,
+								NameDuoComparator
+							>								context_map;
 
 		Computor();
 		virtual ~Computor();
