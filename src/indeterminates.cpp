@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 14:04:03 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 18:32:07 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ Indeterminates	Indeterminates::operator+(const Indeterminates& other) const {
 	data_map::const_iterator	other_it(other_map.begin());
 	std::list<data_map_element>	to_add;
 
-	while (this_it != _datas.end() && other_it != other_map.end()) {
+	while (this_it != this_map.end() && other_it != other_map.end()) {
 		// For each element of this map
 		if (this_it->first == other_it->first) {
 			// If the set already exists, just add factors
@@ -60,6 +60,30 @@ Indeterminates	Indeterminates::operator+(const Indeterminates& other) const {
 }
 
 Indeterminates	Indeterminates::operator-(const Indeterminates& other) const {
+	// Indeterminates				copy(*this);
+	// data_map&					this_map = copy._datas;
+	// const data_map&				other_map = other.getMap();
+	// data_map::iterator			this_it(this_map.begin());
+	// data_map::const_iterator	other_it(other_map.begin());
+	// std::list<data_map_element>	to_add;
+
+	// while (this_it != _datas.end() && other_it != other_map.end()) {
+	// 	// For each element of this map
+	// 	if (this_it->first == other_it->first) {
+	// 		// If the set already exists, just add factors
+	// 		this_it->second = (*this_it->second - other_it->second)->clone();
+	// 	} else {
+	// 		// Else, save the pair to be added later
+	// 		to_add.push_front(*other_it);
+	// 	}
+	// 	++this_it;
+	// 	++other_it;
+	// }
+	// this_map.insert(to_add.begin(), to_add.end());
+	return copy;
+}
+
+Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 	Indeterminates				copy(*this);
 	data_map&					this_map = copy._datas;
 	const data_map&				other_map = other.getMap();
@@ -67,21 +91,24 @@ Indeterminates	Indeterminates::operator-(const Indeterminates& other) const {
 	data_map::const_iterator	other_it(other_map.begin());
 	std::list<data_map_element>	to_add;
 
-	while (this_it != _datas.end() && other_it != other_map.end()) {
-		// For each element of this map
+	while (this_it != this_map.end() && other_it != other_map.end()) {
 		if (this_it->first == other_it->first) {
-			// If the set already exists, just add factors
-			this_it->second = (*this_it->second + other_it->second)->clone();
-		} else {
-			// Else, save the pair to be added later
-			to_add.push_front(*other_it);
+			// If set already exists, add up exponents and multiply factors
+			const key_set&	this_key_set = this_it->fisrt;
+			key_set			result_set;
+			for (key_set::const_iterator keys = this_key_set.begin();
+			keys != this_key_set.end();
+			++it) {
+			}
 		}
 		++this_it;
 		++other_it;
 	}
-	this_map.insert(to_add.begin(), to_add.end());
-	return copy;
 }
+Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {}
+Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {}
+
+
 
 /* Getter ------------------------------------------------------------------- */
 
