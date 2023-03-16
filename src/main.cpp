@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/15 21:37:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/16 11:09:18 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void test8() {
 	
 			LOG("Out of parser");
 
-			(*output)->print();
 			Parser::shared_itype	res = (*output)->eval();
+			(*output)->print();
 			if (res != nullptr)
 				cout << " = " << *res << NL;
 			computor_context.flush();

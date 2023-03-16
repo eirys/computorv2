@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/14 17:47:48 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 10:56:05 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "atree_node.hpp"
 
+/**
+ * Equality	: E = E
+*/
 class Equality: public ATreeNode {
 	public:
 		typedef 			ATreeNode					base;
