@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 15:08:36 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 15:28:06 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,6 @@ Parser::unique_node	Parser::_parseF() {
 	} else if (_ret == ESYMBOL) {
 		// Negate operation
 		if (_token == NEGATE) {
-			// _ret = _tokenizer.scanToken(_token);
 			unique_node	a = _parseF();
 			if (a == nullptr)
 				throw IncorrectSyntax("Expecting value after `-`");
@@ -265,34 +264,38 @@ Parser::unique_node	Parser::_parseT() {
 
 	if (a == nullptr)
 		throw IncorrectSyntax("Unexpected token");
-	if (_token == MULTIPLICATION) {
-		// F * T
-		unique_node	b = _parseT();
-		if (b == nullptr)
-			throw IncorrectSyntax("Expecting value after `*`");
-		Multiply	mul(std::move(a), std::move(b));
-		return mul.toNode();
-	} else if (_token == DIVISION) {
-		// F / T
-		unique_node	b = _parseT();
-		if (b == nullptr)
-			throw IncorrectSyntax("Expecting value after `/`");
-		Divide		div(std::move(a), std::move(b));
-		return div.toNode();
-	} else if (_token == MODULO) {
-		// F % T
-		unique_node b = _parseT();
-		if (b == nullptr)
-			throw IncorrectSyntax("Expecting value after `%`");
-		Modulo		mod(std::move(a), std::move(b));
-		return mod.toNode();
-	} else if (_token == POWER) {
-		// F ^ T
-		unique_node b = _parseT();
-		if (b == nullptr)
-			throw IncorrectSyntax("Expecting value after `^`");
-		Power		pow(std::move(a), std::move(b));
-		return pow.toNode();
+	while (1) {
+		if (_token == MULTIPLICATION) {
+			// T * F
+			unique_node	b = _parseF();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting value after `*`");
+			Multiply	mul(std::move(a), std::move(b));
+			return mul.toNode();
+		} else if (_token == DIVISION) {
+			// T / F
+			unique_node	b = _parseF();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting value after `/`");
+			Divide		div(std::move(a), std::move(b));
+			return div.toNode();
+		} else if (_token == MODULO) {
+			// T % F
+			unique_node b = _parseF();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting value after `%`");
+			Modulo		mod(std::move(a), std::move(b));
+			return mod.toNode();
+		} else if (_token == POWER) {
+			// T ^ F
+			unique_node b = _parseF();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting value after `^`");
+			Power		pow(std::move(a), std::move(b));
+			return pow.toNode();
+		} else {
+			break;
+		}
 	}
 	return a;
 }

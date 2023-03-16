@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 13:48:45 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/16 15:10:14 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -598,7 +598,7 @@ std::ostream& operator<<(std::ostream& o, const Matrix& x) {
 		}
 		os << ']';
 		if (it + 1 != x.getMatrix().end())
-			os << ',';
+			os << ';';
 	}
 	os << ']';
 	o << os.str();
