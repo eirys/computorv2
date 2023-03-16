@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/15 18:16:34 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/16 09:47:51 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ class Identifier: public ATreeNode {
 				return value;
 			} else {
 				// Set a new value
-				Computor::push(_name, base::getRight()->eval());
-				return base::getRight()->eval();
+				shared_itype	value = base::getRight()->eval();
+				Computor::push(_name, value);
+				return value;
 			}
 		}
 

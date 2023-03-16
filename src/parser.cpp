@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/15 19:32:05 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/16 09:51:01 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ Parser::unique_node	Parser::_parseA() {
 			Computor::create_context(identifier, var_name);
 		}
 		if (a == nullptr)
-			throw IncorrectSyntax("Expected expression after `=`");
+			throw IncorrectSyntax("Unexpected token");
 		Identifier	id(identifier, std::move(a), _context, var_name);
 		return id.toNode();
 	}
@@ -251,8 +251,8 @@ Parser::unique_node	Parser::_parseT() {
 	LOG("In _parseT");
 	unique_node	a = _parseF();
 
-	// if (a == nullptr)
-		// throw IncorrectSyntax("Expecting value before `" + _token + "`");
+	if (a == nullptr)
+		throw IncorrectSyntax("Unexpected token");
 	if (_token == MULTIPLICATION) {
 		// F * T
 		unique_node	b = _parseT();
