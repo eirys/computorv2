@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 17:42:18 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/17 19:16:35 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ class Rational: public IType {
 
 		/* IType Operators -------------------------------------------------------- */
 		shared_itype	clone() const;
+		shared_itype	negate() const;
 		shared_itype	operator+(const shared_itype& rhs) const;
 		shared_itype	operator-(const shared_itype& rhs) const;
 		shared_itype	operator*(const shared_itype& rhs) const;

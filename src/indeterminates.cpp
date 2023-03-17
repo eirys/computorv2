@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   indeterminates.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 18:44:55 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/17 19:18:15 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /*                                   PUBLIC                                   */
 /* ========================================================================== */
 
-Indeterminates::Indeterminates (
+Indeterminates::Indeterminates(
 	shared_itype factor,
 	Rational exponent,
 	const std::string& var_name
@@ -28,6 +28,9 @@ Indeterminates::Indeterminates (
 	_datas[keys] = factor;
 }
 
+Indeterminates::Indeterminates(const data_map& map):
+	_datas(map) {}
+
 Indeterminates::Indeterminates(const Indeterminates& x):
 	_datas(x.getMap()) {}
 
@@ -35,82 +38,98 @@ Indeterminates::~Indeterminates() {}
 
 /* Operators ---------------------------------------------------------------- */
 
-Indeterminates	Indeterminates::operator+(const Indeterminates& other) const {
-	Indeterminates				copy(*this);
-	data_map&					this_map = copy._datas;
-	const data_map&				other_map = other.getMap();
-	data_map::iterator			this_it(this_map.begin());
-	data_map::const_iterator	other_it(other_map.begin());
-	std::list<data_map_element>	to_add;
+Indeterminates	Indeterminates::operator-() const {
+	data_map			new_map(getMap());
 
-	while (this_it != this_map.end() && other_it != other_map.end()) {
-		// For each element of this map
-		if (this_it->first == other_it->first) {
-			// If the set already exists, just add factors
+	for (data_map::iterator it = new_map.begin();
+	it != new_map.end();
+	++it) {
+		it->second = (it->second->negate())->clone(); 
+	}
+	return Indeterminates(new_map);
+}
+
+Indeterminates	Indeterminates::operator+(const Indeterminates& other) const {
+	data_map			new_map(getMap());
+	const data_map&		other_map = other.getMap();
+
+	for (data_map::const_iterator other_it = other_map.begin();
+	other_it != other_map.end();
+	++other_it) {
+		data_map::iterator	this_it = new_map.find(other_it->first);
+
+		if (this_it != new_map.end()) {
+			// If new_map has this key, add their factors
 			this_it->second = (*this_it->second + other_it->second)->clone();
 		} else {
-			// Else, save the pair to be added later
-			to_add.push_front(*other_it);
+			// Insert the new set
+			new_map.insert(*other_it);
 		}
-		++this_it;
-		++other_it;
 	}
-	this_map.insert(to_add.begin(), to_add.end());
-	return copy;
+	return Indeterminates(new_map);
 }
 
 Indeterminates	Indeterminates::operator-(const Indeterminates& other) const {
-	// Indeterminates				copy(*this);
-	// data_map&					this_map = copy._datas;
-	// const data_map&				other_map = other.getMap();
-	// data_map::iterator			this_it(this_map.begin());
-	// data_map::const_iterator	other_it(other_map.begin());
-	// std::list<data_map_element>	to_add;
+	Indeterminates	other_copy = other.operator-();
 
-	// while (this_it != _datas.end() && other_it != other_map.end()) {
-	// 	// For each element of this map
-	// 	if (this_it->first == other_it->first) {
-	// 		// If the set already exists, just add factors
-	// 		this_it->second = (*this_it->second - other_it->second)->clone();
-	// 	} else {
-	// 		// Else, save the pair to be added later
-	// 		to_add.push_front(*other_it);
-	// 	}
-	// 	++this_it;
-	// 	++other_it;
-	// }
-	// this_map.insert(to_add.begin(), to_add.end());
-	return copy;
+	return this->operator+(other_copy);
 }
 
 Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
-	Indeterminates				copy(*this);
-	data_map&					this_map = copy._datas;
+	data_map					new_map;
+	Rational					null(-1);
+
+	const data_map&				this_map = getMap();
 	const data_map&				other_map = other.getMap();
-	data_map::iterator			this_it(this_map.begin());
-	data_map::const_iterator	other_it(other_map.begin());
-	std::list<data_map_element>	to_add;
 
-	while (this_it != this_map.end() && other_it != other_map.end()) {
-		if (this_it->first == other_it->first) {
-			// If set already exists, add up exponents and multiply factors
-			const key_set&	this_key_set = this_it->fisrt;
-			key_set			result_set;
-			for (key_set::const_iterator current_key = this_key_set.begin();
-			current_key != this_key_set.end();
-			++it) {
-				key_type	new_key(current_key->variable_name, current_key->exponent + Rational(1));
-				
+	for (data_map::const_iterator this_it = this_map.begin();
+	this_it != this_map.end();
+	++this_it) {
+		const key_set&		current_set = this_it->first;
+
+		for (data_map::const_iterator other_it = other_map.begin();
+		other_it != other_map.end();
+		++other_it) {
+			const key_set&	other_set = other_it->first;
+			key_set			new_set;
+
+			// Add every key from this_set, and do exponents collision
+			for (key_set::const_iterator current_key = current_set.begin();
+			current_key != current_set.end();
+			++current_key) {
+				key_type	new_key(*current_key);
+				Rational	other_exp = _set_has(other_set, current_key->variable_name);
+				if (other_exp != null) {
+					new_key.exponent.operator+=(other_exp);
+				}
+				new_set.insert(new_key);
 			}
+
+			// Now simply add every other key that wasn't added (from other set)
+			for (key_set::const_iterator current_key = other_set.begin();
+			current_key != other_set.end();
+			++current_key) {
+				if (_set_has(new_set, current_key->variable_name) != null) {
+					continue;
+				}
+				new_set.insert(*current_key);
+			}
+
+			new_map[new_set] = (*this_it->second * other_it->second)->clone();
 		}
-		++this_it;
-		++other_it;
+
 	}
+	return Indeterminates(new_map);
 }
-Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {}
-Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {}
 
-
+Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
+	(void)other;
+	return Indeterminates(*this);
+}
+Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
+	(void)other;
+	return Indeterminates(*this);
+}
 
 /* Getter ------------------------------------------------------------------- */
 
@@ -147,4 +166,23 @@ std::ostream&	operator<<(std::ostream& o, const Indeterminates& x) {
 			o << " + ";
 	}
 	return o;
+}
+
+/**
+ * Returns value of exponent if the set contains the expected name.
+ * Else returns -1.
+*/
+Rational	_set_has(
+	const Indeterminates::key_set& set,
+	const std::string& variable_name
+) {
+	typedef Indeterminates::key_set		key_set;
+
+	for (key_set::const_iterator it = set.begin();
+	it != set.end();
+	++it) {
+		if (it->variable_name == variable_name)
+			return it->exponent;
+	}
+	return Rational(-1);
 }

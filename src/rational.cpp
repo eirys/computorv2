@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rational.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 14:01:34 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/17 19:14:59 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ Rational& Rational::operator=(const Rational& rhs) {
 
 Rational::shared_itype	Rational::clone() const {
 	return shared_itype(new Rational(*this));
+}
+
+Rational::shared_itype	Rational::negate() const {
+	Rational	copy(this->operator-());
+
+	return shared_itype(new Rational(copy));
 }
 
 Rational::shared_itype	Rational::operator+(const shared_itype& rhs_ptr) const {

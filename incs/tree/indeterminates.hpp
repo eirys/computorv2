@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   indeterminates.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 13:09:56 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/17 19:17:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class Indeterminates {
 			const std::string	variable_name;	// address of the shared_ptr
 			Rational			exponent;		// exponent
 
+			/* Operators ------------------------------------------------------------- */
 			bool	operator==(const WeigthedValue& rhs) const {
 				return variable_name == rhs.variable_name && exponent == rhs.exponent;
 			}
@@ -52,13 +53,14 @@ class Indeterminates {
 			Rational exponent = Rational(1),
 			const std::string& var_name = std::string("1")
 		);
-
+		Indeterminates(const data_map& x);
 		Indeterminates(const Indeterminates& x);
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Indeterminates();
 
 		/* Functions -------------------------------------------------------------- */
+		Indeterminates		operator-() const;
 		Indeterminates		operator+(const Indeterminates& other) const;
 		Indeterminates		operator-(const Indeterminates& other) const;
 		Indeterminates		operator*(const Indeterminates& other) const;
@@ -71,8 +73,14 @@ class Indeterminates {
 
 	private:
 		data_map			_datas;
+
 };
 
+/* Other -------------------------------------------------------------------- */
 std::ostream&	operator<<(std::ostream& o, const Indeterminates& x);
+Rational		_set_has(
+					const Indeterminates::key_set& set,
+					const std::string& variable_name
+				);
 
 #endif

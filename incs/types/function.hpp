@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:58:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/14 17:36:05 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/17 19:16:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ class Function: public IType {
 
 		/* IType Operators -------------------------------------------------------- */
 		shared_itype		clone() const;
+		shared_itype		negate() const;
 		shared_itype		operator+(const shared_itype& rhs_ptr) const;
 		shared_itype		operator-(const shared_itype& rhs_ptr) const;
 		shared_itype		operator*(const shared_itype& rhs_ptr) const;

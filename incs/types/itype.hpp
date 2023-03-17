@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itype.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:25:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 17:41:05 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/17 19:14:10 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class IType {
 		/* Override --------------------------------------------------------------- */
 		virtual shared_itype	clone() const = 0;
 
+		virtual shared_itype	negate() const = 0;
 		virtual shared_itype	operator+(const shared_itype& rhs) const = 0;
 		virtual shared_itype	operator-(const shared_itype& rhs) const = 0;
 		virtual shared_itype	operator*(const shared_itype& rhs) const = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   complex.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 17:00:57 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/17 19:14:29 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ Complex& Complex::operator=(const Complex& rhs) {
 
 Complex::shared_itype	Complex::clone() const {
 	return shared_itype(new Complex(*this));
+}
+
+Complex::shared_itype	Complex::negate() const {
+	Complex	copy(this->operator-());
+
+	return shared_itype(new Complex(copy));
 }
 
 Complex::shared_itype	Complex::operator+(const shared_itype& rhs_ptr) const {

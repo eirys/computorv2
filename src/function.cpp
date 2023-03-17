@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 16:39:19 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/17 19:14:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,14 @@ Function&   Function::operator=(const Function& rhs) {
 
 /* IType Operators ---------------------------------------------------------- */
 
-//TODO
-
 Function::shared_itype	Function::clone() const {
 	return shared_itype(new Function(*this));
+}
+
+Function::shared_itype	Function::negate() const {
+	Function	copy(this->operator-());
+
+	return shared_itype(new Function(copy));
 }
 
 Function::shared_itype	Function::operator+(const shared_itype& rhs_ptr) const {
