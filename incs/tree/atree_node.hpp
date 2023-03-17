@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:16:37 by eli               #+#    #+#             */
-/*   Updated: 2023/03/13 13:27:18 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/17 19:23:12 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ class ATreeNode {
 		virtual void				print() = 0;
 		virtual unique_node			toNode() = 0;
 		virtual unique_node			clone() const = 0;
-
-		// virtual Indeterminates		collapse() = 0;
+		virtual Indeterminates		collapse() const = 0;
 
 	protected:
 		/* Default ---------------------------------------------------------------- */

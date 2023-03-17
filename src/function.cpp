@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/17 19:14:43 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/17 22:04:33 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,12 @@ bool	Function::operator==(const shared_itype& rhs_ptr) const {
 	if (f_ptr != nullptr)
 		return operator==(*f_ptr);
 	throw IType::ImpossibleComparison();
+}
+
+Function::operator bool() const {
+	if (*_body == nullptr)
+		return false;
+	return true;
 }
 
 /* Arith Operators ---------------------------------------------------------- */

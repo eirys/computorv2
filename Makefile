@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: etran <etran@student.42.fr>                +#+  +:+       +#+         #
+#    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/03/16 11:26:44 by etran            ###   ########.fr        #
+#    Updated: 2023/03/17 22:03:35 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,6 @@ SRCS	= rational.cpp \
 			main.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
-
-SRC		= $(addprefix src/, $(SRCS))
 OBJ		= $(addprefix obj/, $(OBJS))
 
 ifdef debug

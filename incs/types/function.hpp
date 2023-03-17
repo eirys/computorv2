@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:58:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/17 19:16:43 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/17 22:01:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ class Function: public IType {
 		shared_itype		operator^(const shared_itype& rhs_ptr) const;
 		shared_itype		operator%(const shared_itype& rhs_ptr) const;
 		bool				operator==(const shared_itype& rhs_ptr) const;
+		operator bool() const;
 
 		/* Arith Operators -------------------------------------------------------- */
 		Function			operator-() const;

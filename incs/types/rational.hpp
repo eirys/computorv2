@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:34:17 by eli               #+#    #+#             */
-/*   Updated: 2023/03/17 19:16:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/17 22:01:22 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ class Rational: public IType {
 		shared_itype	operator^(const shared_itype& rhs) const;
 		shared_itype	operator%(const shared_itype& rhs) const;
 		bool			operator==(const shared_itype& rhs) const;
+		operator bool() const;
 
 		/* Arith Operators -------------------------------------------------------- */
 		Rational		operator-() const;

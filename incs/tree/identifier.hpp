@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 17:52:58 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/17 22:50:36 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,10 @@ class Identifier: public ATreeNode {
 					_extra
 				)
 			);
+		}
+
+		Indeterminates			collapse() const {
+			Indeterminates	ind()
 		}
 
 		/* Exception -------------------------------------------------------------- */

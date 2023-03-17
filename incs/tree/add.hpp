@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:13:54 by eli               #+#    #+#             */
-/*   Updated: 2023/03/13 13:18:37 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/17 19:23:52 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ class Add: virtual public ATreeNode {
 			return unique_node(
 				new Add(base::getLeft()->clone(), base::getRight()->clone())
 			);
+		}
+
+		virtual Indeterminates		collapse() const {
 		}
 };
 

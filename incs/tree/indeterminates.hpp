@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/17 19:17:17 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/17 22:50:30 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,10 @@
 class Indeterminates {
 	public:
 		struct WeigthedValue {
-			/* Constructor ------------------------------------------------------------- */
 			WeigthedValue(const std::string& var_name, Rational exponent):
 				variable_name(var_name),
 				exponent(exponent) {}
 
-			/* Attributes -------------------------------------------------------------- */
 			const std::string	variable_name;	// address of the shared_ptr
 			Rational			exponent;		// exponent
 
@@ -35,7 +33,6 @@ class Indeterminates {
 			bool	operator==(const WeigthedValue& rhs) const {
 				return variable_name == rhs.variable_name && exponent == rhs.exponent;
 			}
-
 			bool	operator<(const WeigthedValue& rhs) const {
 				return variable_name < rhs.variable_name && exponent < rhs.exponent;
 			}
@@ -51,7 +48,8 @@ class Indeterminates {
 		Indeterminates(
 			shared_itype factor,
 			Rational exponent = Rational(1),
-			const std::string& var_name = std::string("1")
+			unique_node idk
+			// const std::string& var_name = std::string()
 		);
 		Indeterminates(const data_map& x);
 		Indeterminates(const Indeterminates& x);
@@ -73,7 +71,6 @@ class Indeterminates {
 
 	private:
 		data_map			_datas;
-
 };
 
 /* Other -------------------------------------------------------------------- */

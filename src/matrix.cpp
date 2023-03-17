@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:04:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/17 19:14:52 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/17 22:01:13 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,10 @@ bool	Matrix::operator==(const shared_itype& rhs_ptr) const {
 	if (f_ptr != nullptr)
 		return operator==(*f_ptr);
 	throw IType::ImpossibleComparison();
+}
+
+Matrix::operator bool() const {
+	return !operator!();
 }
 
 /* Arith operators ---------------------------------------------------------- */
