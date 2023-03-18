@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 17:05:35 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/18 20:27:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 /* ========================================================================== */
 
 Parser::Parser(const std::string& raw):
-	_tokenizer(raw),
+	_tokenizer(utils::trimmed(raw)),
 	_ret(EEMPTY) {
 		if (raw.find(EQUAL) != std::string::npos) {
 			// There is an `=`

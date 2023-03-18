@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/18 18:42:49 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 22:21:54 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,15 @@ class Indeterminates {
 				variable_name(var_name),
 				exponent(exponent) {}
 
-			const std::string	variable_name;	// address of the shared_ptr
-			Rational			exponent;		// exponent
+			const std::string	variable_name;
+			Rational			exponent;
 
-			/* Operators ------------------------------------------------------------- */
 			bool	operator==(const WeigthedValue& rhs) const {
 				return variable_name == rhs.variable_name && exponent == rhs.exponent;
 			}
 			bool	operator<(const WeigthedValue& rhs) const {
-				if (variable_name != rhs.variable_name) {
+				if (variable_name != rhs.variable_name)
 					return variable_name < rhs.variable_name;
-				}
 				return exponent < rhs.exponent;
 			}
 		};
@@ -50,8 +48,6 @@ class Indeterminates {
 		typedef				std::map<key_set, shared_itype>				data_map;
 		typedef				std::pair<key_set, shared_itype>			data_map_element;
 
-		/* Constructor ------------------------------------------------------------ */
-
 		Indeterminates();
 		Indeterminates(const data_map& x);
 		Indeterminates(const Indeterminates& x);
@@ -61,23 +57,20 @@ class Indeterminates {
 			Rational exponent = Rational(1)
 		);
 
-		/* Destructor ------------------------------------------------------------- */
 		virtual ~Indeterminates();
 
 		/* Functions -------------------------------------------------------------- */
-		Indeterminates		operator-() const;
-		Indeterminates		operator+(const Indeterminates& other) const;
-		Indeterminates		operator-(const Indeterminates& other) const;
-		Indeterminates		operator*(const Indeterminates& other) const;
-		Indeterminates		operator/(const Indeterminates& other) const;
-		Indeterminates		operator^(const Indeterminates& other) const;
-		Indeterminates		operator%(const Indeterminates& other) const;
+
+		Indeterminates			operator-() const;
+		Indeterminates			operator+(const Indeterminates& other) const;
+		Indeterminates			operator-(const Indeterminates& other) const;
+		Indeterminates			operator*(const Indeterminates& other) const;
+		Indeterminates			operator/(const Indeterminates& other) const;
+		Indeterminates			operator^(const Indeterminates& other) const;
+		Indeterminates			operator%(const Indeterminates& other) const;
 
 		/* Getter ----------------------------------------------------------------- */
-		const data_map&		getMap() const;
-
-		/* Tools ------------------------------------------------------------------ */
-		void				show() const;
+		const data_map&			getMap() const;
 
 		/* Exception -------------------------------------------------------------- */
 		class NotARational: public std::exception {
@@ -87,10 +80,12 @@ class Indeterminates {
 				}
 		};
 
+		/* Static Value ----------------------------------------------------------- */
+		static const Rational	unit;
+		static const Rational	neg_unit;
+
 	private:
-		data_map			_datas;
-
-
+		data_map				_datas;
 };
 
 /* Other -------------------------------------------------------------------- */
@@ -103,19 +98,19 @@ std::ostream&	operator<<(
 	const Indeterminates::data_map_element& x
 );
 
-Rational		_set_has(
+/* Utils -------------------------------------------------------------------- */
+
+Rational		_setHas(
 	const Indeterminates::key_set& set,
 	const std::string& variable_name
-);
-
-Indeterminates::shared_itype	_add_factors(
-	const Indeterminates::shared_itype& val_ptr1,
-	const Indeterminates::shared_itype& val_ptr2
 );
 
 Indeterminates::data_map::iterator	_find(
 	Indeterminates::data_map& map,
 	const Indeterminates::key_set& key
 );
+
+bool	_isFactorUnit(const Indeterminates::shared_itype& set);
+bool	_isSetUnit(const Indeterminates::key_set& set);
 
 #endif

@@ -6,12 +6,21 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/18 17:15:55 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 23:11:45 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<string>
-#include<iostream>
+#include <string>
+#include <iostream>
+#include <unistd.h>
+#include <cstring>
+
+#define __ARGUMENTS_COMPUTOR "Argument was unexpected\n"
+#define __DANGEROUS_COMPUTOR "Dangerous manoeuvre...\n"
+
+void	puterror(const char* msg) {
+	write(STDERR_FILENO, msg, strlen(msg));
+}
 
 #include "utils.hpp"
 #include "math.hpp"
@@ -37,10 +46,19 @@ using std::cin;
 using std::cout;
 using std::cerr;
 
-void test8() {
+int main(int ac, char* const* av) {
+	if (ac != 1) {
+		puterror(__ARGUMENTS_COMPUTOR);
+		std::exit(EXIT_FAILURE);
+	} else if (!isatty(STDIN_FILENO)) {
+		puterror(__DANGEROUS_COMPUTOR);
+		std::exit(EXIT_FAILURE);
+	}
+	
+	(void)av;
+
 	Computor	computor_context;
 	while (!cin.eof()) {
-		// computor_context.show();
 		try {
 			cout << PROMPT;
 			std::string			entry;
@@ -66,9 +84,5 @@ void test8() {
 		}
 	}
 	cout << "quit\n";
-}
-
-int main() {
-	test8();
 	return 0;
 }

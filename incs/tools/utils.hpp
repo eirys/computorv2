@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:26:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 15:13:15 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/18 20:29:07 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <string>
 # include <memory>
 # include <algorithm>
+
+# include "parser_macro.hpp"
 
 # define NL std::endl
 # define FLOAT_PRECISION 3
@@ -44,8 +46,8 @@ namespace utils {
 /* ========================================================================== */
 
 bool		isCharset(const char c, const std::string charset);
-
 std::string	toLower(const std::string& s);
+std::string	trimmed(const std::string& s);
 
 /* ========================================================================== */
 /*                                 DEFINITION                                 */
@@ -66,6 +68,14 @@ inline std::string	toLower(const std::string& s) {
 		[](unsigned char c) { return std::tolower(c); }
 	);
 	return copy;
+}
+
+inline std::string	trimmed(const std::string& s) {
+	size_t	new_start = s.find_first_not_of(WHITESPACES);
+	if (new_start == std::string::npos)
+		return std::string();
+	size_t	new_end = s.find_last_not_of(WHITESPACES);
+	return s.substr(new_start, new_end + 1 - new_start);
 }
 
 } // namespace utils
