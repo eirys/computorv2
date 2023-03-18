@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/16 17:24:28 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/18 17:15:55 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ using std::cerr;
 void test8() {
 	Computor	computor_context;
 	while (!cin.eof()) {
-		computor_context.show();
+		// computor_context.show();
 		try {
 			cout << PROMPT;
 			std::string			entry;
@@ -50,7 +50,10 @@ void test8() {
 			Parser::result_tree	output = parser.parse();
 	
 			LOG("Out of parser");
-
+		
+			Indeterminates	ind_res = (*output)->collapse();
+			cout << "\nRES: \n" << ind_res << NL;
+			// ind_res.show();
 			Parser::shared_itype	res = (*output)->eval();
 			(*output)->print();
 			if (res != nullptr)
@@ -62,6 +65,7 @@ void test8() {
 			cerr << "Error: " << e.what() << NL;
 		}
 	}
+	cout << "quit\n";
 }
 
 int main() {

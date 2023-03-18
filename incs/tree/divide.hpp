@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 18:18:44 by eli               #+#    #+#             */
-/*   Updated: 2023/03/13 13:27:37 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 11:35:37 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ class Divide: public virtual ATreeNode {
 			return unique_node(
 				new Divide(base::getLeft()->clone(), base::getRight()->clone())
 			);
+		}
+
+		Indeterminates		collapse() const {
+			return Indeterminates();	//TODO
 		}
 };
 

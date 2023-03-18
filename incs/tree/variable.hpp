@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/17 19:24:42 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 10:30:55 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ class Variable: virtual public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			return Indeterminates();
+			return Indeterminates(_val_ptr);
 		}
 
 	private:

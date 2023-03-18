@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:00:06 by eli               #+#    #+#             */
-/*   Updated: 2023/03/17 22:01:19 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 11:41:14 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ class Matrix: public IType {
 		shared_itype		operator^(const shared_itype& rhs_ptr) const;
 		shared_itype		operator%(const shared_itype& rhs_ptr) const;
 		bool				operator==(const shared_itype& rhs_ptr) const;
-		operator bool() const;
 
 		/* Arith Operators -------------------------------------------------------- */
 		Matrix				operator-() const;

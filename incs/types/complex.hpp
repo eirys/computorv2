@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:46:16 by eli               #+#    #+#             */
-/*   Updated: 2023/03/17 22:01:29 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 11:40:59 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ class Complex: public IType {
 		shared_itype	operator^(const shared_itype& rhs_ptr) const;
 		shared_itype	operator%(const shared_itype& rhs_ptr) const;
 		bool			operator==(const shared_itype& rhs_ptr) const;
-		operator bool() const;
 
 		/* Arith. Operators ------------------------------------------------------- */
 		Complex			operator-() const;

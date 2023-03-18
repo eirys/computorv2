@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 17:07:55 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/18 11:36:59 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ class Image: public ATreeNode {
 			return unique_node(
 				new Image(_func_name, base::getRight()->clone())
 			);
+		}
+
+		Indeterminates		collapse() const {
+			return Indeterminates(); //TODO
 		}
 
 		/* Exception -------------------------------------------------------------- */

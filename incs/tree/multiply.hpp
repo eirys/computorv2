@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:39:57 by eli               #+#    #+#             */
-/*   Updated: 2023/03/13 13:22:06 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 10:31:58 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ class Multiply: public virtual ATreeNode {
 			return unique_node(
 				new Multiply(base::getLeft()->clone(), base::getRight()->clone())
 			);
+		}
+
+		Indeterminates		collapse() const {
+			return base::getLeft()->collapse() * base::getRight()->collapse();
 		}
 };
 

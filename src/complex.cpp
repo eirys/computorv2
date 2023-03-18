@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:07:29 by eli               #+#    #+#             */
-/*   Updated: 2023/03/17 22:01:01 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 11:40:57 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,10 +175,6 @@ bool	Complex::operator==(const shared_itype& rhs_ptr) const {
 	if (f_ptr != nullptr)
 		return operator==(*f_ptr);
 	throw IType::ImpossibleComparison();
-}
-
-Complex::operator bool() const {
-	return getReal() && getImaginary();
 }
 
 /* Arith operators ---------------------------------------------------------- */

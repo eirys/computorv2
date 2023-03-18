@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:08:46 by etran             #+#    #+#             */
-/*   Updated: 2023/03/13 13:27:56 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 11:37:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ class Power: public virtual ATreeNode {
 			return unique_node(
 				new Power(base::getLeft()->clone(), base::getRight()->clone())
 			);
+		}
+
+		Indeterminates		collapse() const {
+			return base::getLeft()->collapse() ^ base::getRight()->collapse();
 		}
 };
 

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 15:10:38 by eli               #+#    #+#             */
-/*   Updated: 2023/03/13 13:22:34 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 11:32:27 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ class Negate: public virtual ATreeNode {
 			return unique_node(
 				new Negate(base::getRight()->clone())
 			);
+		}
+
+		Indeterminates		collapse() const {
+			return -(base::getRight()->collapse());
 		}
 };
 

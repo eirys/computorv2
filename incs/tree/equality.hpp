@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   equality.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 10:56:05 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/18 11:35:31 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ class Equality: public ATreeNode {
 			return unique_node(
 				new Equality(base::getLeft()->clone(), base::getRight()->clone())
 			);
+		}
+
+		Indeterminates		collapse() const {
+			return Indeterminates();	//TODO
 		}
 };
 

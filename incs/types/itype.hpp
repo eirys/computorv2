@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:25:22 by eli               #+#    #+#             */
-/*   Updated: 2023/03/17 22:01:16 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 11:41:08 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ class IType {
 		virtual shared_itype	operator%(const shared_itype& rhs) const = 0;
 
 		virtual bool			operator==(const shared_itype& rhs) const = 0;
-
-		virtual operator bool() const = 0;
 
 		/* Exception -------------------------------------------------------------- */
 		class UndefinedValue: public std::exception {

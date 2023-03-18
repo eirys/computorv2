@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/17 22:50:36 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 10:30:25 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ class Identifier: public ATreeNode {
 		}
 
 		Indeterminates			collapse() const {
-			Indeterminates	ind()
+			return Indeterminates(nullptr, _name);
 		}
 
 		/* Exception -------------------------------------------------------------- */

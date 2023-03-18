@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:13:54 by eli               #+#    #+#             */
-/*   Updated: 2023/03/17 19:23:52 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 11:33:02 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ class Add: virtual public ATreeNode {
 			);
 		}
 
-		virtual Indeterminates		collapse() const {
+		Indeterminates		collapse() const {
+			return base::getLeft()->collapse() + base::getRight()->collapse();
 		}
 };
 

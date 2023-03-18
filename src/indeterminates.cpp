@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/17 22:12:52 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/18 18:58:39 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,9 @@
 /*                                   PUBLIC                                   */
 /* ========================================================================== */
 
-Indeterminates::Indeterminates(
-	shared_itype factor,
-	Rational exponent,
-	const std::string& var_name
-) {
-	key_type	weighted_value(var_name, exponent);
-	key_set		keys;
+Indeterminates::Indeterminates() {}
 
-	keys.insert(weighted_value);
-	_datas[keys] = factor;
-}
+Indeterminates::~Indeterminates() {}
 
 Indeterminates::Indeterminates(const data_map& map):
 	_datas(map) {}
@@ -34,7 +26,23 @@ Indeterminates::Indeterminates(const data_map& map):
 Indeterminates::Indeterminates(const Indeterminates& x):
 	_datas(x.getMap()) {}
 
-Indeterminates::~Indeterminates() {}
+Indeterminates::Indeterminates(
+	shared_itype factor, // always a rational
+	const std::string& var_name,
+	Rational exponent
+) {
+	if (factor != nullptr
+	&& std::dynamic_pointer_cast<Rational>(factor) == nullptr) {
+		throw NotARational();
+	} else if (factor == nullptr) {
+		factor = shared_itype(new Rational(1));
+	}
+	key_type	weighted_value(var_name, exponent);
+	key_set		keys;
+
+	keys.insert(weighted_value);
+	_datas[keys] = factor;
+}
 
 /* Operators ---------------------------------------------------------------- */
 
@@ -50,22 +58,45 @@ Indeterminates	Indeterminates::operator-() const {
 }
 
 Indeterminates	Indeterminates::operator+(const Indeterminates& other) const {
-	data_map			new_map(getMap());
-	const data_map&		other_map = other.getMap();
+	typedef std::list<data_map_element>		data_list;
+
+	data_map				new_map(getMap());
+	const data_map&			other_map = other.getMap();
+
+	data_list				to_insert;
 
 	for (data_map::const_iterator other_it = other_map.begin();
 	other_it != other_map.end();
 	++other_it) {
-		data_map::iterator	this_it = new_map.find(other_it->first);
+		// Search for current key in new_map
+		data_map::iterator	this_it = _find(new_map, other_it->first);
+
+		DEBUG("Other set:");
+		std::cout << *other_it <<NL;
 
 		if (this_it != new_map.end()) {
 			// If new_map has this key, add their factors
+			DEBUG("found value");
 			this_it->second = (*this_it->second + other_it->second)->clone();
+			// this_it->second = _add_factors(this_it->second, other_it->second);
 		} else {
 			// Insert the new set
-			new_map.insert(*other_it);
+			DEBUG("inserted");
+			to_insert.push_back(*other_it);
 		}
 	}
+	for (data_list::const_iterator it = to_insert.begin();
+	it != to_insert.end();
+	++it) {
+		DEBUG("inserting :\n"<<*it);
+		key_set		key_copy(it->first);
+		new_map[key_copy] = it->second;
+		DEBUG("Inserted: " << key_copy << " =  "<< *new_map[key_copy]);
+	}
+	// new_map.insert(to_insert.begin(), to_insert.end());
+
+	DEBUG(NL << "New map:\n" << new_map << NL);
+
 	return Indeterminates(new_map);
 }
 
@@ -126,7 +157,13 @@ Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
 	(void)other;
 	return Indeterminates(*this);
 }
+
 Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
+	(void)other;
+	return Indeterminates(*this);
+}
+
+Indeterminates	Indeterminates::operator%(const Indeterminates& other) const {
 	(void)other;
 	return Indeterminates(*this);
 }
@@ -137,34 +174,77 @@ const Indeterminates::data_map&	Indeterminates::getMap() const {
 	return _datas;
 }
 
+/* Tools -------------------------------------------------------------------- */
+
+void	Indeterminates::show() const {
+	using std::cout;
+
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
+
+		if (it->second == nullptr) {
+			cout << "null";
+		} else {
+			cout << *it->second;
+		}
+		cout << ":\n";
+
+		for (key_set::const_iterator ite = it->first.begin();
+		ite != it->first.end();
+		++ite) {
+			cout << "- [" << ite->variable_name << "] ^ " << ite->exponent << NL;
+		}
+
+		cout << NL;
+	}
+}
+
 /* ========================================================================== */
 /*                                    OTHER                                   */
 /* ========================================================================== */
 
 std::ostream&	operator<<(std::ostream& o, const Indeterminates& x) {
-	typedef typename	Indeterminates::data_map	data_map;
-	typedef typename	Indeterminates::key_set		key_set;
-
-	const data_map&	map = x.getMap();
-
-	for (data_map::const_iterator it = map.begin();
-	it != map.end();
+	for (Indeterminates::data_map::const_iterator it = x.getMap().begin();
+	it != x.getMap().end();
 	++it) {
-		data_map::const_iterator	copy(it);
-		const key_set&	current_set = it->first;
-		o << *it->second << " * (";
-		for (key_set::const_iterator ite = current_set.begin();
-		ite != current_set.end();
-		++ite) {
-			key_set::const_iterator	copy2(ite);
-			o << ite->variable_name << " ^ " << ite->exponent;
-			if (++copy2 != current_set.end())
-				o << " + ";
-		}
-		o << ")";
-		if (++copy != map.end())
+		Indeterminates::data_map::const_iterator	copy(it);
+		o << *it;
+		if (++copy != x.getMap().end())
 			o << " + ";
 	}
+	return o;
+}
+
+std::ostream&	operator<<(std::ostream& o, const Indeterminates::key_type& x) {
+	if (x.variable_name == UNIT_VALUE) {
+		o << "1";
+	} else {
+		o << x.variable_name;
+	}
+	if (x.exponent != 1)
+		o << " ^ " << x.exponent;
+	return o;
+}
+
+std::ostream&	operator<<(std::ostream& o, const Indeterminates::key_set& x) {
+	for (Indeterminates::key_set::const_iterator it = x.begin();
+	it != x.end();
+	++it) {
+		// Indeterminates::key_set::const_iterator	copy(it);
+		// if (it == x.begin())
+			// o << '(';
+		o << *it;
+		// if (++copy == x.end())
+			// o << ')';
+	}
+	return o;
+}
+
+std::ostream&	operator<<(std::ostream& o, const Indeterminates::data_map_element& x) {
+	if (*std::dynamic_pointer_cast<Rational>(x.second) != Rational(1))
+		o << *x.second << " * ";
+	o << x.first;
 	return o;
 }
 
@@ -185,4 +265,41 @@ Rational	_set_has(
 			return it->exponent;
 	}
 	return Rational(-1);
+}
+
+Indeterminates::shared_itype	_add_factors(
+	const Indeterminates::shared_itype& val_ptr1,
+	const Indeterminates::shared_itype& val_ptr2
+) {
+	if (val_ptr1 != nullptr && val_ptr2 != nullptr)
+		return (*val_ptr1 + val_ptr2)->clone();
+	else if (val_ptr1 != nullptr)
+		return val_ptr1->clone();
+	else
+		return val_ptr2->clone();
+}
+
+Indeterminates::data_map::iterator	_find(
+	Indeterminates::data_map& map,
+	const Indeterminates::key_set& set
+) {
+	for (Indeterminates::data_map::iterator it = map.begin();
+	it != map.end();
+	++it) {
+		if (it->first.size() != set.size())
+			continue;
+
+		Indeterminates::key_set::const_iterator	it1 = it->first.begin();
+		Indeterminates::key_set::const_iterator	it2 = set.begin();
+
+		while (it1 != it->first.end()) {
+			if (!(*it1 == *it2))
+				break;
+			++it1;
+			++it2;
+		}
+		if (it1 == it->first.end())
+			return it;
+	}
+	return map.end();
 }
