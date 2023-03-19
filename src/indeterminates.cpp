@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/18 23:17:34 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/19 11:30:48 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
 }
 
 Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
+	
 	(void)other;
 	return Indeterminates(*this);
 }

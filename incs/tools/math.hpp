@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/14 12:03:18 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/19 11:41:37 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ template <typename T, typename U>
 
 template <typename T, typename U>
 	long double binomial_coefficient(const T& n, const U& p);
+
+template <typename T, typename U>
+	long double multinomial_coefficient(const T& n, const U& p);
 
 template <typename T>
 	T factorial(const T& n);
