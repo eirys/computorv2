@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/20 13:46:53 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/20 14:16:08 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,13 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			for (key_set::const_iterator current_key = current_set.begin();
 			current_key != current_set.end();
 			++current_key) {
+				// If value is one, just add 1
 				key_type	new_key(*current_key);
-				Rational	other_exp = _setHas(other_set, current_key->variable_name);
-				if (other_exp != null) {
-					new_key.exponent.operator+=(other_exp);
+				if (current_key->variable_name != UNIT_VALUE) {
+					Rational	other_exp = _setHas(other_set, current_key->variable_name);
+					if (other_exp != null) {
+						new_key.exponent.operator+=(other_exp);
+					}
 				}
 				new_set.insert(new_key);
 			}
@@ -168,32 +171,33 @@ std::ostream&	operator<<(std::ostream& o, const Indeterminates& x) {
 	++it) {
 		data_map::const_iterator	copy(it);
 		const key_set&				set = it->first;
+		bool						has_factor = false;
 
 		// Display factor of set
 		const Rational&	factor = *std::dynamic_pointer_cast<Rational>(it->second);
-		if (it == x.getMap().begin()
-			|| !(factor == Indeterminates::unit || factor == Indeterminates::neg_unit))
+		if (!(factor == Indeterminates::unit || factor == Indeterminates::neg_unit)) {
 			o << factor;
+			has_factor = true;
+		}
 
 		// Display key_set
-		if (!_isSetUnit(it->first)) {
+		// if (!_isSetUnit(it->first)) {
 			for (key_set::const_iterator ite = set.begin();
 			ite != set.end();
 			++ite) {
+
 				bool	display_exponent = ite->exponent != Indeterminates::unit;
+				if (ite->variable_name == UNIT_VALUE && has_factor)
+					continue;
 
 				// Display weighted value
 				if (display_exponent)
 					o << '(';
-				if (ite->variable_name == UNIT_VALUE) {
-					o << Indeterminates::unit;
-				} else {
-					o << ite->variable_name;
-				}
+				o << ite->variable_name;
 				if (display_exponent)
 					o << " ^ " << ite->exponent << ')';
 			}
-		}
+		// }
 
 		// Inbetween terms
 		if (++copy != x.getMap().end()) {
