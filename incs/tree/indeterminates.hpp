@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   indeterminates.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/18 22:21:54 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/20 15:20:15 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 
 # define UNIT_VALUE "1"
 
+/**
+ * The developped expression.
+ * 
+ * ex:
+ * 	a+2-3+a = 2a - 1
+ * 	(a*b)^2 = 2ab + a^1 + b^2
+*/
 class Indeterminates {
 	public:
 		struct WeigthedValue {
@@ -83,6 +90,7 @@ class Indeterminates {
 		/* Static Value ----------------------------------------------------------- */
 		static const Rational	unit;
 		static const Rational	neg_unit;
+		static const Rational	null;
 
 	private:
 		data_map				_datas;

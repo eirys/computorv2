@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:13:54 by eli               #+#    #+#             */
-/*   Updated: 2023/03/20 14:01:14 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/20 16:18:27 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ class Add: virtual public ATreeNode {
 
 		Indeterminates		collapse() const {
 			Indeterminates	ind(base::getLeft()->collapse() + base::getRight()->collapse());
-			std::cout << "Add\n" << ind << NL;
+			std::cout << "Add: " << ind << NL;
 			return ind;
 		}
 };

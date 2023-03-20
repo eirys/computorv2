@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   substract.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 14:34:39 by eli               #+#    #+#             */
-/*   Updated: 2023/03/18 11:37:36 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/20 16:18:10 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ class Substract: virtual public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			return base::getLeft()->collapse() - base::getRight()->collapse();
+			Indeterminates ind(base::getLeft()->collapse() - base::getRight()->collapse());
+			std::cout << "Substract: " << ind << NL;
+			return ind;
 		}
 };
 

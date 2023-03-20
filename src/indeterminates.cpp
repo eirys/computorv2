@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/20 14:16:08 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/20 17:14:44 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 const Rational	Indeterminates::unit = Rational(1);
 const Rational	Indeterminates::neg_unit = Rational(-1);
+const Rational	Indeterminates::null = Rational();
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -56,24 +57,56 @@ Indeterminates	Indeterminates::operator-() const {
 	for (data_map::iterator it = new_map.begin();
 	it != new_map.end();
 	++it) {
-		it->second = (it->second->negate())->clone(); 
+		it->second = (it->second->negate())->clone();
+		std::cout << "new value: " << *it->second << NL;
 	}
 	return Indeterminates(new_map);
 }
 
 Indeterminates	Indeterminates::operator+(const Indeterminates& other) const {
+
+	DEBUG("Initial:");
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
+		std::cout << '[' << it->first << "] = " << *it->second << NL;
+	}
+	DEBUG("======");
+
+	DEBUG("Other:");
+	for (data_map::const_iterator it = other._datas.begin();
+	it != other._datas.end();
+	++it) {
+		std::cout << '[' << it->first << "] = " << *it->second << NL;
+	}
+	DEBUG("======");
+
+
 	data_map				new_map(getMap());
 	const data_map&			other_map = other.getMap();
 
 	for (data_map::const_iterator other_it = other_map.begin();
 	other_it != other_map.end();
 	++other_it) {
-		data_map::iterator	this_it = _find(new_map, other_it->first);
+
+
+		DEBUG("Searching: ");
+		DEBUG(other_it->first);
+
+		data_map::iterator	this_it = new_map.find(other_it->first); //_find(new_map, other_it->first);
 		if (this_it != new_map.end()) {
+			DEBUG("collide " << *other_it);
 			// If new_map has this key, add their factors
-			this_it->second = (*this_it->second + other_it->second)->clone();
+			shared_itype	new_factor = (*this_it->second + other_it->second)->clone();
+			if (dynamic_cast<const Rational&>(*new_factor) == Indeterminates::null) {
+				// Remove it from map
+				new_map.erase(this_it);
+			} else {
+				this_it->second = new_factor;
+			}
 		} else {
 			// Insert the new set
+			DEBUG("insert " << *other_it);
 			new_map.insert(*other_it);
 		}
 	}
@@ -88,7 +121,22 @@ Indeterminates	Indeterminates::operator-(const Indeterminates& other) const {
 
 Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 	data_map					new_map;
-	Rational					null(-1);
+
+	DEBUG("Initial:");
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
+		std::cout << '[' << it->first << "] = " << *it->second << NL;
+	}
+	DEBUG("======");
+
+	DEBUG("Other:");
+	for (data_map::const_iterator it = other._datas.begin();
+	it != other._datas.end();
+	++it) {
+		std::cout << '[' << it->first << "] = " << *it->second << NL;
+	}
+	DEBUG("======");
 
 	const data_map&				this_map = getMap();
 	const data_map&				other_map = other.getMap();
@@ -108,31 +156,45 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			for (key_set::const_iterator current_key = current_set.begin();
 			current_key != current_set.end();
 			++current_key) {
-				// If value is one, just add 1
 				key_type	new_key(*current_key);
+
+				// Add if value is not 1
 				if (current_key->variable_name != UNIT_VALUE) {
 					Rational	other_exp = _setHas(other_set, current_key->variable_name);
-					if (other_exp != null) {
+					if (other_exp != Indeterminates::neg_unit) {
 						new_key.exponent.operator+=(other_exp);
 					}
+					DEBUG("Inserting: " << new_key);
+					new_set.insert(new_key);
 				}
-				new_set.insert(new_key);
 			}
 
-			// Now simply add every other key that wasn't added (from other set)
+			// Now simply add every other key that wasn't added (from other set) except unit	
 			for (key_set::const_iterator current_key = other_set.begin();
 			current_key != other_set.end();
 			++current_key) {
-				if (_setHas(new_set, current_key->variable_name) != null) {
+				if (_setHas(new_set, current_key->variable_name) != Indeterminates::neg_unit) {
 					continue;
 				}
-				new_set.insert(*current_key);
+				if (current_key->variable_name != UNIT_VALUE)
+					new_set.insert(*current_key);
 			}
 
-			new_map[new_set] = (*this_it->second * other_it->second)->clone();
+			if (!new_set.empty())
+				new_map[new_set] = (*this_it->second * other_it->second)->clone();
 		}
 
 	}
+
+
+	DEBUG("End:");
+	for (data_map::const_iterator it = new_map	.begin();
+	it != new_map	.end();
+	++it) {
+		std::cout << '[' << it->first << "] = " << *it->second << NL;
+	}
+	DEBUG("======");
+
 	return Indeterminates(new_map);
 }
 
@@ -142,9 +204,13 @@ Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
 }
 
 Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
-	
 	(void)other;
 	return Indeterminates(*this);
+	data_map				new_map;
+
+	
+
+	return Indeterminates(new_map);
 }
 
 Indeterminates	Indeterminates::operator%(const Indeterminates& other) const {
@@ -166,6 +232,8 @@ std::ostream&	operator<<(std::ostream& o, const Indeterminates& x) {
 	typedef typename	Indeterminates::data_map	data_map;
 	typedef typename	Indeterminates::key_set		key_set;
 
+	if (x.getMap().empty())
+		return (o << '0');
 	for (data_map::const_iterator it = x.getMap().begin();
 	it != x.getMap().end();
 	++it) {
@@ -175,37 +243,35 @@ std::ostream&	operator<<(std::ostream& o, const Indeterminates& x) {
 
 		// Display factor of set
 		const Rational&	factor = *std::dynamic_pointer_cast<Rational>(it->second);
-		if (!(factor == Indeterminates::unit || factor == Indeterminates::neg_unit)) {
+		if (!(factor == Indeterminates::neg_unit || factor == Indeterminates::unit)) {
 			o << factor;
 			has_factor = true;
+		} else if (factor == Indeterminates::neg_unit) {
+			o << '-';
 		}
 
 		// Display key_set
-		// if (!_isSetUnit(it->first)) {
-			for (key_set::const_iterator ite = set.begin();
-			ite != set.end();
-			++ite) {
+		for (key_set::const_iterator ite = set.begin();
+		ite != set.end();
+		++ite) {
 
-				bool	display_exponent = ite->exponent != Indeterminates::unit;
-				if (ite->variable_name == UNIT_VALUE && has_factor)
-					continue;
+			bool	display_exponent = ite->exponent != Indeterminates::unit;
+			if (ite->variable_name == UNIT_VALUE && has_factor)
+				continue;
 
-				// Display weighted value
-				if (display_exponent)
-					o << '(';
-				o << ite->variable_name;
-				if (display_exponent)
-					o << " ^ " << ite->exponent << ')';
-			}
-		// }
+			// Display weighted value
+			if (display_exponent)
+				o << '(';
+			o << ite->variable_name;
+			if (display_exponent)
+				o << "^" << ite->exponent << ')';
+		}
 
 		// Inbetween terms
 		if (++copy != x.getMap().end()) {
 			const Rational&	next_factor = *std::dynamic_pointer_cast<Rational>(copy->second);
-			if (next_factor <= Indeterminates::neg_unit)
-				o << " - ";
-			else
-				o << " + ";
+			if (next_factor > Indeterminates::null)
+				o << "+";
 		}
 	}
 	return o;
@@ -223,8 +289,8 @@ std::ostream&	operator<<(std::ostream& o, const Indeterminates::key_type& x) {
 	} else {
 		o << x.variable_name;
 	}
-	if (x.exponent != 1)
-		o << " ^ " << x.exponent;
+	// if (x.exponent != 1)
+	o << " ^ " << x.exponent;
 	return o;
 }
 
@@ -236,7 +302,7 @@ std::ostream&	operator<<(std::ostream& o, const Indeterminates::key_set& x) {
 	for (Indeterminates::key_set::const_iterator it = x.begin();
 	it != x.end();
 	++it)
-		o << *it;
+		o << *it << ',';
 	return o;
 }
 
