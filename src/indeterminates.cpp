@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   indeterminates.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/19 11:30:48 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/20 13:46:53 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,14 +180,18 @@ std::ostream&	operator<<(std::ostream& o, const Indeterminates& x) {
 			for (key_set::const_iterator ite = set.begin();
 			ite != set.end();
 			++ite) {
+				bool	display_exponent = ite->exponent != Indeterminates::unit;
+
 				// Display weighted value
+				if (display_exponent)
+					o << '(';
 				if (ite->variable_name == UNIT_VALUE) {
 					o << Indeterminates::unit;
 				} else {
 					o << ite->variable_name;
 				}
-				if (ite->exponent != Indeterminates::unit)
-					o << " ^ " << ite->exponent;
+				if (display_exponent)
+					o << " ^ " << ite->exponent << ')';
 			}
 		}
 
