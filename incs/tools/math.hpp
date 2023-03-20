@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/19 11:41:37 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/20 18:18:49 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <cstddef>
 # include <string>
 # include <type_traits>
+# include <vector>
+
 # include "rational.hpp"
 
 # define SQRT_DEPTH 15
@@ -42,8 +44,7 @@ template <typename T, typename U>
 template <typename T, typename U>
 	long double binomial_coefficient(const T& n, const U& p);
 
-template <typename T, typename U>
-	long double multinomial_coefficient(const T& n, const U& p);
+int multinomial_coefficient(int n, const std::vector<int>& values);
 
 template <typename T>
 	T factorial(const T& n);
@@ -126,6 +127,23 @@ template <typename T, typename U>
 			numerator *= n - i;
 		return numerator/denominator;
 	}
+
+inline int multinomial_coefficient(int n, const std::vector<int> values) {
+	int sum = 0;
+	for (size_t i = 0; i < values.size(); ++i) {
+		if (values[i] < 0)
+			throw math::operation_undefined();
+		sum += values[i];
+	}
+	if (sum != n)
+		throw math::operation_undefined();
+	int num = factorial(n);
+	int	denom = 1;
+	for (size_t i = 0; i < values.size(); ++i) {
+		denom *= factorial(values[i]);
+	}
+	return num/denom;
+}
 
 /*   factorial
  **  n! = n * (n - 1) * ... * 2 * 1

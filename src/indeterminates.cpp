@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/20 17:41:04 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/20 18:31:36 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,11 +198,29 @@ Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
 }
 
 Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
-	(void)other;
-	return Indeterminates(*this);
-	data_map				new_map;
+	Indeterminates		result;
+	const data_map&		this_map = getMap();
+	const data_map&		other_map = other.getMap();
 
-	
+	for (data_map::const_iterator other_element = other_map.begin();
+	other_element != other_map.end();
+	++other_element) {
+
+		// Split into multiple multiplication
+		data_map			new_map;
+
+		// For each term
+		for (data_map::const_iterator this_element = this_map.begin();
+		this_element != this_map.end();
+		++this_element) {
+
+			// Generate its new factor
+			// Each element of other is a term
+
+		}
+		Indeterminates		temporary(new_map);
+
+	}
 
 	return Indeterminates(new_map);
 }
