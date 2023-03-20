@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/20 15:20:15 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/20 17:24:52 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 
 /**
  * The developped expression.
+ * 
+ * key_set			: a factor (ex: `2`, `a^2`)
+ * key_type			: a set of factors (ex: `2ab`)
+ * data_map_element	: a pair of <key_type, factor>
  * 
  * ex:
  * 	a+2-3+a = 2a - 1

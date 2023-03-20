@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/20 17:14:44 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/20 17:39:39 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,15 +141,15 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 	const data_map&				this_map = getMap();
 	const data_map&				other_map = other.getMap();
 
-	for (data_map::const_iterator this_it = this_map.begin();
-	this_it != this_map.end();
-	++this_it) {
-		const key_set&		current_set = this_it->first;
+	for (data_map::const_iterator this_element = this_map.begin();
+	this_element != this_map.end();
+	++this_element) {
+		const key_set&		current_set = this_element->first;
 
-		for (data_map::const_iterator other_it = other_map.begin();
-		other_it != other_map.end();
-		++other_it) {
-			const key_set&	other_set = other_it->first;
+		for (data_map::const_iterator other_element = other_map.begin();
+		other_element != other_map.end();
+		++other_element) {
+			const key_set&	other_set = other_element->first;
 			key_set			new_set;
 
 			// Add every key from this_set, and do exponents collision
@@ -158,18 +158,17 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			++current_key) {
 				key_type	new_key(*current_key);
 
-				// Add if value is not 1
+				// Add to term if value is not 1
 				if (current_key->variable_name != UNIT_VALUE) {
 					Rational	other_exp = _setHas(other_set, current_key->variable_name);
 					if (other_exp != Indeterminates::neg_unit) {
 						new_key.exponent.operator+=(other_exp);
 					}
-					DEBUG("Inserting: " << new_key);
 					new_set.insert(new_key);
 				}
 			}
 
-			// Now simply add every other key that wasn't added (from other set) except unit	
+			// Now simply add every other term that wasn't added (from other set) except unit	
 			for (key_set::const_iterator current_key = other_set.begin();
 			current_key != other_set.end();
 			++current_key) {
@@ -180,8 +179,24 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 					new_set.insert(*current_key);
 			}
 
-			if (!new_set.empty())
-				new_map[new_set] = (*this_it->second * other_it->second)->clone();
+			// The result term is null
+			if (new_set.empty())
+				continue;
+
+			shared_itype	new_factor;
+			if (new_map.find(new_set) != new_map.end()) {
+				// We already computed this value
+				DEBUG("already there:" << new_set);
+				DEBUG("Old value: " << *new_map[new_set]);
+				DEBUG("Other el is: " << *other_element->second);
+				new_factor = (*new_map[new_set] + other_element->second)->clone();
+				DEBUG("new value: " << *new_map[new_set]);
+				// new_map[new_set] = (->second * other_element->second)->clone();
+			} else {
+				DEBUG("New term: " << new_set);
+				new_factor = (*this_element->second * other_element->second)->clone();
+			}
+			new_map[new_set] = new_factor;
 		}
 
 	}
