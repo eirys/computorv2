@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 13:57:49 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 14:13:17 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ Rational		_setHas(
 	const std::string& variable_name
 );
 
-Indeterminates::data_map	_square(const Indeterminates::data_map& og);
-bool						_isSetUnit(const Indeterminates::key_set& set);
+bool			_isSetUnit(const Indeterminates::key_set& set);
 
 #endif

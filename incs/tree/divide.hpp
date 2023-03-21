@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   divide.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 18:18:44 by eli               #+#    #+#             */
-/*   Updated: 2023/03/18 11:35:37 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/21 14:28:05 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ class Divide: public virtual ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			return Indeterminates();	//TODO
+			Indeterminates ind = base::getLeft()->collapse() / base::getRight()->collapse();	//TODO
+			DEBUG("Divide: " << ind);
+			return ind;
 		}
 };
 

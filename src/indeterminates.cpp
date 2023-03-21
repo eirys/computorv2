@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 14:08:48 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 14:41:24 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			for (key_set::const_iterator current_key = current_set.begin();
 			current_key != current_set.end();
 			++current_key) {
+				DEBUG("Current key: " << *current_key);
 				key_type	new_key(*current_key);
 
 				// Add to term if value is not 1
@@ -166,6 +167,7 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			current_key != other_set.end();
 			++current_key) {
 				if (_setHas(new_set, current_key->variable_name) != Indeterminates::neg_unit) {
+					// Already added
 					continue;
 				}
 				if (current_key->variable_name != UNIT_VALUE)
@@ -174,7 +176,8 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 
 			// The result term is null
 			if (new_set.empty())
-				continue;
+				new_set.insert(key_type(UNIT_VALUE, Indeterminates::unit));
+				// continue;
 
 			shared_itype	new_factor;
 			if (new_map.find(new_set) != new_map.end()) {
@@ -188,12 +191,37 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 
 	}
 
+	DEBUG("End:");
+	for (data_map::const_iterator it = new_map.begin();
+	it != new_map.end();
+	++it) {
+		std::cout << '[' << it->first << "] = " << *it->second << NL;
+	}
+	DEBUG("======");
+
 	return Indeterminates(new_map);
 }
 
 Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
-	(void)other;
-	return Indeterminates(*this);
+
+	DEBUG("Other:");
+	for (data_map::const_iterator it = other._datas.begin();
+	it != other._datas.end();
+	++it) {
+		std::cout << '[' << it->first << "] = " << *it->second << NL;
+	}
+	DEBUG("======");
+	
+	data_map			new_map(other.getMap());
+
+	for (data_map::iterator it = new_map.begin();
+	it != new_map.end();
+	++it) {
+		it->second = (Indeterminates::unit / it->second)->clone();
+		std::cout << "New value: " << *it->second << NL;
+	}
+	
+	return this->operator*(Indeterminates(new_map));
 }
 
 Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
@@ -376,22 +404,3 @@ bool	_isSetUnit(const Indeterminates::key_set& set) {
 	}
 	return false;
 }
-
-// Indeterminates::data_map	_square(const Indeterminates::data_map& og) {
-// 	typedef Indeterminates::data_map	data_map;
-
-// 	const size_t	n = og.size();
-
-// 	// Compute each term
-// 	for (data_map::const_iterator it = og.begin();
-// 	it != og.end();
-// 	++it) {
-
-// 		// Compute each coefficient
-// 		for (data_map::const_iterator ite = og.begin();
-// 		ite != og.end();
-// 		++ite) {
-// 		}
-
-// 	}
-// }
