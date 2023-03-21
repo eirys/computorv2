@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 12:57:21 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 13:02:49 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,9 @@ Parser::unique_node	Parser::_parseA() {
  * Expression parsing (P)
  *
  * GRAMMAR:
- * E	: P + P
- * 		| P - P
- * 		| P
+ * E	: T + T
+ * 		| T - T
+ * 		| T
 */
 Parser::unique_node	Parser::_parseE() {
 	LOG("In _parseE");
@@ -253,7 +253,6 @@ Parser::unique_node	Parser::_parseF() {
  * 		| T * P
  * 		| T / P
  * 		| T % P
-//  * 		| F ^ P	// TODO: change
 */
 Parser::unique_node	Parser::_parseT() {
 	LOG("In _parseT");
@@ -283,13 +282,6 @@ Parser::unique_node	Parser::_parseT() {
 				throw IncorrectSyntax("Expecting value after `%`");
 			Modulo		mod(std::move(a), std::move(b));
 			a = mod.toNode();
-		// } else if (_token == POWER) {
-		// 	// T ^ F
-		// 	unique_node b = _parseF();
-		// 	if (b == nullptr)
-		// 		throw IncorrectSyntax("Expecting value after `^`");
-		// 	Power		pow(std::move(a), std::move(b));
-		// 	a = pow.toNode();
 		} else {
 			break;
 		}
@@ -311,7 +303,7 @@ Parser::unique_node	Parser::_parseP() {
 		return a;
 	while (1) {
 		if (_token == POWER) {
-			// T ^ F
+			// F ^ F
 			unique_node b = _parseF();
 			if (b == nullptr)
 				throw IncorrectSyntax("Expecting value after `^`");
