@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/18 11:36:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/21 16:46:15 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ class Image: public ATreeNode {
 		typedef typename	base::weak_itype			weak_itype;
 
 		/* Constructor ------------------------------------------------------------ */
-		Image(const std::string& func_name, unique_node&& x, const std::string& context = std::string()):
-			base(nullptr, std::move(x)),
+		Image(const std::string& func_name, unique_node&& right, const std::string& context = std::string()):
+			base(nullptr, std::move(right)),
 			_func_name(func_name) {
 				LOG("Creating image");
 				if (func_name == context)
@@ -80,7 +80,7 @@ class Image: public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			return Indeterminates(); //TODO
+			throw Indeterminates::ExpansionNotSupported();
 		}
 
 		/* Exception -------------------------------------------------------------- */

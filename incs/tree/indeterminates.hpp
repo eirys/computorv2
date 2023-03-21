@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 14:13:17 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 18:21:03 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ class Indeterminates {
 				variable_name(var_name),
 				exponent(exponent) {}
 
-			const std::string	variable_name;
-			Rational			exponent;
-
 			bool	operator==(const WeigthedValue& rhs) const {
 				return variable_name == rhs.variable_name && exponent == rhs.exponent;
 			}
@@ -50,6 +47,9 @@ class Indeterminates {
 					return variable_name < rhs.variable_name;
 				return exponent < rhs.exponent;
 			}
+			
+			const std::string	variable_name;
+			Rational			exponent;
 		};
 
 		typedef typename	IType::shared_itype							shared_itype;
@@ -70,31 +70,25 @@ class Indeterminates {
 
 		virtual ~Indeterminates();
 
-		/* Functions -------------------------------------------------------------- */
-
+		/* Arith Operators -------------------------------------------------------- */
 		Indeterminates			operator-() const;
 		Indeterminates			operator+(const Indeterminates& other) const;
 		Indeterminates			operator-(const Indeterminates& other) const;
 		Indeterminates			operator*(const Indeterminates& other) const;
 		Indeterminates			operator/(const Indeterminates& other) const;
 		Indeterminates			operator^(const Indeterminates& other) const;
-		Indeterminates			operator%(const Indeterminates& other) const;
+
+		Indeterminates			fetch() const;
 
 		/* Getter ----------------------------------------------------------------- */
+		int						getMaxExponent() const;
 		const data_map&			getMap() const;
 
 		/* Exception -------------------------------------------------------------- */
-		class NotARational: public std::exception {
+		class ExpansionNotSupported: public std::exception {
 			public:
 				const char* what() const throw() {
-					return "Not a rational";
-				}
-		};
-		class MultinomialFormat: public std::exception {
-			public:
-				const char* what() const throw() {
-					return "Expansion of this expression is too complex. "
-					"Please input a trivial-er expression... (with no variable in exponent)";
+					return "This expression's expansion is not supported";
 				}
 		};
 
@@ -102,6 +96,7 @@ class Indeterminates {
 		static const Rational	unit;
 		static const Rational	neg_unit;
 		static const Rational	null;
+		static const Rational	two;
 
 	private:
 		data_map				_datas;

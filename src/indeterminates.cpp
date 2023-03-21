@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 14:41:24 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 18:39:12 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 const Rational	Indeterminates::unit = Rational(1);
 const Rational	Indeterminates::neg_unit = Rational(-1);
 const Rational	Indeterminates::null = Rational();
+const Rational	Indeterminates::two = Rational(2);
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -32,13 +33,13 @@ Indeterminates::Indeterminates(const Indeterminates& x):
 	_datas(x.getMap()) {}
 
 Indeterminates::Indeterminates(
-	shared_itype factor, // always a rational
+	shared_itype factor, // always a rational? also complex
 	const std::string& var_name,
 	Rational exponent
 ) {
 	if (factor != nullptr
 	&& std::dynamic_pointer_cast<Rational>(factor) == nullptr) {
-		throw NotARational();
+		throw ExpansionNotSupported();
 	} else if (factor == nullptr) {
 		factor = shared_itype(new Rational(1));
 	}
@@ -49,7 +50,7 @@ Indeterminates::Indeterminates(
 	_datas[keys] = factor;
 }
 
-/* Operators ---------------------------------------------------------------- */
+/* Arith Operators ---------------------------------------------------------- */
 
 Indeterminates	Indeterminates::operator-() const {
 	data_map			new_map(getMap());
@@ -63,24 +64,6 @@ Indeterminates	Indeterminates::operator-() const {
 }
 
 Indeterminates	Indeterminates::operator+(const Indeterminates& other) const {
-
-	// DEBUG("Initial:");
-	// for (data_map::const_iterator it = _datas.begin();
-	// it != _datas.end();
-	// ++it) {
-	// 	std::cout << '[' << it->first << "] = " << *it->second << NL;
-	// }
-	// DEBUG("======");
-
-	// DEBUG("Other:");
-	// for (data_map::const_iterator it = other._datas.begin();
-	// it != other._datas.end();
-	// ++it) {
-	// 	std::cout << '[' << it->first << "] = " << *it->second << NL;
-	// }
-	// DEBUG("======");
-
-
 	data_map				new_map(getMap());
 	const data_map&			other_map = other.getMap();
 
@@ -114,23 +97,6 @@ Indeterminates	Indeterminates::operator-(const Indeterminates& other) const {
 
 Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 	data_map					new_map;
-
-	// DEBUG("Initial:");
-	// for (data_map::const_iterator it = _datas.begin();
-	// it != _datas.end();
-	// ++it) {
-	// 	std::cout << '[' << it->first << "] = " << *it->second << NL;
-	// }
-	// DEBUG("======");
-
-	// DEBUG("Other:");
-	// for (data_map::const_iterator it = other._datas.begin();
-	// it != other._datas.end();
-	// ++it) {
-	// 	std::cout << '[' << it->first << "] = " << *it->second << NL;
-	// }
-	// DEBUG("======");
-
 	const data_map&				this_map = getMap();
 	const data_map&				other_map = other.getMap();
 
@@ -162,7 +128,7 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 				}
 			}
 
-			// Now simply add every other term that wasn't added (from other set) except unit	
+			// Now simply add every other term that wasn't added (from other set) except unit
 			for (key_set::const_iterator current_key = other_set.begin();
 			current_key != other_set.end();
 			++current_key) {
@@ -190,44 +156,25 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 		}
 
 	}
-
-	DEBUG("End:");
-	for (data_map::const_iterator it = new_map.begin();
-	it != new_map.end();
-	++it) {
-		std::cout << '[' << it->first << "] = " << *it->second << NL;
-	}
-	DEBUG("======");
-
 	return Indeterminates(new_map);
 }
 
 Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
-
-	DEBUG("Other:");
-	for (data_map::const_iterator it = other._datas.begin();
-	it != other._datas.end();
-	++it) {
-		std::cout << '[' << it->first << "] = " << *it->second << NL;
-	}
-	DEBUG("======");
-	
 	data_map			new_map(other.getMap());
 
 	for (data_map::iterator it = new_map.begin();
 	it != new_map.end();
 	++it) {
 		it->second = (Indeterminates::unit / it->second)->clone();
-		std::cout << "New value: " << *it->second << NL;
 	}
-	
+
 	return this->operator*(Indeterminates(new_map));
 }
 
 Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
 	// Support only trivial exponentiation
 	if (!other._isUnit())
-		throw MultinomialFormat();
+		throw ExpansionNotSupported();
 
 	const Rational&	other_factor = dynamic_cast<const Rational&>(
 										*other.getMap().begin()->second
@@ -247,12 +194,56 @@ Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
 	return result;
 }
 
-Indeterminates	Indeterminates::operator%(const Indeterminates& other) const {
-	(void)other;
-	return Indeterminates(*this);
+/**
+ * Retrieve every indeterminates possible from context.
+*/
+Indeterminates	Indeterminates::fetch() const {
+	typedef		std::pair<std::string, shared_itype>		key_value;
+	typedef		std::list<key_value>						name_list;
+
+	data_map	new_map;
+	name_list	variable_names;
+
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
+		
+		for (key_set::const_iterator key = it->first.begin();
+		key != it->first.end();
+		++key) {
+
+			if (key->first != UNIT_VALUE) {
+				shared_itype	value = Computor::find(key->first);
+				if (std::dynamic_pointer_cast<Rational>(value) != nullptr) {
+					variable_names.push_back(key_value(key->first, value));
+				}
+			}
+
+
+		}
+	}
 }
 
 /* Getter ------------------------------------------------------------------- */
+
+int	Indeterminates::getMaxExponent() const {
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
+		const key_set&	current_set = it-first;
+		int				max_index = 0;
+
+		for (key_set::const_iterator ite = current_set.begin();
+		ite != current_set.end();
+		++ite) {
+			if (ite->exponent > Indeterminates::two)
+				return -1;
+			if (ite->exponent > max_index)
+				max_index = ite->exponent;
+		}
+	}
+	return max_index;
+}
 
 const Indeterminates::data_map&	Indeterminates::getMap() const {
 	return _datas;

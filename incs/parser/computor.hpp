@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 17:33:05 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 17:09:45 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <map>
 
 # include "atree_node.hpp"
+
+class Indeterminates;
 
 /**
  * Contexts handler.
@@ -64,6 +66,8 @@ class Computor {
 									const name_type& context_name,
 									const name_type& variable_name
 								);
+		static void				create_equality();
+		void					solve(const Indeterminates& expression);
 		void					flush();
 		void					prune();
 
@@ -90,6 +94,7 @@ class Computor {
 	private:
 		static context			_memory;
 		static context_map		_subcontexts;
+		static bool				_equality;
 };
 
 #endif

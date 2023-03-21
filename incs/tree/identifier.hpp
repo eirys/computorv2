@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/18 10:30:25 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/21 16:32:17 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ class Identifier: public ATreeNode {
 				// Not set, check existing in local context
 				shared_itype	value;
 				value = Computor::find(_name, _context);
-				if (value == nullptr)
-					throw Identifier::ValueNotSet(_name, _context);
+				if (value == nullptr) {
+					throw ValueNotSet(_name, _context);
+				}
 				return value;
 			} else {
 				// Set a new value

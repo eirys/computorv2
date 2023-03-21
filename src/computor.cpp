@@ -6,11 +6,13 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/16 17:39:31 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 18:15:38 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
+#include "indeterminates.hpp"
+#include "solver.hpp"
 
 /* Context ------------------------------------------------------------------ */
 
@@ -23,6 +25,8 @@ Computor::context		Computor::_memory;
  * Specific named subcontexts.
 */
 Computor::context_map	Computor::_subcontexts;
+
+bool					Computor::_equality = false;
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -59,23 +63,11 @@ void	Computor::push(
 		_memory.push_back(std::make_pair(names, value));
 	} else {
 		name_duo	names = std::make_pair(utils::toLower(context_name), context_name);
-		// Check if context is valid before doing anything
-		// bool	valid = false;
-		// for (context::const_iterator it =_memory.begin();
-		// it != _memory.end();
-		// ++it) {
-		// 	if (it->first.first == names.first) {
-		// 		valid = true;
-		// 		break;
-		// 	}
-		// }
-		// if (!valid)
-		// 	throw std::exception(); //TODO
 
 		// Find expected context
 		context_map::iterator	context_list = _subcontexts.find(names);
 		if (context_list == _subcontexts.end())
-			throw std::exception();	//TODO
+			throw std::exception();
 		for (subcontext::iterator it = context_list->second.begin();
 		it != context_list->second.end();
 		++it) {
@@ -155,6 +147,26 @@ void	Computor::create_context(
 }
 
 /**
+ * Alerts that the following interminate is an expression to solve.
+*/
+void	Computor::create_equality() {
+	_solve = true;
+	_equality = true;
+}
+
+void	Computor::solve(const Indeterminates& expression) {
+	typedef	Indeterminates::data_map	data_map;
+
+	using std::cout;
+	using std::cerr;
+
+	if (_equality) {
+		Solver	solver(expression);
+		_solve = solver.solve();
+	}
+}
+
+/**
  * Flushes all temporary contexts.
 */
 void	Computor::flush() {
@@ -167,6 +179,7 @@ void	Computor::flush() {
 			ite->second = nullptr;
 		}
 	}
+	_equality = false;
 }
 
 /**

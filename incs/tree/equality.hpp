@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 12:38:55 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 17:24:19 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ class Equality: public ATreeNode {
 		virtual ~Equality() {}
 
 		const shared_itype	eval() {
+			/// TODO: Move to Computor::solve
+
 			shared_itype	lhs = base::getLeft()->eval();
 			shared_itype	rhs = base::getRight()->eval();
 
@@ -69,7 +71,8 @@ class Equality: public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			return Indeterminates();	//TODO
+			Computor::create_equality();
+			return base::getLeft()->collapse() - base::getRight()->collapse();
 		}
 };
 

@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 12:38:10 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 17:10:59 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,15 @@ int main(int ac, char* const* av) {
 	
 			LOG("Out of parser");
 		
-			Indeterminates	ind_res = (*output)->collapse();
-			cout << "\nRES: \n" << ind_res << NL;
+			try {
+				Indeterminates	ind_res = (*output)->collapse();
+				cout << "\nRES: \n" << ind_res << NL;
+
+				computor_context.solve(ind_res);
+
+			} catch (const Indeterminates::ExpansionNotSupported& e) {
+				cout << e.what() << NL;
+			}
 			Parser::shared_itype	res = (*output)->eval();
 			(*output)->print();
 			if (res != nullptr)
