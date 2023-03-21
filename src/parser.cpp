@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 13:02:49 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 13:04:42 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ Parser::unique_node	Parser::_parseS() {
  * Assignation parsing
  *
  * GRAMMAR:
- * A	: ID = E
+ * A	: Identifier = E
 */
 Parser::unique_node	Parser::_parseA() {
 	LOG("In _parseA");
@@ -166,6 +166,77 @@ Parser::unique_node	Parser::_parseE() {
 				throw IncorrectSyntax("Expecting term after `-`");
 			Substract	sub(std::move(a), std::move(b));
 			a = sub.toNode();
+		} else {
+			break;
+		}
+	}
+	return a;
+}
+
+/**
+ * Term parsing (MD)
+ *
+ * GRAMMAR:
+ * 	T	: P
+ * 		| T * P
+ * 		| T / P
+ * 		| T % P
+*/
+Parser::unique_node	Parser::_parseT() {
+	LOG("In _parseT");
+	unique_node	a = _parseP();
+
+	if (a == nullptr)
+		return a;
+	while (1) {
+		if (_token == MULTIPLICATION) {
+			// T * F
+			unique_node	b = _parseP();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting value after `*`");
+			Multiply	mul(std::move(a), std::move(b));
+			a = mul.toNode();
+		} else if (_token == DIVISION) {
+			// T / F
+			unique_node	b = _parseP();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting value after `/`");
+			Divide		div(std::move(a), std::move(b));
+			a = div.toNode();
+		} else if (_token == MODULO) {
+			// T % F
+			unique_node b = _parseP();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting value after `%`");
+			Modulo		mod(std::move(a), std::move(b));
+			a = mod.toNode();
+		} else {
+			break;
+		}
+	}
+	return a;
+}
+
+/**
+ * Exponentiation parsing (E)
+ * 
+ * GRAMMAR:
+ * 	P	: F ^ F
+ * 		: F
+*/
+Parser::unique_node	Parser::_parseP() {
+	unique_node	a = _parseF();
+
+	if (a == nullptr)
+		return a;
+	while (1) {
+		if (_token == POWER) {
+			// F ^ F
+			unique_node b = _parseF();
+			if (b == nullptr)
+				throw IncorrectSyntax("Expecting value after `^`");
+			Power		pow(std::move(a), std::move(b));
+			a = pow.toNode();
 		} else {
 			break;
 		}
@@ -243,77 +314,6 @@ Parser::unique_node	Parser::_parseF() {
 		}
 	}
 	return nullptr;
-}
-
-/**
- * Term parsing (MD)
- *
- * GRAMMAR:
- * 	T	: P
- * 		| T * P
- * 		| T / P
- * 		| T % P
-*/
-Parser::unique_node	Parser::_parseT() {
-	LOG("In _parseT");
-	unique_node	a = _parseP();
-
-	if (a == nullptr)
-		return a;
-	while (1) {
-		if (_token == MULTIPLICATION) {
-			// T * F
-			unique_node	b = _parseP();
-			if (b == nullptr)
-				throw IncorrectSyntax("Expecting value after `*`");
-			Multiply	mul(std::move(a), std::move(b));
-			a = mul.toNode();
-		} else if (_token == DIVISION) {
-			// T / F
-			unique_node	b = _parseP();
-			if (b == nullptr)
-				throw IncorrectSyntax("Expecting value after `/`");
-			Divide		div(std::move(a), std::move(b));
-			a = div.toNode();
-		} else if (_token == MODULO) {
-			// T % F
-			unique_node b = _parseP();
-			if (b == nullptr)
-				throw IncorrectSyntax("Expecting value after `%`");
-			Modulo		mod(std::move(a), std::move(b));
-			a = mod.toNode();
-		} else {
-			break;
-		}
-	}
-	return a;
-}
-
-/**
- * Exponentiation parsing (E)
- * 
- * GRAMMAR:
- * 	P	: F ^ F
- * 		: F
-*/
-Parser::unique_node	Parser::_parseP() {
-	unique_node	a = _parseF();
-
-	if (a == nullptr)
-		return a;
-	while (1) {
-		if (_token == POWER) {
-			// F ^ F
-			unique_node b = _parseF();
-			if (b == nullptr)
-				throw IncorrectSyntax("Expecting value after `^`");
-			Power		pow(std::move(a), std::move(b));
-			a = pow.toNode();
-		} else {
-			break;
-		}
-	}
-	return a;
 }
 
 /* Utils -------------------------------------------------------------------- */
