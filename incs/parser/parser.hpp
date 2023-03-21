@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 12:31:46 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 12:57:49 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ class Parser {
 		unique_node			_parseE();
 		unique_node			_parseF();
 		unique_node			_parseT();
+		unique_node			_parseP();
 
 		/* Utils ------------------------------------------------------------------ */
 		unique_node			_parseFunction(std::string& var_name);
