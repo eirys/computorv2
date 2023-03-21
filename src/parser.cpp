@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/18 20:27:32 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/21 12:46:05 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ Parser::Parser(const std::string& raw):
 	_tokenizer(utils::trimmed(raw)),
 	_ret(EEMPTY) {
 		if (raw.find(EQUAL) != std::string::npos) {
-			// There is an `=`
+			// There's a `=`
 			if (raw.find(QUESTION_MARK) != std::string::npos) {
+				// There is an `?`
 				_parsefn = &Parser::_parseS;
 			} else {
+				// There's no `?`
 				_parsefn = &Parser::_parseA;
 			}
 		} else {
-			_parsefn = &Parser::_parseC;
+			throw IncorrectSyntax("Missing `=` sign	");
 		}
 	}
 
@@ -53,7 +55,7 @@ Parser::result_tree Parser::parse() {
 
 	if (_ret != EEMPTY)
 		throw IncorrectSyntax("Unexpected token");	
-	if (result == NULL)
+	if (result == nullptr)
 		throw EmptyContent();
 
 	result_tree	tree = std::make_shared<unique_node>(std::move(result));
@@ -63,6 +65,8 @@ Parser::result_tree Parser::parse() {
 /* ========================================================================== */
 /*                                   PRIVATE                                  */
 /* ========================================================================== */
+
+/* Parsing Differentiation -------------------------------------------------- */
 
 /**
  * Solver parsing
@@ -80,15 +84,20 @@ Parser::unique_node	Parser::_parseS() {
 	if (_ret != EEMPTY && _token == EQUAL) {
 		// Equality
 		unique_node	rhs = _parseE();
-		if (rhs == nullptr)
+		if (rhs == nullptr) {
+			if (_token == QUESTION_MARK) {
+				// Computation
+				_ret = _tokenizer.scanToken(_token);
+				return lhs;
+			}
 			throw IncorrectSyntax("Right hand side expression incorrect");
+		}
 		Equality	eq(std::move(lhs), std::move(rhs));
 		result = eq.toNode();
-	} else {
-		/// TODO: Solve
 	}
 	if (_ret == EEMPTY || _token != QUESTION_MARK)
 		throw IncorrectSyntax("Bad equation syntax");
+	_ret = _tokenizer.scanToken(_token);
 	return result;
 }
 
@@ -119,26 +128,14 @@ Parser::unique_node	Parser::_parseA() {
 			Computor::create_context(identifier, var_name);
 		}
 		if (a == nullptr)
-			throw IncorrectSyntax("Unexpected token");
+			throw IncorrectSyntax("Unexpected token after variable name");
 		Identifier	id(identifier, std::move(a), _context, var_name);
 		return id.toNode();
 	}
 	throw IncorrectSyntax("Bad assignation");
 }
 
-/**
- * Computation parsing
- *
- * GRAMMAR:
- * C	: E
-*/
-Parser::unique_node	Parser::_parseC() {
-	unique_node	ret = _parseE();
-
-	if (_ret != EEMPTY)
-		throw IncorrectSyntax("Unexpected token: `" + _token + "`");
-	return ret;
-}
+/* Parse Function Helper ---------------------------------------------------- */
 
 /**
  * Expression parsing
@@ -153,7 +150,7 @@ Parser::unique_node	Parser::_parseE() {
 	unique_node	a = _parseT();
 
 	if (a == nullptr)
-		throw IncorrectSyntax("Unexpected token: `" + _token + "`");
+		return a;
 	while (_ret != EEMPTY) {
 		if (_token == ADDITION) {
 			// T + T
@@ -256,14 +253,14 @@ Parser::unique_node	Parser::_parseF() {
  * 		| T * F
  * 		| T / F
  * 		| T % F
- * 		| T ^ F
+ * 		| T ^ F	// TODO: change
 */
 Parser::unique_node	Parser::_parseT() {
 	LOG("In _parseT");
 	unique_node	a = _parseF();
 
 	if (a == nullptr)
-		throw IncorrectSyntax("Unexpected token");
+		return a;
 	while (1) {
 		if (_token == MULTIPLICATION) {
 			// T * F
@@ -298,6 +295,10 @@ Parser::unique_node	Parser::_parseT() {
 		}
 	}
 	return a;
+}
+
+Parser::unique_node	Parser::_parsePower() {
+	
 }
 
 /* Utils -------------------------------------------------------------------- */
@@ -343,7 +344,7 @@ Parser::unique_node	Parser::_parseSimpleValue() {
 			_ret = _tokenizer.scanToken(_token);
 			return createVariable(value);
 		} catch (const std::invalid_argument& e) {
-			throw IncorrectSyntax("Unexpected token");
+			return nullptr;
 		}
 	} else if (_ret == EIMAGINARY) {
 		Complex		value(0, 1);
@@ -411,4 +412,12 @@ Matrix::row Parser::_parseMatrixRow() {
 		}
 	}
 	return row;
+}
+
+void	Parser::_parseEqm() {
+	if (_token == EQUAL) {
+		_tokenizer.scanToken(_token);
+		if (_token != QUESTION_MARK)
+			throw IncorrectSyntax("Expecting `?` or expression after `=`");
+	}
 }

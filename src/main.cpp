@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/18 23:11:45 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/21 12:38:10 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,12 @@ int main(int ac, char* const* av) {
 		
 			Indeterminates	ind_res = (*output)->collapse();
 			cout << "\nRES: \n" << ind_res << NL;
-			// ind_res.show();
 			Parser::shared_itype	res = (*output)->eval();
 			(*output)->print();
 			if (res != nullptr)
 				cout << " = " << *res << NL;
+			else
+				cout << NL;
 			computor_context.flush();
 		} catch (const Tokenizer::EmptyInput& empty) {
 			continue;

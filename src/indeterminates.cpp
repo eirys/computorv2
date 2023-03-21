@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/20 18:31:36 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 10:58:04 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
 }
 
 Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
-	Indeterminates		result;
+/* 	Indeterminates		result;
 	const data_map&		this_map = getMap();
 	const data_map&		other_map = other.getMap();
 
@@ -220,9 +220,9 @@ Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
 		}
 		Indeterminates		temporary(new_map);
 
-	}
+	} */
 
-	return Indeterminates(new_map);
+	return Indeterminates(other);
 }
 
 Indeterminates	Indeterminates::operator%(const Indeterminates& other) const {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/15 17:58:09 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/21 12:31:46 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,11 @@ class Parser {
 		unique_node			(Parser::*_parsefn)();
 		std::string			_context;
 
-		/* Parse Function Helper -------------------------------------------------- */
+		/* Parsing Differentiation ------------------------------------------------ */
 		unique_node			_parseA();
 		unique_node			_parseS();
-		unique_node			_parseC();
+		
+		/* Parse Function Helper -------------------------------------------------- */
 		unique_node			_parseE();
 		unique_node			_parseF();
 		unique_node			_parseT();
@@ -73,6 +74,7 @@ class Parser {
 		unique_node			_parseSimpleValue();
 		unique_node			_parseMatrix();
 		Matrix::row			_parseMatrixRow();
+		void				_parseEqm();
 };
 
 #endif

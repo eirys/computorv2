@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   equality.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/18 11:35:31 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/21 12:38:55 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ class Equality: public ATreeNode {
 		}
 
 		void				print() {
-			base::getLeft()->print();
-			std::cout << " == ";
-			base::getRight()->print();
-			std::cout << " ? ";
+			// base::getLeft()->print();
+			// std::cout << " == ";
+			// base::getRight()->print();
+			// std::cout << " ? ";
 		}
 
 		unique_node			toNode() {
