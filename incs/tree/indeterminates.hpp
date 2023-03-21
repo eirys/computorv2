@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/20 17:24:52 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 13:57:49 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,13 @@ class Indeterminates {
 					return "Not a rational";
 				}
 		};
+		class MultinomialFormat: public std::exception {
+			public:
+				const char* what() const throw() {
+					return "Expansion of this expression is too complex. "
+					"Please input a trivial-er expression... (with no variable in exponent)";
+				}
+		};
 
 		/* Static Value ----------------------------------------------------------- */
 		static const Rational	unit;
@@ -98,6 +105,8 @@ class Indeterminates {
 
 	private:
 		data_map				_datas;
+
+		bool					_isUnit() const;
 };
 
 /* Other -------------------------------------------------------------------- */
@@ -117,12 +126,7 @@ Rational		_setHas(
 	const std::string& variable_name
 );
 
-Indeterminates::data_map::iterator	_find(
-	Indeterminates::data_map& map,
-	const Indeterminates::key_set& key
-);
-
-bool	_isFactorUnit(const Indeterminates::shared_itype& set);
-bool	_isSetUnit(const Indeterminates::key_set& set);
+Indeterminates::data_map	_square(const Indeterminates::data_map& og);
+bool						_isSetUnit(const Indeterminates::key_set& set);
 
 #endif

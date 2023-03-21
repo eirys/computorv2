@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 13:04:42 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 13:52:30 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,7 +352,7 @@ Parser::unique_node	Parser::_parseFunction(
 Parser::unique_node	Parser::_parseSimpleValue() {
 	if (_ret == ERATIONAL) {
 		// Rational
-		if (_token.size() >= 60)
+		if (_token.size() >= 10)
 			throw IncorrectSyntax("Value too big");
 		try {
 			Rational	value(std::stold(_token));

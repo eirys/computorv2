@@ -6,7 +6,7 @@
 /*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 10:58:04 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/21 14:08:48 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ Indeterminates	Indeterminates::operator-() const {
 	it != new_map.end();
 	++it) {
 		it->second = (it->second->negate())->clone();
-		std::cout << "new value: " << *it->second << NL;
 	}
 	return Indeterminates(new_map);
 }
@@ -198,31 +197,26 @@ Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
 }
 
 Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
-/* 	Indeterminates		result;
-	const data_map&		this_map = getMap();
-	const data_map&		other_map = other.getMap();
+	// Support only trivial exponentiation
+	if (!other._isUnit())
+		throw MultinomialFormat();
 
-	for (data_map::const_iterator other_element = other_map.begin();
-	other_element != other_map.end();
-	++other_element) {
+	const Rational&	other_factor = dynamic_cast<const Rational&>(
+										*other.getMap().begin()->second
+									);
 
-		// Split into multiple multiplication
-		data_map			new_map;
+	if (!other_factor.isInteger())
+		throw math::operation_undefined();
 
-		// For each term
-		for (data_map::const_iterator this_element = this_map.begin();
-		this_element != this_map.end();
-		++this_element) {
+	int				factor = static_cast<int>(other_factor.getVal());
 
-			// Generate its new factor
-			// Each element of other is a term
+	if (factor < 0)
+		throw math::operation_undefined();
 
-		}
-		Indeterminates		temporary(new_map);
-
-	} */
-
-	return Indeterminates(other);
+	Indeterminates	result(shared_itype(new Rational(1)));
+	for (int i = 0; i < factor; ++i)
+		result = result * Indeterminates(getMap());
+	return result;
 }
 
 Indeterminates	Indeterminates::operator%(const Indeterminates& other) const {
@@ -234,6 +228,18 @@ Indeterminates	Indeterminates::operator%(const Indeterminates& other) const {
 
 const Indeterminates::data_map&	Indeterminates::getMap() const {
 	return _datas;
+}
+
+/* ========================================================================== */
+/*                                   PRIVATE                                  */
+/* ========================================================================== */
+
+bool	Indeterminates::_isUnit() const {
+	if (_datas.size() == 1) {
+		if (_isSetUnit(_datas.begin()->first))
+			return true;
+	}
+	return false;
 }
 
 /* ========================================================================== */
@@ -359,33 +365,8 @@ Rational	_setHas(
 	return Indeterminates::neg_unit;
 }
 
-Indeterminates::data_map::iterator	_find(
-	Indeterminates::data_map& map,
-	const Indeterminates::key_set& set
-) {
-	for (Indeterminates::data_map::iterator it = map.begin();
-	it != map.end();
-	++it) {
-		if (it->first.size() != set.size())
-			continue;
-
-		Indeterminates::key_set::const_iterator	it1 = it->first.begin();
-		Indeterminates::key_set::const_iterator	it2 = set.begin();
-
-		while (it1 != it->first.end()) {
-			if (!(*it1 == *it2))
-				break;
-			++it1;
-			++it2;
-		}
-		if (it1 == it->first.end())
-			return it;
-	}
-	return map.end();
-}
-
 /**
- * Return true if the set = { <1, 1> }
+ * Return true if the set == { <1, 1> }
 */
 bool	_isSetUnit(const Indeterminates::key_set& set) {
 	if (set.size() == 1) {
@@ -395,3 +376,22 @@ bool	_isSetUnit(const Indeterminates::key_set& set) {
 	}
 	return false;
 }
+
+// Indeterminates::data_map	_square(const Indeterminates::data_map& og) {
+// 	typedef Indeterminates::data_map	data_map;
+
+// 	const size_t	n = og.size();
+
+// 	// Compute each term
+// 	for (data_map::const_iterator it = og.begin();
+// 	it != og.end();
+// 	++it) {
+
+// 		// Compute each coefficient
+// 		for (data_map::const_iterator ite = og.begin();
+// 		ite != og.end();
+// 		++ite) {
+// 		}
+
+// 	}
+// }
