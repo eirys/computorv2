@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modulo.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:05:58 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 16:45:52 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 17:30:10 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class Modulo: public virtual ATreeNode {
 		virtual ~Modulo() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() {
+		const shared_itype	eval() const {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);

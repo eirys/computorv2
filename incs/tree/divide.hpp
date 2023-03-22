@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   divide.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 18:18:44 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 14:28:05 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 17:29:44 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ class Divide: public virtual ATreeNode {
 		virtual ~Divide() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() {
+		const shared_itype	eval() const {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);

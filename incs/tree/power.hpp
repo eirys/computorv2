@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:08:46 by etran             #+#    #+#             */
-/*   Updated: 2023/03/18 11:37:26 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/22 17:30:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class Power: public virtual ATreeNode {
 		virtual ~Power() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() {
+		const shared_itype	eval() const {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);

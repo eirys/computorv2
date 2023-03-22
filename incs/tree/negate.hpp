@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 15:10:38 by eli               #+#    #+#             */
-/*   Updated: 2023/03/18 11:32:27 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/22 17:30:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class Negate: public virtual ATreeNode {
 		virtual ~Negate() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() {
+		const shared_itype	eval() const {
 			const shared_itype&			tmp = base::getRight()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);

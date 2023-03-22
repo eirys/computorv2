@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiply.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:39:57 by eli               #+#    #+#             */
-/*   Updated: 2023/03/20 16:18:18 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 17:30:13 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class Multiply: public virtual ATreeNode {
 		virtual ~Multiply() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() {
+		const shared_itype	eval() const {
 			const shared_itype&			tmp = base::getLeft()->eval();
 
 			std::shared_ptr<Rational>	arg1 = std::dynamic_pointer_cast<Rational>(tmp);

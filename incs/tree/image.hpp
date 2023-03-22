@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 16:46:15 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 17:30:03 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class Image: public ATreeNode {
 		virtual ~Image() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() {
+		const shared_itype	eval() const {
 			shared_itype				x_value = base::getRight()->eval();
 			shared_itype				raw_ptr = Computor::find(_func_name);
 			if (raw_ptr == nullptr)

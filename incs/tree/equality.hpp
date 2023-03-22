@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   equality.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 17:24:19 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 17:29:52 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ class Equality: public ATreeNode {
 
 		/* Constructor ------------------------------------------------------------ */
 		Equality(unique_node&& left, unique_node&& right):
-			base(std::move(left), std::move(right)) {}
+			base(std::move(left), std::move(right)) {
+				Computor::toggle_equality();
+			}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Equality() {}
 
-		const shared_itype	eval() {
+		const shared_itype	eval() const {
 			/// TODO: Move to Computor::solve
 
 			shared_itype	lhs = base::getLeft()->eval();
@@ -71,7 +73,6 @@ class Equality: public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			Computor::create_equality();
 			return base::getLeft()->collapse() - base::getRight()->collapse();
 		}
 };

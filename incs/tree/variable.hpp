@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:24:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/18 10:30:55 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/22 17:34:30 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ class Variable: virtual public ATreeNode {
 		virtual ~Variable() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype	eval() {
+		const shared_itype	eval() const {
 			return _val_ptr;
 		}
 
@@ -62,7 +62,11 @@ class Variable: virtual public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			return Indeterminates(_val_ptr);
+			const std::shared_ptr<Rational>	factor =
+				std::dynamic_pointer_cast<Rational>(_val_ptr);
+			if (factor == nullptr)
+				throw Indeterminates::ExpansionNotSupported();
+			return Indeterminates(factor);
 		}
 
 	private:

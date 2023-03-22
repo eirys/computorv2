@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 18:15:38 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 17:56:38 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ Computor::context		Computor::_memory;
 Computor::context_map	Computor::_subcontexts;
 
 bool					Computor::_equality = false;
+bool					Computor::_solve = false;
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -141,7 +142,6 @@ void	Computor::create_context(
 		// Context already exists: update variable name
 		context->second.clear();
 	}
-
 	variable	var(variable_names, nullptr);
 	_subcontexts[context_names].push_front(var);
 }
@@ -149,14 +149,16 @@ void	Computor::create_context(
 /**
  * Alerts that the following interminate is an expression to solve.
 */
-void	Computor::create_equality() {
+void	Computor::toggle_equality() {
 	_solve = true;
 	_equality = true;
 }
 
-void	Computor::solve(const Indeterminates& expression) {
-	typedef	Indeterminates::data_map	data_map;
+bool	Computor::to_solve() {
+	return _solve;
+}
 
+void	Computor::solve(const Indeterminates& expression) {
 	using std::cout;
 	using std::cerr;
 
@@ -180,6 +182,7 @@ void	Computor::flush() {
 		}
 	}
 	_equality = false;
+	_solve = false;
 }
 
 /**

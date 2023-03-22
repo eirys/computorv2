@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 17:10:59 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 18:20:53 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,21 @@ int main(int ac, char* const* av) {
 		
 			try {
 				Indeterminates	ind_res = (*output)->collapse();
-				cout << "\nRES: \n" << ind_res << NL;
+				cout << "\nExpanded expression:\n" << ind_res << NL;
 
 				computor_context.solve(ind_res);
-
 			} catch (const Indeterminates::ExpansionNotSupported& e) {
 				cout << e.what() << NL;
 			}
-			Parser::shared_itype	res = (*output)->eval();
-			(*output)->print();
-			if (res != nullptr)
-				cout << " = " << *res << NL;
-			else
-				cout << NL;
+
+			if (!Computor::to_solve()) {
+				Parser::shared_itype	res = (*output)->eval();
+				(*output)->print();
+				if (res != nullptr)
+					cout << " = " << *res << NL;
+				else
+					cout << NL;
+			}
 			computor_context.flush();
 		} catch (const Tokenizer::EmptyInput& empty) {
 			continue;

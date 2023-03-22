@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   indeterminates.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 18:39:12 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 18:17:19 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,25 @@ Indeterminates::Indeterminates(const Indeterminates& x):
 	_datas(x.getMap()) {}
 
 Indeterminates::Indeterminates(
-	shared_itype factor, // always a rational? also complex
+	shared_rational factor, // always a rational? also complex
 	const std::string& var_name,
 	Rational exponent
 ) {
-	if (factor != nullptr
-	&& std::dynamic_pointer_cast<Rational>(factor) == nullptr) {
-		throw ExpansionNotSupported();
-	} else if (factor == nullptr) {
-		factor = shared_itype(new Rational(1));
+	if (factor == nullptr) {
+		factor = std::make_shared<Rational>(Indeterminates::unit);
 	}
 	key_type	weighted_value(var_name, exponent);
 	key_set		keys;
 
 	keys.insert(weighted_value);
 	_datas[keys] = factor;
+}
+
+Indeterminates&	Indeterminates::operator=(const Indeterminates& x) {
+	if (this->getMap() == x.getMap())
+		return *this;
+	_datas = x.getMap();
+	return *this;
 }
 
 /* Arith Operators ---------------------------------------------------------- */
@@ -58,7 +62,7 @@ Indeterminates	Indeterminates::operator-() const {
 	for (data_map::iterator it = new_map.begin();
 	it != new_map.end();
 	++it) {
-		it->second = (it->second->negate())->clone();
+		*it->second = it->second->operator-();
 	}
 	return Indeterminates(new_map);
 }
@@ -74,12 +78,12 @@ Indeterminates	Indeterminates::operator+(const Indeterminates& other) const {
 		data_map::iterator	this_it = new_map.find(other_it->first);
 		if (this_it != new_map.end()) {
 			// If new_map has this key, add their factors
-			shared_itype	new_factor = (*this_it->second + other_it->second)->clone();
-			if (dynamic_cast<const Rational&>(*new_factor) == Indeterminates::null) {
+			Rational	new_factor(*this_it->second + *other_it->second);
+			if (new_factor == Indeterminates::null) {
 				// Remove it from map
 				new_map.erase(this_it);
 			} else {
-				this_it->second = new_factor;
+				this_it->second = std::make_shared<Rational>(new_factor);
 			}
 		} else {
 			// Insert the new set
@@ -115,7 +119,6 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			for (key_set::const_iterator current_key = current_set.begin();
 			current_key != current_set.end();
 			++current_key) {
-				DEBUG("Current key: " << *current_key);
 				key_type	new_key(*current_key);
 
 				// Add to term if value is not 1
@@ -145,12 +148,16 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 				new_set.insert(key_type(UNIT_VALUE, Indeterminates::unit));
 				// continue;
 
-			shared_itype	new_factor;
+			shared_rational	new_factor;
 			if (new_map.find(new_set) != new_map.end()) {
 				// We already computed this value
-				new_factor = (*new_map[new_set] + other_element->second)->clone();
+				new_factor = std::make_shared<Rational>(
+					*new_map[new_set] + *other_element->second
+				);
 			} else {
-				new_factor = (*this_element->second * other_element->second)->clone();
+				new_factor = std::make_shared<Rational>(
+					*this_element->second * *other_element->second
+				);
 			}
 			new_map[new_set] = new_factor;
 		}
@@ -165,7 +172,7 @@ Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
 	for (data_map::iterator it = new_map.begin();
 	it != new_map.end();
 	++it) {
-		it->second = (Indeterminates::unit / it->second)->clone();
+		it->second = std::make_shared<Rational>(Indeterminates::unit / *it->second);
 	}
 
 	return this->operator*(Indeterminates(new_map));
@@ -176,62 +183,72 @@ Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
 	if (!other._isUnit())
 		throw ExpansionNotSupported();
 
-	const Rational&	other_factor = dynamic_cast<const Rational&>(
-										*other.getMap().begin()->second
-									);
+	const Rational&	other_factor = *other.getMap().begin()->second;
 
 	if (!other_factor.isInteger())
 		throw math::operation_undefined();
 
-	int				factor = static_cast<int>(other_factor.getVal());
+	int	factor = static_cast<int>(other_factor.getVal());
 
 	if (factor < 0)
 		throw math::operation_undefined();
 
-	Indeterminates	result(shared_itype(new Rational(1)));
+	Indeterminates	result(std::make_shared<Rational>(Indeterminates::unit));
 	for (int i = 0; i < factor; ++i)
 		result = result * Indeterminates(getMap());
 	return result;
 }
 
-/**
- * Retrieve every indeterminates possible from context.
-*/
-Indeterminates	Indeterminates::fetch() const {
-	typedef		std::pair<std::string, shared_itype>		key_value;
-	typedef		std::list<key_value>						name_list;
+// /**
+//  * Retrieve every indeterminates possible from context.
+// */
+// Indeterminates	Indeterminates::fetch() const {
+// 	typedef		std::shared_ptr<Rational>			shared_rational;
 
-	data_map	new_map;
-	name_list	variable_names;
+// 	data_map	new_map;
+// 	key_type	unit(std::string(UNIT_VALUE), Indeterminates::unit);
 
-	for (data_map::const_iterator it = _datas.begin();
-	it != _datas.end();
-	++it) {
-		
-		for (key_set::const_iterator key = it->first.begin();
-		key != it->first.end();
-		++key) {
+// 	for (data_map::const_iterator it = _datas.begin();
+// 	it != _datas.end();
+// 	++it) {
+// 		shared_rational	factor = std::dynamic_pointer_cast<Rational>(it->second);
+// 		key_set			new_set;
 
-			if (key->first != UNIT_VALUE) {
-				shared_itype	value = Computor::find(key->first);
-				if (std::dynamic_pointer_cast<Rational>(value) != nullptr) {
-					variable_names.push_back(key_value(key->first, value));
-				}
-			}
+// 		for (key_set::const_iterator key = it->first.begin();
+// 		key != it->first.end();
+// 		++key) {
+// 			if (key->variable_name!= UNIT_VALUE) {
+// 				// Replace by unit, update the term factor
+// 				shared_itype	value = Computor::find(key->variable_name);
+// 				shared_rational to_val = std::dynamic_pointer_cast<Rational>(value);
+// 				if (to_val == nullptr)
+// 					throw ValueIsNotSupported(key->variable_name);
 
-
-		}
-	}
-}
+// 				// Update factor
+// 				to_val = (*to_val ^ Rational(key->exponent)).clone();
+// 				*factor = *factor + *to_val;
+// 				new_set.insert(unit);
+// 			} else {
+// 				new_set.insert(*key);
+// 			}
+// 		}
+// 		new_map[new_set] = factor;
+// 	}
+// 	return Indeterminates(new_map);
+// }
 
 /* Getter ------------------------------------------------------------------- */
 
+/**
+ * Return biggest exponent in the data_map.
+*/
 int	Indeterminates::getMaxExponent() const {
+	Rational				max_index = Indeterminates::null;
+
 	for (data_map::const_iterator it = _datas.begin();
 	it != _datas.end();
 	++it) {
-		const key_set&	current_set = it-first;
-		int				max_index = 0;
+		const key_set&	current_set = it->first;
 
 		for (key_set::const_iterator ite = current_set.begin();
 		ite != current_set.end();
@@ -242,7 +259,59 @@ int	Indeterminates::getMaxExponent() const {
 				max_index = ite->exponent;
 		}
 	}
-	return max_index;
+	return static_cast<int>(max_index.getVal());
+}
+
+size_t	Indeterminates::getNbIndeterminates() const {
+	std::set<std::string>		name_list;
+
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
+		const key_set&	current_set = it->first;
+
+		for (key_set::const_iterator ite = current_set.begin();
+		ite != current_set.end();
+		++ite) {
+			if (ite->variable_name != UNIT_VALUE
+			&& name_list.find(ite->variable_name) == name_list.end())
+				name_list.insert(ite->variable_name);
+		}
+	}
+	return name_list.size();
+}
+
+Rational	Indeterminates::getFactorFrom(
+	const std::string& variable_name,
+	const Rational& exponent
+) const {
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
+		for (key_set::const_iterator ite = it->first.begin();
+		ite != it->first.end();
+		++ite) {
+			if ((ite->variable_name == UNIT_VALUE && exponent == Indeterminates::null)
+				|| (ite->variable_name == variable_name && ite->exponent == exponent))
+				return *it->second;
+		}
+	}
+	return Indeterminates::null;
+}
+
+const std::string	Indeterminates::getMainIndeterminate() const {
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
+		for (key_set::const_iterator ite = it->first.begin();
+		ite != it->first.end();
+		++ite) {
+			if (ite->variable_name != UNIT_VALUE)
+				return ite->variable_name;
+		}
+	}
+	DEBUG("Here");
+	throw std::exception(); //TODO
 }
 
 const Indeterminates::data_map&	Indeterminates::getMap() const {

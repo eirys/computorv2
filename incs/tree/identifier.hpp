@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 16:32:17 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 17:34:05 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ class Identifier: public ATreeNode {
 		virtual ~Identifier() {}
 
 		/* ------------------------------------------------------------------------ */
-		const shared_itype		eval() {
+		const shared_itype		eval() const {
 			DEBUG(
 				"Identifier " << _name << " in context: "
 				<< (_context.empty() ? "none" : _context)
@@ -64,7 +64,7 @@ class Identifier: public ATreeNode {
 				// Not set, check existing in local context
 				shared_itype	value;
 				value = Computor::find(_name, _context);
-				if (value == nullptr) {
+				if (value == nullptr && !Computor::to_solve()) {
 					throw ValueNotSet(_name, _context);
 				}
 				return value;
@@ -109,7 +109,14 @@ class Identifier: public ATreeNode {
 		}
 
 		Indeterminates			collapse() const {
-			return Indeterminates(nullptr, _name);
+			const shared_itype				value = eval();
+			if (value == nullptr)
+				return Indeterminates(nullptr, _name);
+			const std::shared_ptr<Rational>	factor =
+				std::dynamic_pointer_cast<Rational>(value);
+			if (factor == nullptr)
+				throw Indeterminates::ExpansionNotSupported();
+			return Indeterminates(factor);
 		}
 
 		/* Exception -------------------------------------------------------------- */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computor.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 17:09:45 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 13:56:35 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ class Computor {
 									const name_type& context_name,
 									const name_type& variable_name
 								);
-		static void				create_equality();
+		static void				toggle_equality();
+		static bool				to_solve();
 		void					solve(const Indeterminates& expression);
 		void					flush();
 		void					prune();
@@ -94,6 +95,7 @@ class Computor {
 	private:
 		static context			_memory;
 		static context_map		_subcontexts;
+		static bool				_solve;
 		static bool				_equality;
 };
 

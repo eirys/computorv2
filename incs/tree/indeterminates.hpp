@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   indeterminates.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/21 18:21:03 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/22 18:22:14 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ class Indeterminates {
 			WeigthedValue(const std::string& var_name, Rational exponent):
 				variable_name(var_name),
 				exponent(exponent) {}
-
 			bool	operator==(const WeigthedValue& rhs) const {
 				return variable_name == rhs.variable_name && exponent == rhs.exponent;
 			}
@@ -53,20 +52,23 @@ class Indeterminates {
 		};
 
 		typedef typename	IType::shared_itype							shared_itype;
+		typedef				std::shared_ptr<Rational>					shared_rational;
 		typedef				WeigthedValue								key_type;
 		typedef				std::set<key_type>							key_set;
 
-		typedef				std::map<key_set, shared_itype>				data_map;
-		typedef				std::pair<key_set, shared_itype>			data_map_element;
+		typedef				std::map<key_set, shared_rational>			data_map;
+		typedef				std::pair<key_set, shared_rational>			data_map_element;
 
 		Indeterminates();
 		Indeterminates(const data_map& x);
 		Indeterminates(const Indeterminates& x);
 		Indeterminates(
-			shared_itype factor,
+			shared_rational factor,
 			const std::string& var_name = std::string(UNIT_VALUE),
-			Rational exponent = Rational(1)
+			Rational exponent = Indeterminates::unit
 		);
+
+		Indeterminates&	operator=(const Indeterminates& x);
 
 		virtual ~Indeterminates();
 
@@ -78,11 +80,17 @@ class Indeterminates {
 		Indeterminates			operator/(const Indeterminates& other) const;
 		Indeterminates			operator^(const Indeterminates& other) const;
 
-		Indeterminates			fetch() const;
+		// Indeterminates			fetch() const;
 
 		/* Getter ----------------------------------------------------------------- */
+		size_t					getNbIndeterminates() const;
 		int						getMaxExponent() const;
+		Rational				getFactorFrom(
+									const std::string& variable_name,
+									const Rational& exponent
+								) const;
 		const data_map&			getMap() const;
+		const std::string		getMainIndeterminate() const;
 
 		/* Exception -------------------------------------------------------------- */
 		class ExpansionNotSupported: public std::exception {
@@ -90,6 +98,19 @@ class Indeterminates {
 				const char* what() const throw() {
 					return "This expression's expansion is not supported";
 				}
+		};
+		class ValueIsNotSupported: public std::exception {
+			public:
+				ValueIsNotSupported() = delete;
+				ValueIsNotSupported(const std::string& var_name):
+					_specifics("This value expansion is not supported: `"
+					+ var_name + "`") {}
+
+				const char* what() const throw() {
+					return _specifics.c_str();
+				}
+			private:
+				const std::string	_specifics;
 		};
 
 		/* Static Value ----------------------------------------------------------- */
@@ -100,6 +121,7 @@ class Indeterminates {
 
 	private:
 		data_map				_datas;
+		///TODO: handle right member
 
 		bool					_isUnit() const;
 };
