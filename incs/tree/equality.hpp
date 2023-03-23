@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/23 01:18:07 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 01:35:14 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ class Equality: public ATreeNode {
 			if (lhs == nullptr || rhs == nullptr)
 				throw std::exception();
 
-			DEBUG("left: " << *lhs);
-			DEBUG("rgit: " << *rhs);
 			if (*lhs == rhs)
 				std::cout << "True\n";
 			else
@@ -52,12 +50,7 @@ class Equality: public ATreeNode {
 			return nullptr;
 		}
 
-		void				print() {
-			// base::getLeft()->print();
-			// std::cout << " == ";
-			// base::getRight()->print();
-			// std::cout << " ? ";
-		}
+		void				print() {}
 
 		unique_node			toNode() {
 			return unique_node(
@@ -72,7 +65,10 @@ class Equality: public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			return base::getLeft()->collapse() - base::getRight()->collapse();
+			Indeterminates	ind = base::getLeft()->collapse() - base::getRight()->collapse();
+			DEBUG("Equality: " << ind);
+			ind.show();
+			return ind;
 		}
 };
 

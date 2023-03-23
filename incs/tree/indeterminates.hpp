@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/22 18:22:14 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 01:29:33 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ class Indeterminates {
 		Indeterminates			operator*(const Indeterminates& other) const;
 		Indeterminates			operator/(const Indeterminates& other) const;
 		Indeterminates			operator^(const Indeterminates& other) const;
-
-		// Indeterminates			fetch() const;
+		void					show() const;
 
 		/* Getter ----------------------------------------------------------------- */
 		size_t					getNbIndeterminates() const;
@@ -121,7 +120,7 @@ class Indeterminates {
 
 	private:
 		data_map				_datas;
-		///TODO: handle right member
+		///TODO: handle right member?
 
 		bool					_isUnit() const;
 };

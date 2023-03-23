@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/22 18:17:19 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 01:37:46 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ Indeterminates	Indeterminates::operator-() const {
 	for (data_map::iterator it = new_map.begin();
 	it != new_map.end();
 	++it) {
-		*it->second = it->second->operator-();
+		it->second = std::make_shared<Rational>(it->second->operator-());
 	}
 	return Indeterminates(new_map);
 }
@@ -146,7 +146,6 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			// The result term is null
 			if (new_set.empty())
 				new_set.insert(key_type(UNIT_VALUE, Indeterminates::unit));
-				// continue;
 
 			shared_rational	new_factor;
 			if (new_map.find(new_set) != new_map.end()) {
@@ -199,43 +198,23 @@ Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
 	return result;
 }
 
-// /**
-//  * Retrieve every indeterminates possible from context.
-// */
-// Indeterminates	Indeterminates::fetch() const {
-// 	typedef		std::shared_ptr<Rational>			shared_rational;
+void	Indeterminates::show() const {
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
 
-// 	data_map	new_map;
-// 	key_type	unit(std::string(UNIT_VALUE), Indeterminates::unit);
+		std::cout << *it->second  << " * [";
 
-// 	for (data_map::const_iterator it = _datas.begin();
-// 	it != _datas.end();
-// 	++it) {
-// 		shared_rational	factor = std::dynamic_pointer_cast<Rational>(it->second);
-// 		key_set			new_set;
+		for (key_set::const_iterator ite = it->first.begin();
+		ite != it->first.end();
+		++ite) {
+			std::cout << *ite << ',';
+		}
 
-// 		for (key_set::const_iterator key = it->first.begin();
-// 		key != it->first.end();
-// 		++key) {
-// 			if (key->variable_name!= UNIT_VALUE) {
-// 				// Replace by unit, update the term factor
-// 				shared_itype	value = Computor::find(key->variable_name);
-// 				shared_rational to_val = std::dynamic_pointer_cast<Rational>(value);
-// 				if (to_val == nullptr)
-// 					throw ValueIsNotSupported(key->variable_name);
+		std::cout << ']' << NL;
 
-// 				// Update factor
-// 				to_val = (*to_val ^ Rational(key->exponent)).clone();
-// 				*factor = *factor + *to_val;
-// 				new_set.insert(unit);
-// 			} else {
-// 				new_set.insert(*key);
-// 			}
-// 		}
-// 		new_map[new_set] = factor;
-// 	}
-// 	return Indeterminates(new_map);
-// }
+	}
+}
 
 /* Getter ------------------------------------------------------------------- */
 
@@ -243,7 +222,7 @@ Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
  * Return biggest exponent in the data_map.
 */
 int	Indeterminates::getMaxExponent() const {
-	Rational				max_index = Indeterminates::null;
+	Rational	max_exp = Indeterminates::null;
 
 	for (data_map::const_iterator it = _datas.begin();
 	it != _datas.end();
@@ -255,11 +234,11 @@ int	Indeterminates::getMaxExponent() const {
 		++ite) {
 			if (ite->exponent > Indeterminates::two)
 				return -1;
-			if (ite->exponent > max_index)
-				max_index = ite->exponent;
+			if (ite->exponent > max_exp)
+				max_exp = ite->exponent;
 		}
 	}
-	return static_cast<int>(max_index.getVal());
+	return static_cast<int>(max_exp.getVal());
 }
 
 size_t	Indeterminates::getNbIndeterminates() const {
@@ -278,6 +257,15 @@ size_t	Indeterminates::getNbIndeterminates() const {
 				name_list.insert(ite->variable_name);
 		}
 	}
+
+	std::cout << "Name list: " << NL;
+	for (std::set<std::string>::const_iterator it = name_list.begin();
+	it != name_list.end();
+	++it) {
+		std::cout << *it << ',';
+	}
+	std::cout << NL;
+
 	return name_list.size();
 }
 
