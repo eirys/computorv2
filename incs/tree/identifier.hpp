@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/22 17:34:05 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 15:01:36 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,16 @@ class Identifier: public ATreeNode {
 
 		Indeterminates			collapse() const {
 			const shared_itype				value = eval();
-			if (value == nullptr)
+			if (value == nullptr) {
+				// This identifier is an indeterminate
 				return Indeterminates(nullptr, _name);
+			}
+
 			const std::shared_ptr<Rational>	factor =
 				std::dynamic_pointer_cast<Rational>(value);
-			if (factor == nullptr)
+			if (factor == nullptr) {
 				throw Indeterminates::ExpansionNotSupported();
+			}
 			return Indeterminates(factor);
 		}
 

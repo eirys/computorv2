@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/22 17:56:38 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 14:55:46 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	Computor::push(
 	name_type		variable_name_lower = utils::toLower(variable_name);
 
 	if (context_name.empty()) {
-		// Global context
 		// Erase previous occurence
 		for (context::reverse_iterator it = _memory.rbegin();
 		it != _memory.rend();

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/23 01:37:46 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 15:13:47 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,10 +232,12 @@ int	Indeterminates::getMaxExponent() const {
 		for (key_set::const_iterator ite = current_set.begin();
 		ite != current_set.end();
 		++ite) {
-			if (ite->exponent > Indeterminates::two)
+			if (ite->exponent > Indeterminates::two) {
 				return -1;
-			if (ite->exponent > max_exp)
+			} else if (ite->variable_name != UNIT_VALUE
+				&& ite->exponent > max_exp) {
 				max_exp = ite->exponent;
+			}
 		}
 	}
 	return static_cast<int>(max_exp.getVal());
@@ -258,7 +260,7 @@ size_t	Indeterminates::getNbIndeterminates() const {
 		}
 	}
 
-	std::cout << "Name list: " << NL;
+	std::cout << "Name list: (size = "<< name_list.size() << ")" << NL;
 	for (std::set<std::string>::const_iterator it = name_list.begin();
 	it != name_list.end();
 	++it) {
@@ -328,12 +330,12 @@ std::ostream&	operator<<(std::ostream& o, const Indeterminates& x) {
 
 	if (x.getMap().empty())
 		return (o << '0');
-	for (data_map::const_iterator it = x.getMap().begin();
-	it != x.getMap().end();
+	for (data_map::const_reverse_iterator it = x.getMap().rbegin();
+	it != x.getMap().rend();
 	++it) {
-		data_map::const_iterator	copy(it);
-		const key_set&				set = it->first;
-		bool						has_factor = false;
+		data_map::const_reverse_iterator	copy(it);
+		const key_set&						set = it->first;
+		bool								has_factor = false;
 
 		// Display factor of set
 		const Rational&	factor = *std::dynamic_pointer_cast<Rational>(it->second);
@@ -362,7 +364,7 @@ std::ostream&	operator<<(std::ostream& o, const Indeterminates& x) {
 		}
 
 		// Inbetween terms
-		if (++copy != x.getMap().end()) {
+		if (++copy != x.getMap().rend()) {
 			const Rational&	next_factor = *std::dynamic_pointer_cast<Rational>(copy->second);
 			if (next_factor > Indeterminates::null)
 				o << "+";

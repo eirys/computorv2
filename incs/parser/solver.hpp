@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 18:02:01 by etran             #+#    #+#             */
-/*   Updated: 2023/03/23 01:25:36 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 14:58:25 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ class Solver {
 			const Rational	b = _expression.getFactorFrom(var, Indeterminates::unit);
 			const Rational	c = _expression.getFactorFrom(var, Indeterminates::null);
 
-			const Rational	result((-c)/(Indeterminates::two * b));
+			const Rational	result(-c/b);
 
 			cout << "Solution: " << var << " = " << result << NL;
 		}
