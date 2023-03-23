@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/22 17:29:52 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 01:18:07 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,20 @@ class Equality: public ATreeNode {
 
 		/* Constructor ------------------------------------------------------------ */
 		Equality(unique_node&& left, unique_node&& right):
-			base(std::move(left), std::move(right)) {
-				Computor::toggle_equality();
-			}
+			base(std::move(left), std::move(right)) {}
 
 		/* Destructor ------------------------------------------------------------- */
 		virtual ~Equality() {}
 
 		const shared_itype	eval() const {
-			/// TODO: Move to Computor::solve
-
 			shared_itype	lhs = base::getLeft()->eval();
 			shared_itype	rhs = base::getRight()->eval();
-
+			
 			if (lhs == nullptr || rhs == nullptr)
 				throw std::exception();
+
+			DEBUG("left: " << *lhs);
+			DEBUG("rgit: " << *rhs);
 			if (*lhs == rhs)
 				std::cout << "True\n";
 			else

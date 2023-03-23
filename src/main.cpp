@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/22 18:20:53 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 01:14:12 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int main(int ac, char* const* av) {
 
 			Parser				parser(entry);
 			Parser::result_tree	output = parser.parse();
-	
 			LOG("Out of parser");
 		
 			try {
@@ -86,12 +85,12 @@ int main(int ac, char* const* av) {
 				else
 					cout << NL;
 			}
-			computor_context.flush();
 		} catch (const Tokenizer::EmptyInput& empty) {
 			continue;
 		} catch (const std::exception& e) {
 			cerr << "Error: " << e.what() << NL;
 		}
+		computor_context.flush();
 	}
 	cout << "quit\n";
 	return 0;

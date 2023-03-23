@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 13:52:30 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/23 01:16:41 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,13 @@ Parser::unique_node	Parser::_parseS() {
 		if (rhs == nullptr) {
 			if (_token == QUESTION_MARK) {
 				// Computation
+				DEBUG("Question mark!!");
 				_ret = _tokenizer.scanToken(_token);
 				return lhs;
 			}
 			throw IncorrectSyntax("Right hand side expression incorrect");
+		} else {
+			Computor::toggle_equality();
 		}
 		Equality	eq(std::move(lhs), std::move(rhs));
 		result = eq.toNode();
