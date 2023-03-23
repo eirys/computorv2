@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/22 17:30:03 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 10:38:46 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,19 @@ class Image: public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			throw Indeterminates::ExpansionNotSupported();
+			Indeterminates			element(base::getRight()->collapse());
+			const shared_itype		value = eval();
+			const std::shared_ptr<Rational>	value_cast =
+				std::dynamic_pointer_cast<Rational>(value);
+			if (value_cast == nullptr)
+				throw Indeterminates::ExpansionNotSupported();
+			Indeterminates			result(value_cast);
+			DEBUG(
+				"Image: " << _func_name << '(' << element
+				<< ") = " << result
+			);
+			return result;
+			// throw Indeterminates::ExpansionNotSupported();
 		}
 
 		/* Exception -------------------------------------------------------------- */

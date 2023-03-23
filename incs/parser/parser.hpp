@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 13:03:24 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/23 10:57:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ class Parser {
 			public:
 				IncorrectSyntax() = delete;
 				IncorrectSyntax(const std::string&& specificity):
-					_specificity("Not a correct syntax: " + specificity) {}
+					_specificity("Incorrect syntax: " + specificity) {}
 
 				const char* what() const throw() {
 					return _specificity.c_str();
@@ -58,7 +58,9 @@ class Parser {
 		std::string			_token;
 		e_tokentype			_ret;
 		unique_node			(Parser::*_parsefn)();
+
 		std::string			_context;
+		std::string			_var_name;
 
 		/* Parsing Differentiation ------------------------------------------------ */
 		unique_node			_parseA();
@@ -71,7 +73,7 @@ class Parser {
 		unique_node			_parseF();
 
 		/* Utils ------------------------------------------------------------------ */
-		unique_node			_parseFunction(std::string& var_name);
+		unique_node			_parseFunction();
 		unique_node			_parseSimpleValue();
 		unique_node			_parseMatrix();
 		Matrix::row			_parseMatrixRow();

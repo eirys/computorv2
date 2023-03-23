@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/23 01:16:41 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/23 10:56:39 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,8 @@ Parser::unique_node	Parser::_parseA() {
 	_ret = _tokenizer.scanToken(_token);
 
 	if (_ret == ENAME) {
-		// Identifier
 		unique_node		a;
 		std::string		identifier(_token);
-		std::string		var_name;	// potentially empty
 		_ret = _tokenizer.scanToken(_token);
 		if (_token == EQUAL) {
 			// Simple variable
@@ -126,13 +124,15 @@ Parser::unique_node	Parser::_parseA() {
 		} else if (_token == L_PARENTHESIS) {
 			// Function
 			_context = identifier;
-			a = _parseFunction(var_name);
+			a = _parseFunction();
 
-			Computor::create_context(identifier, var_name);
+			Computor::create_context(identifier, _var_name);
 		}
 		if (a == nullptr)
 			throw IncorrectSyntax("Unexpected token after variable name");
-		Identifier	id(identifier, std::move(a), _context, var_name);
+		Identifier	id(identifier, std::move(a), _context, _var_name);
+
+		_var_name.clear();
 		return id.toNode();
 	}
 	throw IncorrectSyntax("Bad assignation");
@@ -277,9 +277,16 @@ Parser::unique_node	Parser::_parseF() {
 				return img.toNode();
 			}
 			throw IncorrectSyntax("Expecting closing parenthesis `)`");
+		} else {
+			// Identifier
+			if (!_context.empty()
+			&& utils::toLower(id_name) != utils::toLower(_var_name))
+				throw IncorrectSyntax("Function declaration contains unknown indeterminate");
 		}
-		if (utils::toLower(id_name) == utils::toLower(_context))
+		if (utils::toLower(id_name) == utils::toLower(_context)) {
+			// Function is recursive
 			throw IncorrectSyntax("Function definition invalid");
+		}
 		Identifier		id(id_name, nullptr, _context);
 		return id.toNode();
 
@@ -321,22 +328,20 @@ Parser::unique_node	Parser::_parseF() {
 
 /* Utils -------------------------------------------------------------------- */
 
-Parser::unique_node	Parser::_parseFunction(
-	std::string& var_name
-) {
+Parser::unique_node	Parser::_parseFunction() {
 	LOG("In _parseFunction");
 	// Function
 	_ret = _tokenizer.scanToken(_token);
 
 	if (_ret == ENAME) {
 		// Variable name
-		var_name = _token;
+		_var_name = _token;
 		_ret = _tokenizer.scanToken(_token);
 		if (_token != R_PARENTHESIS)
 			throw IncorrectSyntax("Expecting `)`");
 		_ret = _tokenizer.scanToken(_token);
 		if (_token != EQUAL)
-			throw IncorrectSyntax("Expecting `=`");
+			throw IncorrectSyntax("Expecting `=` right after function declaration");
 
 		// Body
 		unique_node			body = _parseE();
@@ -345,7 +350,7 @@ Parser::unique_node	Parser::_parseFunction(
 		_context.clear();
 
 		Function::tree_head	tree = std::make_shared<unique_node>(std::move(body));
-		Function			fun(var_name, tree);
+		Function			fun(_var_name, tree);
 
 		return createVariable(fun);
 	}
