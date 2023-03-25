@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/23 14:55:46 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 13:20:33 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,22 @@ Computor::context		Computor::_memory;
 */
 Computor::context_map	Computor::_subcontexts;
 
+/**
+ * Toggled when there's an equality to be computed.
+*/
 bool					Computor::_equality = false;
+
+/**
+ * Toggled when the equality is to be solved.
+*/
 bool					Computor::_solve = false;
+
+/**
+ * List of toggled contexts (for solving). Generates a global indeterminate.
+*/
+// Computor::name_set		Computor::_active_contexts;
+
+std::string				Computor::_active_indeterminate;
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -37,7 +51,7 @@ Computor::Computor() {}
 
 Computor::~Computor() {}
 
-/* Function ----------------------------------------------------------------- */
+/* Context Manipulation ----------------------------------------------------- */
 
 /**
  * Pushes new value to context.
@@ -100,10 +114,10 @@ const Computor::value_ptr	Computor::find(
 		}
 		return nullptr;
 	} else {
-		name_duo	context_names = std::make_pair(
-										utils::toLower(context_name),
-										context_name
-									);
+		name_duo	context_names = name_duo(
+			utils::toLower(context_name),
+			context_name
+		);
 		// Check if set in specific context
 		context_map::const_iterator	context_it = _subcontexts.find(context_names);
 		if (context_it == _subcontexts.end()) {
@@ -127,7 +141,7 @@ void	Computor::create_context(
 	const name_type& context_name,
 	const name_type& variable_name
 ) {
-	name_duo	context_names = std::make_pair(
+	name_duo	context_names = name_duo(
 								utils::toLower(context_name),
 								context_name
 							);
@@ -145,6 +159,8 @@ void	Computor::create_context(
 	_subcontexts[context_names].push_front(var);
 }
 
+/* Computing Tools ---------------------------------------------------------- */
+
 /**
  * Alerts that the following interminate is an expression to solve.
 */
@@ -153,19 +169,38 @@ void	Computor::toggle_equality() {
 	_equality = true;
 }
 
+std::string	Computor::toggle_indeterminate(
+	const name_type& ind_name
+) {
+	if (_active_indeterminate.empty()) {
+		_active_indeterminate = ind_name;
+	}
+	return _active_indeterminate;
+
+	// typedef	std::pair<name_set::iterator, bool>		ret_type;
+	
+	// ret_type	res = _active_contexts.insert(
+	// 	name_duo(
+	// 		utils::toLower(ind_name),
+	// 		ind_name
+	// 	)
+	// );
+
+	// return res.second;
+ }
+
 bool	Computor::to_solve() {
 	return _solve;
 }
 
 void	Computor::solve(const Indeterminates& expression) {
-	using std::cout;
-	using std::cerr;
-
 	if (_equality) {
 		Solver	solver(expression);
 		_solve = solver.solve();
 	}
 }
+
+/* Utils -------------------------------------------------------------------- */
 
 /**
  * Flushes all temporary contexts.
@@ -182,6 +217,7 @@ void	Computor::flush() {
 	}
 	_equality = false;
 	_solve = false;
+	_active_indeterminate.clear();
 }
 
 /**
@@ -212,15 +248,6 @@ void	Computor::prune() {
 	}
 }
 
-
-/// TODO: For future menu
-/**
- * Resets memory.
-*/
-void	Computor::reset() {
-	return;
-}
-
 /**
  * Displays global context.
 */
@@ -248,4 +275,14 @@ void	Computor::show() const {
 		}
 	}
 	cout << "===========================\n";
+}
+
+/* Menu Tools --------------------------------------------------------------- */
+
+/// TODO: For future menu
+/**
+ * Resets memory.
+*/
+void	Computor::reset() {
+	return;
 }

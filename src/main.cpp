@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/23 01:14:12 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 11:37:53 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int main(int ac, char* const* av) {
 		puterror(__DANGEROUS_COMPUTOR);
 		std::exit(EXIT_FAILURE);
 	}
-	
+
 	(void)av;
 
 	Computor	computor_context;
@@ -67,12 +67,14 @@ int main(int ac, char* const* av) {
 			Parser				parser(entry);
 			Parser::result_tree	output = parser.parse();
 			LOG("Out of parser");
-		
+
 			try {
+				DEBUG("Collapsing");
 				Indeterminates	ind_res = (*output)->collapse();
 				cout << "\nExpanded expression:\n" << ind_res << NL;
 
 				computor_context.solve(ind_res);
+				DEBUG("Finished solving");
 			} catch (const Indeterminates::ExpansionNotSupported& e) {
 				cout << e.what() << NL;
 			}
@@ -90,6 +92,7 @@ int main(int ac, char* const* av) {
 		} catch (const std::exception& e) {
 			cerr << "Error: " << e.what() << NL;
 		}
+		computor_context.show();
 		computor_context.flush();
 	}
 	cout << "quit\n";

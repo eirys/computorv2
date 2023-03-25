@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/23 01:35:14 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 14:32:04 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ class Equality: public ATreeNode {
 		virtual ~Equality() {}
 
 		const shared_itype	eval() const {
+			///TODO: adapt witbh solve thingy
 			shared_itype	lhs = base::getLeft()->eval();
 			shared_itype	rhs = base::getRight()->eval();
-			
+
 			if (lhs == nullptr || rhs == nullptr)
 				throw std::exception();
 

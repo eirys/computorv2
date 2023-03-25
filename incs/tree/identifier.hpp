@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/23 15:01:36 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 13:47:11 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include "atree_node.hpp"
 # include "computor.hpp"
+# include "function.hpp"
 
 /**
  * Identifier	: { char | _ }+
@@ -35,6 +36,7 @@ class Identifier: public ATreeNode {
 		typedef typename	base::unique_itype			unique_itype;
 		typedef typename	base::shared_itype			shared_itype;
 		typedef typename	base::weak_itype			weak_itype;
+		typedef				std::shared_ptr<Function>	shared_function;
 
 		/* Constructor ------------------------------------------------------------ */
 		Identifier(
@@ -47,8 +49,8 @@ class Identifier: public ATreeNode {
 			_name(name),
 			_context(context),
 			_extra(extra) {
-				LOG("Creating " << (!context.empty()? context : "") <<"identifier `"
-				<< name <<"` with extra: `" +extra+"`" );
+				LOG("Creating" << (!context.empty()? " contexted " + context + " " : "")
+				<<" identifier `" << name <<"` with extra: `" +extra+"`" );
 			}
 
 		/* Destructor ------------------------------------------------------------- */
@@ -60,17 +62,39 @@ class Identifier: public ATreeNode {
 				"Identifier " << _name << " in context: "
 				<< (_context.empty() ? "none" : _context)
 			);
+
 			if (base::getRight() == nullptr) {
 				// Not set, check existing in local context
-				shared_itype	value;
-				value = Computor::find(_name, _context);
-				if (value == nullptr && !Computor::to_solve()) {
-					throw ValueNotSet(_name, _context);
+				shared_itype	value = Computor::find(_name, _context);
+				shared_itype	global = Computor::find(_name);
+
+				if (value == nullptr) {
+					if (global != nullptr) {
+						throw AmbiguousDefinition(_name);
+					// } else if (Computor::to_solve()) {
+						// std::string	ind_name = Computor::toggle_context(_name);
+						// if (ind_name.empty()) {
+							// context already set
+						// } else {
+							
+						// }
+					} else if (!Computor::to_solve()) {
+						throw ValueNotSet(_name, _context);
+					}
 				}
+				LOG("Found: " << _name << " = " << *value);
 				return value;
 			} else {
 				// Set a new value
 				shared_itype	value = base::getRight()->eval();
+				shared_function	f_ptr = std::dynamic_pointer_cast<Function>(value);
+				if (f_ptr != nullptr) {
+					if (!_extra.empty()) {
+						Computor::create_context(_name, f_ptr->getVarName());
+					} else {
+						throw BadFunctionDefinition();
+					}
+				}
 				Computor::push(_name, value);
 				return value;
 			}
@@ -112,7 +136,11 @@ class Identifier: public ATreeNode {
 			const shared_itype				value = eval();
 			if (value == nullptr) {
 				// This identifier is an indeterminate
-				return Indeterminates(nullptr, _name);
+				std::string		ind_name = Computor::toggle_indeterminate(_name);
+
+				if (ind_name == _name)
+					return Indeterminates(nullptr, _name);
+				return Indeterminates(nullptr, ind_name);
 			}
 
 			const std::shared_ptr<Rational>	factor =
@@ -142,6 +170,24 @@ class Identifier: public ATreeNode {
 			private:
 				const std::string	_specificity;
 		};
+		class BadFunctionDefinition: public std::exception {
+			public:
+				const char* what() const throw() {
+					return "Missing variable name in function declaration";
+				}
+		};
+		class AmbiguousDefinition: public std::exception {
+			public:
+				AmbiguousDefinition() = delete;
+				AmbiguousDefinition(const std::string& name):
+					_specificity("Ambiguous function definition (`"
+					+ name + "` is not a function element but is set)") {}
+				const char* what() const throw() {
+					return _specificity.c_str(); 
+				}
+			private:
+				const std::string	_specificity;
+		};
 
 		/* Getter ----------------------------------------------------------------- */
 		const std::string&		getName() const {
@@ -152,6 +198,7 @@ class Identifier: public ATreeNode {
 		const std::string		_name;
 		const std::string		_context;
 		const std::string		_extra;
+		std::string				_buffer_name;
 };
 
 #endif

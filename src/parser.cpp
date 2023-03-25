@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/23 10:56:39 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 12:20:42 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ Parser::unique_node	Parser::_parseS() {
 		if (rhs == nullptr) {
 			if (_token == QUESTION_MARK) {
 				// Computation
-				DEBUG("Question mark!!");
 				_ret = _tokenizer.scanToken(_token);
 				return lhs;
 			}
@@ -123,10 +122,11 @@ Parser::unique_node	Parser::_parseA() {
 			a = _parseE();
 		} else if (_token == L_PARENTHESIS) {
 			// Function
-			_context = identifier;
+			if (_context.empty())
+				_context = identifier;
 			a = _parseFunction();
 
-			Computor::create_context(identifier, _var_name);
+			// Computor::create_context(identifier, _var_name);
 		}
 		if (a == nullptr)
 			throw IncorrectSyntax("Unexpected token after variable name");
@@ -279,9 +279,9 @@ Parser::unique_node	Parser::_parseF() {
 			throw IncorrectSyntax("Expecting closing parenthesis `)`");
 		} else {
 			// Identifier
-			if (!_context.empty()
-			&& utils::toLower(id_name) != utils::toLower(_var_name))
-				throw IncorrectSyntax("Function declaration contains unknown indeterminate");
+			// if (!_context.empty()
+			// && utils::toLower(id_name) != utils::toLower(_var_name))
+			// 	throw IncorrectSyntax("Function declaration contains unknown indeterminate");
 		}
 		if (utils::toLower(id_name) == utils::toLower(_context)) {
 			// Function is recursive
@@ -339,6 +339,10 @@ Parser::unique_node	Parser::_parseFunction() {
 		_ret = _tokenizer.scanToken(_token);
 		if (_token != R_PARENTHESIS)
 			throw IncorrectSyntax("Expecting `)`");
+
+		if (utils::toLower(_var_name) == utils::toLower(_context))
+			throw IncorrectSyntax("Function variable can't be name like the function itself");
+
 		_ret = _tokenizer.scanToken(_token);
 		if (_token != EQUAL)
 			throw IncorrectSyntax("Expecting `=` right after function declaration");

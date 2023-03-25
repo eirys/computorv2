@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/23 15:09:52 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 14:00:35 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 /**
  * Image	: Identifier ( E )
- * 
+ *
  * example:	f(22)
  * 			f(a + 22*3)
 */
@@ -51,8 +51,13 @@ class Image: public ATreeNode {
 		const shared_itype	eval() const {
 			shared_itype		x_value = base::getRight()->eval();
 			shared_function		f_ptr = _findFunction();
+
+			// DEBUG("Pushing: " << *x_value << " to " << _func_name);
 			Computor::push(f_ptr->getVarName(), x_value, _func_name);
-			shared_itype				ret = (*f_ptr->getBody())->eval();
+
+			shared_itype		ret = (*f_ptr->getBody())->eval();
+			DEBUG("Computed image");
+
 			return ret;
 		}
 
@@ -89,10 +94,6 @@ class Image: public ATreeNode {
 				if (value_cast == nullptr)
 					throw Indeterminates::ExpansionNotSupported();
 				Indeterminates			result(value_cast);
-				DEBUG(
-					"Image: " << _func_name << '(' << element
-					<< ") = " << result
-				);
 				return result;
 			}
 		}

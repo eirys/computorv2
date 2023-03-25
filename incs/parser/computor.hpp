@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/22 13:56:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 13:15:25 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,32 @@ class Indeterminates;
 */
 class Computor {
 	public:
+
 		typedef typename	ATreeNode::shared_itype			value_ptr;
 		typedef				std::string						name_type;
 		typedef				std::pair<name_type, name_type>	name_duo;
 		typedef				std::pair<name_duo, value_ptr>	variable;
+
+		typedef				std::vector<variable>			context;
+		typedef				std::list<variable>				subcontext;
 
 		struct NameDuoComparator {
 			bool operator() (const name_duo& lhs, const name_duo& rhs) {
 				return lhs.first < rhs.first;
 			}
 		};
-
-		typedef				std::vector<variable>			context;
-		typedef				std::list<variable>				subcontext;
+		typedef				NameDuoComparator				name_comp;
 		typedef				std::map<
 								name_duo,
 								subcontext,
-								NameDuoComparator
+								name_comp
 							>								context_map;
+		typedef				std::set<name_duo, name_comp>	name_set;
 
 		Computor();
 		virtual ~Computor();
 
-		/* Tools ------------------------------------------------------------------ */
+		/* Context Manipulation --------------------------------------------------- */
 		static void				push(
 									const name_type& variable_name,
 									const value_ptr& value,
@@ -66,17 +69,20 @@ class Computor {
 									const name_type& context_name,
 									const name_type& variable_name
 								);
+
+		/* Computing Tools -------------------------------------------------------- */
 		static void				toggle_equality();
 		static bool				to_solve();
+		static std::string		toggle_indeterminate(const name_type& ind_name);
 		void					solve(const Indeterminates& expression);
-		void					flush();
-		void					prune();
-
-		/* Menu ------------------------------------------------------------------- */
-		void					reset();
 
 		/* Utils ------------------------------------------------------------------ */
+		void					flush();
+		void					prune();
 		void					show() const;
+
+		/* Menu Tools ------------------------------------------------------------- */
+		void					reset();
 
 		/* Exception -------------------------------------------------------------- */
 		class UnknownFunctionElement: public std::exception {
@@ -97,6 +103,8 @@ class Computor {
 		static context_map		_subcontexts;
 		static bool				_solve;
 		static bool				_equality;
+		static std::string		_active_indeterminate;
+		// static name_set			_active_contexts;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:14:10 by etran             #+#    #+#             */
-/*   Updated: 2023/03/18 11:41:27 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/24 21:55:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -465,6 +465,7 @@ Function::shared_itype	Function::_function_operator(
 /* ========================================================================== */
 
 std::ostream&	operator<<(std::ostream& o, const Function& x) {
+	DEBUG("[func]");
 	(*x.getBody())->print();
 	return o;
 }
