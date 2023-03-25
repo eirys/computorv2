@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:43:36 by etran             #+#    #+#             */
-/*   Updated: 2023/03/25 14:32:04 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 21:42:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ class Equality: public ATreeNode {
 
 		const shared_itype	eval() const {
 			///TODO: adapt witbh solve thingy
-			shared_itype	lhs = base::getLeft()->eval();
-			shared_itype	rhs = base::getRight()->eval();
+			// shared_itype	lhs = base::getLeft()->eval();
+			// shared_itype	rhs = base::getRight()->eval();
 
-			if (lhs == nullptr || rhs == nullptr)
-				throw std::exception();
+			// if (lhs == nullptr || rhs == nullptr)
+			// 	throw std::exception();
 
-			if (*lhs == rhs)
+			// if (*lhs == rhs)
+			Indeterminates	ind = collapse();
+			if (ind.getMap().empty())
 				std::cout << "True\n";
 			else
 				std::cout << "False\n";
@@ -68,7 +70,7 @@ class Equality: public ATreeNode {
 		Indeterminates		collapse() const {
 			Indeterminates	ind = base::getLeft()->collapse() - base::getRight()->collapse();
 			DEBUG("Equality: " << ind);
-			ind.show();
+			// ind.show();
 			return ind;
 		}
 };

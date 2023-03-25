@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/25 13:15:25 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 21:50:12 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ class Computor {
 								);
 
 		/* Computing Tools -------------------------------------------------------- */
-		static void				toggle_equality();
+		static void				toggle_equation();
 		static bool				to_solve();
 		static std::string		toggle_indeterminate(const name_type& ind_name);
 		void					solve(const Indeterminates& expression);

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/25 12:20:42 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 21:50:05 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ Parser::unique_node	Parser::_parseS() {
 			}
 			throw IncorrectSyntax("Right hand side expression incorrect");
 		} else {
-			Computor::toggle_equality();
+			Computor::toggle_equation();
 		}
 		Equality	eq(std::move(lhs), std::move(rhs));
 		result = eq.toNode();

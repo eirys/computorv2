@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 18:02:01 by etran             #+#    #+#             */
-/*   Updated: 2023/03/23 14:58:25 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 21:48:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class Solver {
 
 		/* Main Function ---------------------------------------------------------- */
 
-		bool	solve() const {
+		void	solve() const {
 			using std::cout;
 
 			void	(Solver::*solve_function)(const std::string&) const;
@@ -32,7 +32,10 @@ class Solver {
 				throw TooManyIndeterminates();
 			switch (_expression.getMaxExponent()) {
 				case 0:
-					return false;
+					cout << (
+						_expression.getMap().empty() ?
+						"True" : "False"
+					) << NL;
 				case 1:
 					cout << "Solving degree 1 equation" << NL;
 					solve_function = &Solver::_rootOne;
@@ -47,8 +50,6 @@ class Solver {
 			const std::string	main_variable_name = _expression.getMainIndeterminate();
 			DEBUG("main indet: " << main_variable_name);
 			(this->*solve_function)(main_variable_name);
-
-			return true;
 		}
 
 		/* Exception -------------------------------------------------------------- */

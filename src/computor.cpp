@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/25 13:20:33 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 21:49:48 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,9 +164,8 @@ void	Computor::create_context(
 /**
  * Alerts that the following interminate is an expression to solve.
 */
-void	Computor::toggle_equality() {
+void	Computor::toggle_equation() {
 	_solve = true;
-	_equality = true;
 }
 
 std::string	Computor::toggle_indeterminate(
@@ -176,17 +175,6 @@ std::string	Computor::toggle_indeterminate(
 		_active_indeterminate = ind_name;
 	}
 	return _active_indeterminate;
-
-	// typedef	std::pair<name_set::iterator, bool>		ret_type;
-	
-	// ret_type	res = _active_contexts.insert(
-	// 	name_duo(
-	// 		utils::toLower(ind_name),
-	// 		ind_name
-	// 	)
-	// );
-
-	// return res.second;
  }
 
 bool	Computor::to_solve() {
@@ -196,7 +184,7 @@ bool	Computor::to_solve() {
 void	Computor::solve(const Indeterminates& expression) {
 	if (_equality) {
 		Solver	solver(expression);
-		_solve = solver.solve();
+		solver.solve();
 	}
 }
 
