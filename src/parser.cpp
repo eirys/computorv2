@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/25 21:50:05 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/25 22:01:06 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,11 +277,6 @@ Parser::unique_node	Parser::_parseF() {
 				return img.toNode();
 			}
 			throw IncorrectSyntax("Expecting closing parenthesis `)`");
-		} else {
-			// Identifier
-			// if (!_context.empty()
-			// && utils::toLower(id_name) != utils::toLower(_var_name))
-			// 	throw IncorrectSyntax("Function declaration contains unknown indeterminate");
 		}
 		if (utils::toLower(id_name) == utils::toLower(_context)) {
 			// Function is recursive
@@ -338,7 +333,7 @@ Parser::unique_node	Parser::_parseFunction() {
 		_var_name = _token;
 		_ret = _tokenizer.scanToken(_token);
 		if (_token != R_PARENTHESIS)
-			throw IncorrectSyntax("Expecting `)`");
+			throw IncorrectSyntax("Expecting `)`, got `" + _token + " instead`");
 
 		if (utils::toLower(_var_name) == utils::toLower(_context))
 			throw IncorrectSyntax("Function variable can't be name like the function itself");
