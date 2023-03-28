@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/25 21:49:48 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 16:31:08 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,11 @@ Computor::context		Computor::_memory;
 Computor::context_map	Computor::_subcontexts;
 
 /**
- * Toggled when there's an equality to be computed.
-*/
-bool					Computor::_equality = false;
-
-/**
  * Toggled when the equality is to be solved.
 */
 bool					Computor::_solve = false;
+
+bool					Computor::_compute = false;
 
 /**
  * List of toggled contexts (for solving). Generates a global indeterminate.
@@ -159,6 +156,17 @@ void	Computor::create_context(
 	_subcontexts[context_names].push_front(var);
 }
 
+Computor::subcontext	Computor::find_context(const name_type& context_name) {
+	for (context_map::const_iterator it = _subcontexts.begin();
+	it != _subcontexts.end();
+	++it) {
+		if (it->first.first == utils::toLower(context_name))
+			return it->second;
+	}
+	DEBUG("No such context");
+	throw std::exception();
+}
+
 /* Computing Tools ---------------------------------------------------------- */
 
 /**
@@ -166,6 +174,10 @@ void	Computor::create_context(
 */
 void	Computor::toggle_equation() {
 	_solve = true;
+}
+
+void	Computor::toggle_computing() {
+	_compute = true;
 }
 
 std::string	Computor::toggle_indeterminate(
@@ -181,8 +193,12 @@ bool	Computor::to_solve() {
 	return _solve;
 }
 
+bool	Computor::to_compute() {
+	return _compute;
+}
+
 void	Computor::solve(const Indeterminates& expression) {
-	if (_equality) {
+	if (_solve) {
 		Solver	solver(expression);
 		solver.solve();
 	}
@@ -203,7 +219,7 @@ void	Computor::flush() {
 			ite->second = nullptr;
 		}
 	}
-	_equality = false;
+	_compute = false;
 	_solve = false;
 	_active_indeterminate.clear();
 }

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/25 14:00:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 15:44:22 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,31 @@ class Image: public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			const shared_itype		value = eval();
 			if (Computor::to_solve()) {
 				// Case 1: Solving an equation
 				shared_function		f_ptr = _findFunction();
 				return (*f_ptr->getBody())->collapse();
-			} else {
+			}
+			Indeterminates	x_val = base::getRight()->collapse();
+			if (!x_val.isIndeterminate()) {
 				// Case 2: Compute image value
-				Indeterminates			element(base::getRight()->collapse());
+				Computor::toggle_computing();
+				const shared_itype		value = eval();
 				const std::shared_ptr<Rational>	value_cast =
 					std::dynamic_pointer_cast<Rational>(value);
 				if (value_cast == nullptr)
 					throw Indeterminates::ExpansionNotSupported();
 				Indeterminates			result(value_cast);
 				return result;
+			} else {
+				// Case 3: Function displaying
+				Indeterminates		element(base::getRight()->collapse());
+				shared_function		f_ptr = _findFunction();
+				// Indeterminates		body = (*f_ptr->getBody())->collapse();
+				return (*f_ptr->getBody())->collapse();
+				// if (body.getMainIndeterminate() != element)
 			}
-		}
+		} 
 
 		/* Exception -------------------------------------------------------------- */
 		class NotAFunction: public std::exception {

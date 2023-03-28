@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/25 11:37:53 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/27 20:16:56 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,10 @@ int main(int ac, char* const* av) {
 
 			if (!Computor::to_solve()) {
 				Parser::shared_itype	res = (*output)->eval();
-				(*output)->print();
-				if (res != nullptr)
+				if (res != nullptr) {
+					(*output)->print();
 					cout << " = " << *res << NL;
-				else
-					cout << NL;
+				}
 			}
 		} catch (const Tokenizer::EmptyInput& empty) {
 			continue;

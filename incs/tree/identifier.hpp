@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/25 13:47:11 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 17:06:10 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,15 @@ class Identifier: public ATreeNode {
 				// Not set, check existing in local context
 				shared_itype	value = Computor::find(_name, _context);
 				shared_itype	global = Computor::find(_name);
+				shared_function	f_ptr = std::dynamic_pointer_cast<Function>(global);
 
-				if (value == nullptr) {
-					if (global != nullptr) {
-						throw AmbiguousDefinition(_name);
-					// } else if (Computor::to_solve()) {
-						// std::string	ind_name = Computor::toggle_context(_name);
-						// if (ind_name.empty()) {
-							// context already set
-						// } else {
-							
-						// }
-					} else if (!Computor::to_solve()) {
+				if (f_ptr != nullptr && _extra.empty()) {
+					throw MissingVariableName();
+				} else if (global != nullptr) {
+					return global;
+				} else if (value == nullptr) {
+					if (Computor::to_compute()
+						&& !Computor::to_solve()) {
 						throw ValueNotSet(_name, _context);
 					}
 				}
@@ -133,22 +130,36 @@ class Identifier: public ATreeNode {
 		}
 
 		Indeterminates			collapse() const {
-			const shared_itype				value = eval();
+			const shared_itype		value = eval();
+			Indeterminates			ind;
 			if (value == nullptr) {
 				// This identifier is an indeterminate
+				if (!_context.empty()) {
+					// It should be a function element
+					Computor::subcontext	sub = Computor::find_context(_context);
+					if (sub.front().first.first != utils::toLower(_name)) {
+						// Unmatched
+						throw ValueNotSet(_name, _context);
+					}
+				}
 				std::string		ind_name = Computor::toggle_indeterminate(_name);
 
 				if (ind_name == _name)
-					return Indeterminates(nullptr, _name);
-				return Indeterminates(nullptr, ind_name);
+					ind = Indeterminates(nullptr, _name);
+				else
+					ind = Indeterminates(nullptr, ind_name);
+				DEBUG(ind);
+				return ind;
 			}
-
 			const std::shared_ptr<Rational>	factor =
 				std::dynamic_pointer_cast<Rational>(value);
 			if (factor == nullptr) {
+				DEBUG("Here");
 				throw Indeterminates::ExpansionNotSupported();
 			}
-			return Indeterminates(factor);
+			ind = Indeterminates(factor);
+			DEBUG(ind);
+			return ind;
 		}
 
 		/* Exception -------------------------------------------------------------- */
@@ -161,7 +172,7 @@ class Identifier: public ATreeNode {
 				):
 					_specificity(
 						"Variable `" + name + "` not set"
-						+ (context.empty() ? "" : (" in context `" + context + "`"))
+						+ (context.empty() ? "" : (" in function `" + context + "`"))
 					) {}
 
 				const char* what() const throw() {
@@ -173,22 +184,15 @@ class Identifier: public ATreeNode {
 		class BadFunctionDefinition: public std::exception {
 			public:
 				const char* what() const throw() {
-					return "Missing variable name in function declaration";
+					return "Missing variable name in function definition";
 				}
 		};
-		class AmbiguousDefinition: public std::exception {
+		class MissingVariableName: public std::exception {
 			public:
-				AmbiguousDefinition() = delete;
-				AmbiguousDefinition(const std::string& name):
-					_specificity("Ambiguous function definition (`"
-					+ name + "` is not a function element but is set)") {}
 				const char* what() const throw() {
-					return _specificity.c_str(); 
+					return "Missing variable name for function declaration";
 				}
-			private:
-				const std::string	_specificity;
 		};
-
 		/* Getter ----------------------------------------------------------------- */
 		const std::string&		getName() const {
 			return _name;

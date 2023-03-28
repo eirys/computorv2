@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/23 15:13:47 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 15:30:35 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,15 @@ void	Indeterminates::show() const {
 }
 
 /* Getter ------------------------------------------------------------------- */
+
+bool	Indeterminates::isIndeterminate() const {
+	if (_datas.size() == 1
+	&& _datas.begin()->first.size() == 1
+	&& _datas.begin()->first.begin()->variable_name != UNIT_VALUE) {
+		return true;
+	}
+	return false;
+}
 
 /**
  * Return biggest exponent in the data_map.

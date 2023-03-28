@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/23 01:29:33 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 14:54:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ class Indeterminates {
 		Indeterminates			operator^(const Indeterminates& other) const;
 		void					show() const;
 
-		/* Getter ----------------------------------------------------------------- */
+		/* Tools ------------------------------------------------------------------ */
+		bool					isIndeterminate() const;
 		size_t					getNbIndeterminates() const;
 		int						getMaxExponent() const;
 		Rational				getFactorFrom(

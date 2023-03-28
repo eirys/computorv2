@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 18:02:01 by etran             #+#    #+#             */
-/*   Updated: 2023/03/25 21:48:34 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/27 18:35:47 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class Solver {
 						_expression.getMap().empty() ?
 						"True" : "False"
 					) << NL;
+					break;
 				case 1:
 					cout << "Solving degree 1 equation" << NL;
 					solve_function = &Solver::_rootOne;

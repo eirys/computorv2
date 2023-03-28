@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:03:06 by etran             #+#    #+#             */
-/*   Updated: 2023/03/25 21:50:12 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 16:28:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,14 @@ class Computor {
 									const name_type& context_name,
 									const name_type& variable_name
 								);
+		static subcontext		find_context(const name_type& context_name);
 
 		/* Computing Tools -------------------------------------------------------- */
 		static void				toggle_equation();
-		static bool				to_solve();
+		static void				toggle_computing();
 		static std::string		toggle_indeterminate(const name_type& ind_name);
+		static bool				to_solve();
+		static bool				to_compute();
 		void					solve(const Indeterminates& expression);
 
 		/* Utils ------------------------------------------------------------------ */
@@ -102,9 +105,8 @@ class Computor {
 		static context			_memory;
 		static context_map		_subcontexts;
 		static bool				_solve;
-		static bool				_equality;
+		static bool				_compute;
 		static std::string		_active_indeterminate;
-		// static name_set			_active_contexts;
 };
 
 #endif
