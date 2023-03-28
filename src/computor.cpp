@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/28 16:31:08 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 17:09:31 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ Computor::context_map	Computor::_subcontexts;
 */
 bool					Computor::_solve = false;
 
+/**
+ * Toggled when it is a computing prompt.
+*/
 bool					Computor::_compute = false;
 
 /**
- * List of toggled contexts (for solving). Generates a global indeterminate.
+ * Set to the first indeterminate encountered.
 */
-// Computor::name_set		Computor::_active_contexts;
-
 std::string				Computor::_active_indeterminate;
 
 /* ========================================================================== */

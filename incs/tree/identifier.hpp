@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/28 17:06:10 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 23:22:42 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,12 @@ class Identifier: public ATreeNode {
 					throw MissingVariableName();
 				} else if (global != nullptr) {
 					return global;
-				} else if (value == nullptr) {
-					if (Computor::to_compute()
-						&& !Computor::to_solve()) {
-						throw ValueNotSet(_name, _context);
-					}
+				} else if (value == nullptr
+				&& Computor::to_compute()
+				&& !Computor::to_solve()) {
+					throw ValueNotSet(_name, _context);
 				}
-				LOG("Found: " << _name << " = " << *value);
+				// LOG("Found: " << _name << " = " << *value);
 				return value;
 			} else {
 				// Set a new value

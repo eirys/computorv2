@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/28 15:30:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 23:17:13 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,8 +216,59 @@ void	Indeterminates::show() const {
 	}
 }
 
+/**
+ * Inject an indeterminate in another.
+ * 
+ * A(x) = ax2 + bx + c		
+ * B(x) = dx2 + ex + f
+ * 
+ * The result it provides:
+ *	A(B(x))	= a(dx2 + ex + f)2 + b(dx2 + ex + f) + c
+ *			= ...
+*/
+Indeterminates	Indeterminates::inject(const Indeterminates& other) const {
+	// [<[<x, 2>], a> ; <[<x, 1>], b> ; <[<1, 1>], c>]
+	//   ^~~~~~~~ key_set          ^ factor
+	// [<[<x, 2>], a*d> ;
+	//	<[<x, 1>], a*e> ;
+	//	<[<1, 1>], a*f> ;...
+	// <[<x, 1>], 1> ; <[<c, 1>], 1>]
+
+	switch (getNbIndeterminates()) {
+		case 0:
+			return Indeterminates(*this);
+		case 1:
+			break;
+		default:	// Can't support injection of too many indeterminates
+			throw ExpansionNotSupported();
+	}
+
+	Indeterminates		result;
+	const std::string	var_name = getMainIndeterminate();
+
+	for (data_map::const_iterator this_element = _datas.begin();
+	this_element != _datas.end();
+	++this_element) {
+		Indeterminates	new_term(this_element->second);
+		
+		Rational		exponent = _setHas(this_element->first, var_name);
+		if (exponent != Indeterminates::neg_unit) {
+			shared_rational	exp_ptr = std::make_shared<Rational>(exponent);
+			new_term = (new_term * other) ^ Indeterminates(exp_ptr);
+		}
+		result = result + new_term;
+	}
+	return result;
+}
+
 /* Getter ------------------------------------------------------------------- */
 
+/**
+ * Return true if it has a unique variable.
+ * ex:	[<[<1, 1>], 1>]			-> False
+ * 		[<[<a, 1>], 2>]			-> True
+ * 		[<[<a, 1>, <b, 1>], 1>]	-> False
+*/
 bool	Indeterminates::isIndeterminate() const {
 	if (_datas.size() == 1
 	&& _datas.begin()->first.size() == 1
@@ -252,6 +303,9 @@ int	Indeterminates::getMaxExponent() const {
 	return static_cast<int>(max_exp.getVal());
 }
 
+/**
+ * Returns the number of indeterminates.
+*/
 size_t	Indeterminates::getNbIndeterminates() const {
 	std::set<std::string>		name_list;
 
@@ -269,17 +323,20 @@ size_t	Indeterminates::getNbIndeterminates() const {
 		}
 	}
 
-	std::cout << "Name list: (size = "<< name_list.size() << ")" << NL;
-	for (std::set<std::string>::const_iterator it = name_list.begin();
-	it != name_list.end();
-	++it) {
-		std::cout << *it << ',';
-	}
-	std::cout << NL;
+	// std::cout << "Name list: (size = "<< name_list.size() << ")" << NL;
+	// for (std::set<std::string>::const_iterator it = name_list.begin();
+	// it != name_list.end();
+	// ++it) {
+	// 	std::cout << *it << ',';
+	// }
+	// std::cout << NL;
 
 	return name_list.size();
 }
 
+/**
+ * Returns factor associated with a variable and specific exponent.
+*/
 Rational	Indeterminates::getFactorFrom(
 	const std::string& variable_name,
 	const Rational& exponent
@@ -307,7 +364,7 @@ const std::string	Indeterminates::getMainIndeterminate() const {
 		++ite) {
 			if (ite->variable_name != UNIT_VALUE)
 				return ite->variable_name;
-		}
+		} 
 	}
 	DEBUG("Here");
 	throw std::exception(); //TODO

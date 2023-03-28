@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/28 15:44:22 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 18:23:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,30 +81,34 @@ class Image: public ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			if (Computor::to_solve()) {
-				// Case 1: Solving an equation
-				shared_function		f_ptr = _findFunction();
-				return (*f_ptr->getBody())->collapse();
-			}
 			Indeterminates	x_val = base::getRight()->collapse();
-			if (!x_val.isIndeterminate()) {
+			Indeterminates	result;
+			if (Computor::to_solve() || x_val.isIndeterminate()) {
+				// Case 1: Solving an equation OR function display
+				shared_function	f_ptr = _findFunction();
+				result = (*f_ptr->getBody())->collapse();
+			} else if (!x_val.isIndeterminate()) {
 				// Case 2: Compute image value
+				DEBUG("Computing image");
 				Computor::toggle_computing();
+
 				const shared_itype		value = eval();
 				const std::shared_ptr<Rational>	value_cast =
 					std::dynamic_pointer_cast<Rational>(value);
 				if (value_cast == nullptr)
 					throw Indeterminates::ExpansionNotSupported();
-				Indeterminates			result(value_cast);
-				return result;
-			} else {
-				// Case 3: Function displaying
-				Indeterminates		element(base::getRight()->collapse());
-				shared_function		f_ptr = _findFunction();
-				// Indeterminates		body = (*f_ptr->getBody())->collapse();
-				return (*f_ptr->getBody())->collapse();
-				// if (body.getMainIndeterminate() != element)
+				result = Indeterminates(value_cast);
 			}
+			return result.inject(x_val);
+			// } else {
+			// 	// Case 3: Function displaying
+			// 	DEBUG("Function display");
+
+			// 	shared_function		f_ptr = _findFunction();
+			// 	Indeterminates		body = (*f_ptr->getBody())->collapse();
+			// 	return body.integrate(x_val);
+				// return (*f_ptr->getBody())->collapse();
+				// if (body.getMainIndeterminate() != element)
 		} 
 
 		/* Exception -------------------------------------------------------------- */

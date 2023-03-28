@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/28 14:54:20 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/28 18:22:48 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ class Indeterminates {
 		Indeterminates			operator*(const Indeterminates& other) const;
 		Indeterminates			operator/(const Indeterminates& other) const;
 		Indeterminates			operator^(const Indeterminates& other) const;
+		Indeterminates			inject(const Indeterminates& other) const;
 		void					show() const;
 
 		/* Tools ------------------------------------------------------------------ */
