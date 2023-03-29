@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/29 16:35:30 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 23:06:37 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool					Computor::_compute = false;
 /**
  * Set to the first indeterminate encountered.
 */
-std::string				Computor::_active_indeterminate;
+// std::string				Computor::_active_indeterminate;
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -221,7 +221,7 @@ void	Computor::flush() {
 	}
 	_compute = false;
 	_solve = false;
-	_active_indeterminate.clear();
+	// _active_indeterminate.clear();
 }
 
 /**
@@ -252,17 +252,38 @@ void	Computor::prune() {
 	}
 }
 
+/* Menu Tools --------------------------------------------------------------- */
+
+/**
+ * Resets memory.
+*/
+void	Computor::reset() {
+	for (context_map::iterator it = _subcontexts.begin();
+	it != _subcontexts.end();
+	++it)
+		it->second.clear();
+	_subcontexts.clear();
+	_memory.clear();
+}
+
 /**
  * Displays global context.
 */
 void	Computor::show() const {
 	using std::cout;
-	cout << "==== Global context: ====\n";
+
+	if (_memory.empty()) {
+		cout << "  Nothing to see here...\n";
+		return;
+	}
+
 	for (context::const_reverse_iterator it = _memory.rbegin();
 	it != _memory.rend();
 	++it) {
 		cout << it->first.second << '=' << *it->second << NL;
 	}
+
+	#ifdef __DEBUG
 
 	for (context_map::const_iterator it = _subcontexts.begin();
 	it != _subcontexts.end();
@@ -279,14 +300,6 @@ void	Computor::show() const {
 		}
 	}
 	cout << "===========================\n";
-}
 
-/* Menu Tools --------------------------------------------------------------- */
-
-/// TODO: For future menu
-/**
- * Resets memory.
-*/
-void	Computor::reset() {
-	return;
+	#endif
 }
