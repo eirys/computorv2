@@ -6,7 +6,7 @@
 #    By: eli <eli@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:28:09 by eli               #+#    #+#              #
-#    Updated: 2023/03/29 12:30:35 by eli              ###   ########.fr        #
+#    Updated: 2023/03/29 14:28:20 by eli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS	= rational.cpp \
 			computor.cpp \
 			indeterminates.cpp \
 			solver.cpp \
+			menu.cpp \
 			main.cpp
 
 OBJS	= $(SRCS:.cpp=.o)

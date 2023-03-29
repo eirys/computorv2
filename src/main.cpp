@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 13:59:45 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 18:48:31 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <cstring>
 
 #define __ARGUMENTS_COMPUTOR "Argument was unexpected\n"
-#define __DANGEROUS_COMPUTOR "Dangerous manoeuvre...\n"
+#define __DANGEROUS_COMPUTOR "Dangerous maneuver...\n"
 
 void	puterror(const char* msg) {
 	write(STDERR_FILENO, msg, strlen(msg));
@@ -33,6 +33,7 @@ void	puterror(const char* msg) {
 
 #include "computor.hpp"
 #include "parser.hpp"
+#include "menu.hpp"
 
 using std::cin;
 using std::cout;
@@ -49,26 +50,33 @@ int main(int ac, char* const* av) {
 
 	(void)av;
 
-	Computor	computor_context;
+	Menu		menu_handler;
+
 	while (!cin.eof()) {
-		try {
-			cout << PROMPT;
-			std::string			entry;
-			std::getline(cin, entry);
+		menu_handler.prompt();
+/* 		try {
+			// cout << PROMPT;
+			// std::string			entry;
+			// std::getline(cin, entry);
 
 			Parser				parser(entry);
 			Parser::result_tree	output = parser.parse();
-			LOG("Out of parser");
+			// LOG("Out of parser");
 
 			try {
 				DEBUG("Collapsing");
 				Indeterminates	ind_res = (*output)->collapse();
-				cout << "\nExpanded expression:\n" << ind_res << NL;
+				cout << "Expanded expression:\n" << ind_res << NL;
 
-				computor_context.solve(ind_res);
+				if (Computor::to_solve()) {
+					Solver	solver(ind_res);
+					solver.solve();
+				}
 				DEBUG("Finished solving");
 			} catch (const Indeterminates::ExpansionNotSupported& e) {
-				cout << e.what() << NL;
+				cerr << e.what() << NL;
+				if (Computor::to_solve())
+					cout << "This equation cannot be solved (format not supported)." << NL;
 			}
 
 			if (!Computor::to_solve()) {
@@ -83,8 +91,7 @@ int main(int ac, char* const* av) {
 		} catch (const std::exception& e) {
 			cerr << "Error: " << e.what() << NL;
 		}
-		computor_context.show();
-		computor_context.flush();
+		menu_handler.flush(); */
 	}
 	cout << "quit\n";
 	return 0;

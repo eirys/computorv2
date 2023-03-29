@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 13:59:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 14:13:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,6 @@ class Identifier: public ATreeNode {
 						// Unmatched
 						throw ValueNotSet(_name, _context);
 					}
-				} else {
-					throw ValueNotSet(_name);
 				}
 				return Indeterminates(nullptr, _name);
 			}

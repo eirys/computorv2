@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 12:30:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 13:24:11 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 14:06:53 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	Solver::solve() const {
 		case 0:
 			return _simpleEquality();
 		case 1:
-			std::cout << "Solving degree 1 equation" << NL;
+			std::cout << "Solving degree 1 equation." << NL;
 			solve_function = &Solver::_rootOne;
 			break;
 		case 2:
-			std::cout << "Solving degree 2 equation" << NL;
+			std::cout << "Solving degree 2 equation." << NL;
 			solve_function = &Solver::_rootSquare;
 			break;
 		default:
