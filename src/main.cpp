@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/27 20:16:56 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 13:59:45 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,6 @@ void	puterror(const char* msg) {
 #include "matrix.hpp"
 #include "function.hpp"
 #include "atree_node.hpp"
-
-# include "variable.hpp"
-# include "add.hpp"
-# include "substract.hpp"
-# include "divide.hpp"
-# include "multiply.hpp"
-# include "negate.hpp"
-# include "identifier.hpp"
 
 #include "computor.hpp"
 #include "parser.hpp"

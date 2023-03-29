@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/29 13:33:34 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 13:42:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,8 @@ void	Indeterminates::show() const {
 
 /**
  * Inject an indeterminate in another.
- * 
+ * A bit overkill since the program won't support multiple indeterminates xd.
+ *  
  * A(x) = ax2 + bx + c		
  * B(x) = dx2 + ex + f
  * 
@@ -227,13 +228,6 @@ void	Indeterminates::show() const {
  *			= ...
 */
 Indeterminates	Indeterminates::inject(const Indeterminates& other) const {
-	// [<[<x, 2>], a> ; <[<x, 1>], b> ; <[<1, 1>], c>]
-	//   ^~~~~~~~ key_set          ^ factor
-	// [<[<x, 2>], a*d> ;
-	//	<[<x, 1>], a*e> ;
-	//	<[<1, 1>], a*f> ;...
-	// <[<x, 1>], 1> ; <[<c, 1>], 1>]
-
 	switch (getNbIndeterminates()) {
 		case 0:
 			return Indeterminates(*this);
@@ -262,21 +256,6 @@ Indeterminates	Indeterminates::inject(const Indeterminates& other) const {
 }
 
 /* Getter ------------------------------------------------------------------- */
-
-/**
- * Return true if it has a unique variable.
- * ex:	[<[<1, 1>], 1>]			-> False
- * 		[<[<a, 1>], 2>]			-> True
- * 		[<[<a, 1>, <b, 1>], 1>]	-> False
-*/
-bool	Indeterminates::isIndeterminate() const {
-	if (_datas.size() == 1
-	&& _datas.begin()->first.size() == 1
-	&& _datas.begin()->first.begin()->variable_name != UNIT_VALUE) {
-		return true;
-	}
-	return false;
-}
 
 /**
  * Return biggest exponent in the data_map.

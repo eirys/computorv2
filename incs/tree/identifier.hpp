@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 13:30:46 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 13:59:35 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ class Identifier: public ATreeNode {
 			} else {
 				// Set a new value
 				shared_itype	value = base::getRight()->eval();
+				if (value == nullptr)
+					throw RhsNotSet();
 				shared_function	f_ptr = std::dynamic_pointer_cast<Function>(value);
 				if (f_ptr != nullptr) {
 					if (!_extra.empty()) {
@@ -130,7 +132,6 @@ class Identifier: public ATreeNode {
 
 		Indeterminates			collapse() const {
 			const shared_itype		value = eval();
-			Indeterminates			ind;
 			if (value == nullptr) {
 				// This identifier is an indeterminate
 				if (!_context.empty()) {
@@ -140,15 +141,10 @@ class Identifier: public ATreeNode {
 						// Unmatched
 						throw ValueNotSet(_name, _context);
 					}
+				} else {
+					throw ValueNotSet(_name);
 				}
-				// std::string		ind_name = Computor::toggle_indeterminate(_name);
-
-				// if (ind_name == _name)
-					ind = Indeterminates(nullptr, _name);
-				// else
-					// ind = Indeterminates(nullptr, ind_name);
-				DEBUG(ind);
-				return ind;
+				return Indeterminates(nullptr, _name);
 			}
 			// Regular value
 			const shared_function	f_ptr =
@@ -161,9 +157,7 @@ class Identifier: public ATreeNode {
 			} else if (f_ptr != nullptr) {
 				return (*f_ptr->getBody())->collapse();
 			} else {
-				ind = Indeterminates(factor);
-				DEBUG(ind);
-				return ind;
+				return Indeterminates(factor);
 			}
 		}
 
@@ -198,6 +192,13 @@ class Identifier: public ATreeNode {
 					return "Missing variable name for function declaration";
 				}
 		};
+		class RhsNotSet: public std::exception {
+			public:
+				const char* what() const throw() {
+					return "Rhs value is not set";
+				}
+		};
+
 		/* Getter ----------------------------------------------------------------- */
 		const std::string&		getName() const {
 			return _name;

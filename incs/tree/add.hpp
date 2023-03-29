@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:13:54 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 13:23:14 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 13:47:51 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ class Add: virtual public ATreeNode {
 
 		Indeterminates		collapse() const {
 			Indeterminates	ind(base::getLeft()->collapse() + base::getRight()->collapse());
-			std::cout << "Add: " << ind << NL;
-			ind.show();
 			return ind;
 		}
 };
