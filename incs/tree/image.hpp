@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/29 13:36:52 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 01:04:16 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ class Image: public ATreeNode {
 
 		Indeterminates		collapse() const {
 			Indeterminates	x_val = base::getRight()->collapse();
+			DEBUG("x_val: " << x_val);
 			Indeterminates	result;
 			if (Computor::to_solve() || x_val.getNbIndeterminates()) {
 				// Case 1: Solving an equation OR function display

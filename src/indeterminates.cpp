@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/30 00:41:29 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 01:10:31 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,9 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 	const data_map&				this_map = getMap();
 	const data_map&				other_map = other.getMap();
 
+	DEBUG("Left set: " << *this);
+	DEBUG("Other set: " << other);
+
 	for (data_map::const_iterator this_element = this_map.begin();
 	this_element != this_map.end();
 	++this_element) {
@@ -116,6 +119,10 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			const key_set&	other_set = other_element->first;
 			key_set			new_set;
 
+		DEBUG("lhs term: " << current_set);
+			DEBUG("rhs term: " << other_set << NL);
+
+			// Create new factor
 			// Add every key from this_set, and do exponents collision
 			for (key_set::const_iterator current_key = current_set.begin();
 			current_key != current_set.end();
@@ -148,19 +155,23 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			if (new_set.empty())
 				new_set.insert(key_type(UNIT_VALUE, Indeterminates::unit));
 
-
+			// Compute term factor
 			shared_rational	new_factor;
 			if (new_map.find(new_set) != new_map.end()) {
 				// We already computed this value
 				new_factor = std::make_shared<Rational>(
 					*new_map[new_set] + (*other_element->second * *this_element->second)
 				);
+				DEBUG("Already: " << *new_factor);
 			} else {
 				new_factor = std::make_shared<Rational>(
 					*this_element->second * *other_element->second
 				);
+				DEBUG("New: " << *new_factor);
 			}
 			new_map[new_set] = new_factor;
+			DEBUG(" -- Resulting Term : " << new_set );
+			DEBUG("	Current state:" << new_map << NL);
 		}
 	}
 	return Indeterminates(new_map);
@@ -231,7 +242,7 @@ Indeterminates	Indeterminates::inject(const Indeterminates& other) const {
 		Rational		exponent = _setHas(this_element->first, var_name);
 		if (exponent != Indeterminates::neg_unit) {
 			shared_rational	exp_ptr = std::make_shared<Rational>(exponent);
-			new_term = (new_term * other) ^ Indeterminates(exp_ptr);
+			new_term = new_term * (other ^ Indeterminates(exp_ptr));
 		}
 		result = result + new_term;
 	}
