@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/29 13:42:43 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 00:41:29 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 	++this_element) {
 		const key_set&		current_set = this_element->first;
 
+
 		for (data_map::const_iterator other_element = other_map.begin();
 		other_element != other_map.end();
 		++other_element) {
@@ -147,11 +148,12 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			if (new_set.empty())
 				new_set.insert(key_type(UNIT_VALUE, Indeterminates::unit));
 
+
 			shared_rational	new_factor;
 			if (new_map.find(new_set) != new_map.end()) {
 				// We already computed this value
 				new_factor = std::make_shared<Rational>(
-					*new_map[new_set] + *other_element->second
+					*new_map[new_set] + (*other_element->second * *this_element->second)
 				);
 			} else {
 				new_factor = std::make_shared<Rational>(
@@ -160,7 +162,6 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 			}
 			new_map[new_set] = new_factor;
 		}
-
 	}
 	return Indeterminates(new_map);
 }
@@ -196,24 +197,6 @@ Indeterminates	Indeterminates::operator^(const Indeterminates& other) const {
 	for (int i = 0; i < factor; ++i)
 		result = result * Indeterminates(getMap());
 	return result;
-}
-
-void	Indeterminates::show() const {
-	for (data_map::const_iterator it = _datas.begin();
-	it != _datas.end();
-	++it) {
-
-		std::cout << *it->second  << " * [";
-
-		for (key_set::const_iterator ite = it->first.begin();
-		ite != it->first.end();
-		++ite) {
-			std::cout << *ite << ',';
-		}
-
-		std::cout << ']' << NL;
-
-	}
 }
 
 /**
@@ -255,7 +238,7 @@ Indeterminates	Indeterminates::inject(const Indeterminates& other) const {
 	return result;
 }
 
-/* Getter ------------------------------------------------------------------- */
+/* Tools -------------------------------------------------------------------- */
 
 /**
  * Return biggest exponent in the data_map.
@@ -325,6 +308,10 @@ Rational	Indeterminates::getFactorFrom(
 	return Indeterminates::null;
 }
 
+/**
+ * Returns the first indeterminate it comes accross.
+ * Should be called when there's only one indeterminate.
+*/
 const std::string	Indeterminates::getMainIndeterminate() const {
 	for (data_map::const_iterator it = _datas.begin();
 	it != _datas.end();
@@ -336,12 +323,30 @@ const std::string	Indeterminates::getMainIndeterminate() const {
 				return ite->variable_name;
 		} 
 	}
-	DEBUG("Shouldn't ever happen");
-	throw std::exception(); //TODO
+	DEBUG("Shouldn't ever happen xd Called main indeterminate unexpectedly");
+	throw std::exception();
 }
 
 const Indeterminates::data_map&	Indeterminates::getMap() const {
 	return _datas;
+}
+
+void	Indeterminates::show() const {
+	for (data_map::const_iterator it = _datas.begin();
+	it != _datas.end();
+	++it) {
+
+		std::cout << *it->second  << " * [";
+
+		for (key_set::const_iterator ite = it->first.begin();
+		ite != it->first.end();
+		++ite) {
+			std::cout << *ite << ',';
+		}
+
+		std::cout << ']' << NL;
+
+	}
 }
 
 /* ========================================================================== */

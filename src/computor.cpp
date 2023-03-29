@@ -6,13 +6,14 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/29 23:06:37 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 23:29:22 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
 #include "indeterminates.hpp"
 #include "solver.hpp"
+#include "function.hpp"
 
 /* Context ------------------------------------------------------------------ */
 
@@ -78,8 +79,10 @@ void	Computor::push(
 
 		// Find expected context
 		context_map::iterator	context_list = _subcontexts.find(names);
-		if (context_list == _subcontexts.end())
+		if (context_list == _subcontexts.end()) {
+			DEBUG("Should not happen lol (didn't find a context)");
 			throw std::exception();
+		}
 		for (subcontext::iterator it = context_list->second.begin();
 		it != context_list->second.end();
 		++it) {
@@ -164,7 +167,7 @@ Computor::subcontext	Computor::find_context(const name_type& context_name) {
 		if (it->first.first == utils::toLower(context_name))
 			return it->second;
 	}
-	DEBUG("No such context");
+	DEBUG("No such context bruv");
 	throw std::exception();
 }
 
@@ -280,7 +283,13 @@ void	Computor::show() const {
 	for (context::const_reverse_iterator it = _memory.rbegin();
 	it != _memory.rend();
 	++it) {
-		cout << it->first.second << '=' << *it->second << NL;
+
+		std::shared_ptr<Function>	fn_ptr =
+			std::dynamic_pointer_cast<Function>(it->second);
+		cout << "  " << it->first.second;
+		if (fn_ptr != nullptr)
+			cout << '(' << fn_ptr->getVarName() << ')';
+		cout << '=' << *it->second << NL;
 	}
 
 	#ifdef __DEBUG

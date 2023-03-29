@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:39:57 by eli               #+#    #+#             */
-/*   Updated: 2023/03/22 17:30:13 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 23:50:01 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ class Multiply: public virtual ATreeNode {
 
 		Indeterminates		collapse() const {
 			Indeterminates ind(base::getLeft()->collapse() * base::getRight()->collapse());
-			std::cout << "Multiply : " << ind << NL;
+			DEBUG("Multiply : " << ind);
+			#ifdef __DEBUG
+			ind.show();
+			#endif
 			return ind;
 		}
 };

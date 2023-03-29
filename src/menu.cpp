@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:28:07 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 23:03:57 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 23:24:48 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	Menu::_commands() {
 	static const char*	cmd_list =
 		"\n    Available commands:\n"
 		"      " __DISPLAY_HELP		"\t\tquick explanation of this project\n"
-		"      " __DISPLAY_COMMANDS	"\tlists available commands\n"
+		"      " __DISPLAY_COMMANDS	"\t\tlists available commands\n"
 		"      " __DISPLAY_MEMORY	"\t\tdisplays current memory state\n"
 		"      " __RESET_MEMORY		"\t\tresets current memory state\n";
 	cout << cmd_list << NL;
@@ -116,7 +116,8 @@ void	Menu::_compute(const std::string& entry) {
 		try {
 			DEBUG("Collapsing");
 			ind_res = (*output)->collapse();
-			cout << "Expanded expression:\n" << ind_res << NL;
+			cout	<< "Expanded expression:\n" << ind_res
+					<< (Computor::to_solve() ? " = 0" : "") << NL;
 		} catch (const Indeterminates::ExpansionNotSupported& e) {
 			cerr << e.what() << NL;
 			if (Computor::to_solve())

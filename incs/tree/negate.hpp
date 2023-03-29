@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 15:10:38 by eli               #+#    #+#             */
-/*   Updated: 2023/03/22 17:30:17 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 23:46:15 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ class Negate: public virtual ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			return -(base::getRight()->collapse());
+			Indeterminates	ind = -(base::getRight()->collapse());
+			DEBUG("Negate: " << ind);
+			#ifdef __DEBUG
+			ind.show();
+			#endif
+			return ind;
 		}
 };
 

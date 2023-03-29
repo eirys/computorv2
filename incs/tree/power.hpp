@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:08:46 by etran             #+#    #+#             */
-/*   Updated: 2023/03/22 17:30:20 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 23:45:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ class Power: public virtual ATreeNode {
 		}
 
 		Indeterminates		collapse() const {
-			return base::getLeft()->collapse() ^ base::getRight()->collapse();
+			Indeterminates	ind = base::getLeft()->collapse() ^ base::getRight()->collapse();
+			DEBUG("Power: " << ind);
+			#ifdef __DEBUG
+			ind.show();
+			#endif
+			return ind;
 		}
 };
 

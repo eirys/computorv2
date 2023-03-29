@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/29 13:41:28 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 23:43:23 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ class Indeterminates {
 		Indeterminates			operator/(const Indeterminates& other) const;
 		Indeterminates			operator^(const Indeterminates& other) const;
 		Indeterminates			inject(const Indeterminates& other) const;
-		void					show() const;
 
 		/* Tools ------------------------------------------------------------------ */
 		size_t					getNbIndeterminates() const;
@@ -91,6 +90,7 @@ class Indeterminates {
 								) const;
 		const data_map&			getMap() const;
 		const std::string		getMainIndeterminate() const;
+		void					show() const;
 
 		/* Exception -------------------------------------------------------------- */
 		class ExpansionNotSupported: public std::exception {

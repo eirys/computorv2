@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 18:18:44 by eli               #+#    #+#             */
-/*   Updated: 2023/03/22 17:29:44 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 23:46:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ class Divide: public virtual ATreeNode {
 		Indeterminates		collapse() const {
 			Indeterminates ind = base::getLeft()->collapse() / base::getRight()->collapse();	//TODO
 			DEBUG("Divide: " << ind);
+			#ifdef __DEBUG
+			ind.show();
+			#endif
 			return ind;
 		}
 };

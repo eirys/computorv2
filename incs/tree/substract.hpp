@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 14:34:39 by eli               #+#    #+#             */
-/*   Updated: 2023/03/22 17:30:23 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 23:45:32 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ class Substract: virtual public ATreeNode {
 
 		Indeterminates		collapse() const {
 			Indeterminates ind(base::getLeft()->collapse() - base::getRight()->collapse());
-			std::cout << "Substract: " << ind << NL;
+			DEBUG("Substract: " << ind);
+			#ifdef __DEBUG
+			ind.show();
+			#endif
 			return ind;
 		}
 };
