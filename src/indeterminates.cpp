@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/28 23:17:13 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 13:33:34 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ Indeterminates::Indeterminates(const Indeterminates& x):
 	_datas(x.getMap()) {}
 
 Indeterminates::Indeterminates(
-	shared_rational factor, // always a rational? also complex
+	shared_rational factor,
 	const std::string& var_name,
 	Rational exponent
 ) {
@@ -322,15 +322,6 @@ size_t	Indeterminates::getNbIndeterminates() const {
 				name_list.insert(ite->variable_name);
 		}
 	}
-
-	// std::cout << "Name list: (size = "<< name_list.size() << ")" << NL;
-	// for (std::set<std::string>::const_iterator it = name_list.begin();
-	// it != name_list.end();
-	// ++it) {
-	// 	std::cout << *it << ',';
-	// }
-	// std::cout << NL;
-
 	return name_list.size();
 }
 
@@ -366,7 +357,7 @@ const std::string	Indeterminates::getMainIndeterminate() const {
 				return ite->variable_name;
 		} 
 	}
-	DEBUG("Here");
+	DEBUG("Shouldn't ever happen");
 	throw std::exception(); //TODO
 }
 

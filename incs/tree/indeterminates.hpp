@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/28 18:22:48 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 13:31:02 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ class Indeterminates {
 
 	private:
 		data_map				_datas;
-		///TODO: handle right member?
 
 		bool					_isUnit() const;
 };

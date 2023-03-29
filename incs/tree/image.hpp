@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:57:49 by etran             #+#    #+#             */
-/*   Updated: 2023/03/28 18:23:43 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 13:36:52 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ class Image: public ATreeNode {
 		Indeterminates		collapse() const {
 			Indeterminates	x_val = base::getRight()->collapse();
 			Indeterminates	result;
-			if (Computor::to_solve() || x_val.isIndeterminate()) {
+			if (Computor::to_solve() || x_val.getNbIndeterminates()) {
 				// Case 1: Solving an equation OR function display
 				shared_function	f_ptr = _findFunction();
 				result = (*f_ptr->getBody())->collapse();
-			} else if (!x_val.isIndeterminate()) {
+			} else if (!x_val.getNbIndeterminates()) {
 				// Case 2: Compute image value
 				DEBUG("Computing image");
 				Computor::toggle_computing();
@@ -100,15 +100,6 @@ class Image: public ATreeNode {
 				result = Indeterminates(value_cast);
 			}
 			return result.inject(x_val);
-			// } else {
-			// 	// Case 3: Function displaying
-			// 	DEBUG("Function display");
-
-			// 	shared_function		f_ptr = _findFunction();
-			// 	Indeterminates		body = (*f_ptr->getBody())->collapse();
-			// 	return body.integrate(x_val);
-				// return (*f_ptr->getBody())->collapse();
-				// if (body.getMainIndeterminate() != element)
 		} 
 
 		/* Exception -------------------------------------------------------------- */

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/28 23:22:42 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 13:30:46 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ class Identifier: public ATreeNode {
 		typedef typename	base::shared_itype			shared_itype;
 		typedef typename	base::weak_itype			weak_itype;
 		typedef				std::shared_ptr<Function>	shared_function;
+		typedef				std::shared_ptr<Rational>	shared_rational;
 
 		/* Constructor ------------------------------------------------------------ */
 		Identifier(
@@ -74,11 +75,10 @@ class Identifier: public ATreeNode {
 				} else if (global != nullptr) {
 					return global;
 				} else if (value == nullptr
-				&& Computor::to_compute()
-				&& !Computor::to_solve()) {
+					&& Computor::to_compute()
+					&& !Computor::to_solve()) {
 					throw ValueNotSet(_name, _context);
 				}
-				// LOG("Found: " << _name << " = " << *value);
 				return value;
 			} else {
 				// Set a new value
@@ -141,24 +141,30 @@ class Identifier: public ATreeNode {
 						throw ValueNotSet(_name, _context);
 					}
 				}
-				std::string		ind_name = Computor::toggle_indeterminate(_name);
+				// std::string		ind_name = Computor::toggle_indeterminate(_name);
 
-				if (ind_name == _name)
+				// if (ind_name == _name)
 					ind = Indeterminates(nullptr, _name);
-				else
-					ind = Indeterminates(nullptr, ind_name);
+				// else
+					// ind = Indeterminates(nullptr, ind_name);
 				DEBUG(ind);
 				return ind;
 			}
-			const std::shared_ptr<Rational>	factor =
+			// Regular value
+			const shared_function	f_ptr =
+				std::dynamic_pointer_cast<Function>(value);
+			const shared_rational	factor =
 				std::dynamic_pointer_cast<Rational>(value);
-			if (factor == nullptr) {
+			if (f_ptr == nullptr && factor == nullptr) {
 				DEBUG("Here");
 				throw Indeterminates::ExpansionNotSupported();
+			} else if (f_ptr != nullptr) {
+				return (*f_ptr->getBody())->collapse();
+			} else {
+				ind = Indeterminates(factor);
+				DEBUG(ind);
+				return ind;
 			}
-			ind = Indeterminates(factor);
-			DEBUG(ind);
-			return ind;
 		}
 
 		/* Exception -------------------------------------------------------------- */

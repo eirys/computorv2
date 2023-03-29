@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/21 16:33:29 by etran            ###   ########.fr       */
+/*   Updated: 2023/03/29 12:45:11 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,25 @@ class operation_undefined: public std::exception {
 /* -- PROTOTYPE ----------------------------------------------- */
 
 template <typename T>
-	T abs(const T& x);
+	T abs(const T x);
 
 template <typename T, typename U>
 	T pow(const T n, const U exp);
 
 template <typename T, typename U>
-	long double binomial_coefficient(const T& n, const U& p);
+	long double binomial_coefficient(const T n, const U p);
 
 template <typename T>
-	T factorial(const T& n);
+	T factorial(const T n);
 
 template <typename T>
-	long double sqrt(const T& x);
+	long double sqrt(const T x);
 
 template <typename T, typename U>
-	long long int quotient(const T& a, const U& b);
+	long long int quotient(const T a, const U b);
 
 template <typename T, typename U>
-	long double modulo(const T& a, const U& b);
+	long double modulo(const T a, const U b);
 
 bool isPrime(const long long int& n);
 
@@ -70,8 +70,8 @@ long long int smallestPrime(const long long int& n);
  **  | x |
  */
 template <typename T>
-	inline T abs(const T& x) {
-		return (x < 0) ? -x : x;
+	inline T abs(const T x) {
+		return (x < T(0)) ? -x : x;
 	}
 
 /*   power
@@ -93,8 +93,10 @@ template <typename T, typename U>
  **            (1 + x) ^ .5 = sum(binomial_coef(.5, k) * x ^ k) for k = [0, inf[
  */
 template <typename T>
-	inline long double sqrt(const T& val) {
-		if (val == 0 || val == 1)
+	inline long double sqrt(const T val) {
+		if (val < T(0))
+			throw math::operation_undefined();
+		if (val == T(0) || val == T(1))
 			return val;
 
 		const size_t		exponent = std::to_string(static_cast<long long>(val)).size();
@@ -117,7 +119,7 @@ template <typename T>
  **  \ p /       p!(n - p)!
  */
 template <typename T, typename U>
-	inline long double binomial_coefficient(const T& n, const U& p) {
+	inline long double binomial_coefficient(const T n, const U p) {
 		const T denominator = factorial(p);
 
 		T numerator = 1;
@@ -130,7 +132,7 @@ template <typename T, typename U>
  **  n! = n * (n - 1) * ... * 2 * 1
  */
 template <typename T>
-	inline T factorial(const T& n) {
+	inline T factorial(const T n) {
 		if (n == 1 || n == 0)
 			return 1;
 		return n * factorial(n - 1);
@@ -141,7 +143,7 @@ template <typename T>
  **	 a = q * b + r
  */
 template <typename T, typename U>
-	inline long long int quotient(const T& a, const U& b) {
+	inline long long int quotient(const T a, const U b) {
 		long long int	q = 0;
 
 		while (a - (q + 1) * b >= 0)
@@ -153,7 +155,7 @@ template <typename T, typename U>
  **	 a = q * b + r
  */
 template <typename T, typename U>
-	inline long double modulo(const T& a, const U& b) {
+	inline long double modulo(const T a, const U b) {
 		if (a < 0 || b < 0)
 			throw math::operation_undefined();
 		const long long int	q = quotient(a, b);

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/28 17:09:31 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/29 12:40:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,10 +177,16 @@ void	Computor::toggle_equation() {
 	_solve = true;
 }
 
+/**
+ * Alerts that the following indeterminate is to be computed.
+*/
 void	Computor::toggle_computing() {
 	_compute = true;
 }
 
+/**
+ * Sets a global indeterminate instead of multiple different.
+*/
 std::string	Computor::toggle_indeterminate(
 	const name_type& ind_name
 ) {
