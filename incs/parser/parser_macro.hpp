@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:58:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/30 13:01:59 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 15:01:26 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 # define MODULO				"%"
 # define POWER				"^"
 # define IMAGINARY_I		"i"
-# define EXCLAMATION_MARK	"i"
 
 /* Tokenizer elements */
 # define WHITESPACES		"\t "
@@ -47,7 +46,6 @@
 # define DELIMITER			L_PARENTHESIS R_PARENTHESIS L_BRACKET\
 							R_BRACKET COMA SEMICOLON
 # define SYMBOL				EQUAL MULTIPLICATION DIVISION ADDITION\
-							SUBSTRACTION MODULO POWER QUESTION_MARK\
-							EXCLAMATION_MARK
+							SUBSTRACTION MODULO POWER QUESTION_MARK
 
 #endif

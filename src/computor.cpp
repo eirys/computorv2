@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 18:06:08 by etran             #+#    #+#             */
-/*   Updated: 2023/03/29 23:29:22 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 14:56:14 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@ bool					Computor::_solve = false;
  * Toggled when it is a computing prompt.
 */
 bool					Computor::_compute = false;
-
-/**
- * Set to the first indeterminate encountered.
-*/
-// std::string				Computor::_active_indeterminate;
 
 /* ========================================================================== */
 /*                                   PUBLIC                                   */
@@ -187,18 +182,6 @@ void	Computor::toggle_computing() {
 	_compute = true;
 }
 
-// /**
-//  * Sets a global indeterminate instead of multiple different.
-// */
-// std::string	Computor::toggle_indeterminate(
-// 	const name_type& ind_name
-// ) {
-// 	if (_active_indeterminate.empty()) {
-// 		_active_indeterminate = ind_name;
-// 	}
-// 	return _active_indeterminate;
-//  }
-
 bool	Computor::to_solve() {
 	return _solve;
 }
@@ -224,7 +207,6 @@ void	Computor::flush() {
 	}
 	_compute = false;
 	_solve = false;
-	// _active_indeterminate.clear();
 }
 
 /**

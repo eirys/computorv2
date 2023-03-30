@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:19:22 by etran             #+#    #+#             */
-/*   Updated: 2023/03/29 23:43:23 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 14:54:36 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 /**
  * The developped expression.
  * 
- * key_set			: a factor (ex: `2`, `a^2`)
- * key_type			: a set of factors (ex: `2ab`)
- * data_map_element	: a pair of <key_type, factor>
+ * key_set			: an indeterminated factor OR unit value (ex: `b`, `a^2`, `1`)
+ * key_type			: a set of indeterminated factors (ex: `ab^2`)
+ * data_map_element	: a pair of <key_type, shared_rational>
  * 
  * ex:
  * 	a+2-3+a = 2a - 1
- * 	(a*b)^2 = 2ab + a^1 + b^2
+ * 	(a*b)^2 = 2ab + a^2 + b^2
 */
 class Indeterminates {
 	public:
@@ -90,7 +90,10 @@ class Indeterminates {
 								) const;
 		const data_map&			getMap() const;
 		const std::string		getMainIndeterminate() const;
+
+		#ifdef __DEBUG
 		void					show() const;
+		#endif
 
 		/* Exception -------------------------------------------------------------- */
 		class ExpansionNotSupported: public std::exception {
@@ -98,19 +101,6 @@ class Indeterminates {
 				const char* what() const throw() {
 					return "This expression's expansion is not supported";
 				}
-		};
-		class ValueIsNotSupported: public std::exception {
-			public:
-				ValueIsNotSupported() = delete;
-				ValueIsNotSupported(const std::string& var_name):
-					_specifics("This value expansion is not supported: `"
-					+ var_name + "`") {}
-
-				const char* what() const throw() {
-					return _specifics.c_str();
-				}
-			private:
-				const std::string	_specifics;
 		};
 
 		/* Static Value ----------------------------------------------------------- */
@@ -128,12 +118,15 @@ class Indeterminates {
 /* Other -------------------------------------------------------------------- */
 
 std::ostream&	operator<<(std::ostream& o, const Indeterminates& x);
+
+#ifdef __DEBUG
 std::ostream&	operator<<(std::ostream& o, const Indeterminates::key_type& x);
 std::ostream&	operator<<(std::ostream& o, const Indeterminates::key_set& x);
 std::ostream&	operator<<(
 	std::ostream& o,
 	const Indeterminates::data_map_element& x
 );
+#endif
 
 /* Utils -------------------------------------------------------------------- */
 

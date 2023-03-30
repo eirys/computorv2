@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:28:07 by eli               #+#    #+#             */
-/*   Updated: 2023/03/30 14:47:21 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 14:50:42 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	Menu::prompt() {
 
 void	Menu::_help() {
 	static const char*	help_msg =
-		// "Here's what you can do with this program:\n"
 		"Computorv2 is a computation program. Here is the list of possibilities.\n"
 		"    calculate value\n"
 		"\t[expression] = ?\n"
