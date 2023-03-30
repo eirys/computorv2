@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 21:35:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 22:04:56 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 13:17:20 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	puterror(const char* msg) {
 
 using std::cin;
 using std::cout;
-using std::cerr;
 
 int main(int ac, char* const* av) {
 	if (ac != 1) {

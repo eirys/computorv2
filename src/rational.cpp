@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:42:10 by eli               #+#    #+#             */
-/*   Updated: 2023/03/18 11:40:35 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 13:22:56 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,14 +179,6 @@ bool	Rational::operator==(const shared_itype& rhs_ptr) const {
 		return operator==(*f_ptr);
 	throw IType::ImpossibleComparison();
 }
-
-// Rational::operator bool() const {
-// 	return getVal();
-// }
-
-// Rational::operator long double() const {
-// 	return getVal();
-// }
 
 /* Arith operators ---------------------------------------------------------- */
 

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:59 by eli               #+#    #+#             */
-/*   Updated: 2023/03/25 22:01:06 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 13:22:43 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 /* ========================================================================== */
 
 Parser::Parser(const std::string& raw):
-	_tokenizer(utils::trimmed(raw)),
+	_tokenizer(raw),
 	_ret(EEMPTY) {
 		if (raw.find(EQUAL) != std::string::npos) {
 			// There's a `=`
@@ -125,8 +125,6 @@ Parser::unique_node	Parser::_parseA() {
 			if (_context.empty())
 				_context = identifier;
 			a = _parseFunction();
-
-			// Computor::create_context(identifier, _var_name);
 		}
 		if (a == nullptr)
 			throw IncorrectSyntax("Unexpected token after variable name");

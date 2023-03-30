@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:28:07 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 23:24:48 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 12:34:07 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	Menu::prompt() {
 	std::string			entry;
 	std::getline(cin, entry);
 
-	_execute(entry);
+	_execute(utils::trimmed(entry));
 }
 
 /* ========================================================================== */
@@ -92,7 +92,7 @@ void	Menu::_execute(const std::string& query) {
 		__DISPLAY_COMMANDS
 	};
 
-	void				(Menu::*action[4])() = {
+	static void			(Menu::*action[4])() = {
 		&Menu::_help,
 		&Menu::_display,
 		&Menu::_reset,

@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:04:05 by eli               #+#    #+#             */
-/*   Updated: 2023/03/23 10:57:17 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 13:06:11 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 # include "tokenizer.hpp"
 # include "atree_node.hpp"
 
-/**
- * 
-*/
 class Parser {
 	public:
 		typedef typename	ATreeNode::unique_node	unique_node;

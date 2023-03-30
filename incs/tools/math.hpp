@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:29:23 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 12:45:11 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 13:14:51 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@
 
 # include "rational.hpp"
 
-# define SQRT_DEPTH 15
-# define SQRT_10 3.16227766017
+# define EPSILON 1e-10
 
 namespace math {
 
@@ -66,7 +65,7 @@ long long int smallestPrime(const long long int& n);
 
 // OPERATIONS ================================
 
-/*   absolute 
+/*   absolute
  **  | x |
  */
 template <typename T>
@@ -87,36 +86,35 @@ template <typename T, typename U>
 			return T(n * pow(n, exp - U(1)));
 	}
 
-/*   square root
- **   __
- **  √ x    cf. Taylor Series:
- **            (1 + x) ^ .5 = sum(binomial_coef(.5, k) * x ^ k) for k = [0, inf[
- */
+/**
+ * Newton's method sqrt function
+*/
 template <typename T>
-	inline long double sqrt(const T val) {
-		if (val < T(0))
-			throw math::operation_undefined();
-		if (val == T(0) || val == T(1))
-			return val;
+inline long double sqrt(const T val) {
+	T	x = val / T(2), x_next;
+	T	y, y_bis;
 
-		const size_t		exponent = std::to_string(static_cast<long long>(val)).size();
-		const long double	x = (val / pow(10, exponent)) - 1;
-		long double			sum = 0;
-
-		for (int i = 0; i < SQRT_DEPTH; ++i)
-			sum += binomial_coefficient(.5, i) * pow(x, i);
-		if (exponent % 2 == 0)
-			return sum * pow(10, exponent * .5);
-		else
-			return sum * SQRT_10 * pow(10, (exponent - 1) * .5);
+	if (val < T(0))
+		throw math::operation_undefined();
+	while (1) {
+		y = pow(x, T(2)) - val;
+		y_bis = T(2) * x;
+		if (abs(y_bis) < EPSILON)
+			break;
+		x_next = x - (y / y_bis);
+		if (abs(x_next - x) < EPSILON)
+			return x_next;
+		x = x_next;
 	}
+	throw math::operation_undefined();
+}
 
 // ARITHMETIC UTILS ==========================
 
 /*   binomial coefficient
- **  / n \          n!
- ** |     |  =  ----------
- **  \ p /       p!(n - p)!
+ *   / n \          n!
+ *  |     |  =  ----------
+ *   \ p /       p!(n - p)!
  */
 template <typename T, typename U>
 	inline long double binomial_coefficient(const T n, const U p) {
@@ -133,9 +131,11 @@ template <typename T, typename U>
  */
 template <typename T>
 	inline T factorial(const T n) {
-		if (n == 1 || n == 0)
-			return 1;
-		return n * factorial(n - 1);
+		if (n < T(0))
+			throw math::operation_undefined();
+		if (n == T(1) || n == T(0))
+			return T(1);
+		return n * factorial(n - T(1));
 	}
 
 
@@ -169,7 +169,7 @@ template <typename T, typename U>
 inline bool isPrime(const long long int& n) {
 	const int	limit = sqrt(n) + 1;
 	int			i = 2;
-	
+
 	while (i < limit) {
 		if (!modulo(n, i))
 			return false;
