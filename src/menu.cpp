@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:28:07 by eli               #+#    #+#             */
-/*   Updated: 2023/03/30 12:34:07 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 14:47:21 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ Menu::Menu() {
 	cout <<	"Welcome to computorv2 (v1.0.0, 2023) made with love by @etran.\n"
 			"Type '" __DISPLAY_COMMANDS
 			"' to display the list of available commands.\n";
-	// TODO: On init, disable sigint
-	// show commands
 }
 
 Menu::~Menu() {}
@@ -47,15 +45,15 @@ void	Menu::prompt() {
 
 void	Menu::_help() {
 	static const char*	help_msg =
-		"Here's what you can do with this program:\n"
-		"Computorv2 is a computation program. You can:"
-		"    calculate value:"
+		// "Here's what you can do with this program:\n"
+		"Computorv2 is a computation program. Here is the list of possibilities.\n"
+		"    calculate value\n"
 		"\t[expression] = ?\n"
-		"\t(example: `1+2 = ?`)\n"
-		"    solve equation (1st and 2nd degree polynomials in R only):"
+		"\t(example: `1+2 = ?`)\n\n"
+		"    solve equation (1st and 2nd degree polynomials of R only)\n"
 		"\t[expression] = [expression] ?\n"
-		"\t(example: `x+1 = 2*x ?`)\n"
-		"    assign value:"
+		"\t(example: `x+1 = 2*x ?`)\n\n"
+		"    assign value\n"
 		"\t[variable] = [expression]\n"
 		"\t(example: `a = 2`)\n\n"
 		"note: Computorv2 supports complexes and matrixes too.\n"
@@ -111,7 +109,7 @@ void	Menu::_compute(const std::string& entry) {
 		Parser				parser(entry);
 		Parser::result_tree	output = parser.parse();
 
-		Indeterminates	ind_res;
+		Indeterminates		ind_res;
 
 		try {
 			DEBUG("Collapsing");
