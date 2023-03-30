@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:10:49 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 14:13:20 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 14:40:39 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,38 +64,16 @@ class Identifier: public ATreeNode {
 				<< (_context.empty() ? "none" : _context)
 			);
 
+			shared_itype	value;
 			if (base::getRight() == nullptr) {
-				// Not set, check existing in local context
-				shared_itype	value = Computor::find(_name, _context);
-				shared_itype	global = Computor::find(_name);
-				shared_function	f_ptr = std::dynamic_pointer_cast<Function>(global);
-
-				if (f_ptr != nullptr && _extra.empty()) {
-					throw MissingVariableName();
-				} else if (global != nullptr) {
-					return global;
-				} else if (value == nullptr
-					&& Computor::to_compute()
-					&& !Computor::to_solve()) {
-					throw ValueNotSet(_name, _context);
-				}
-				return value;
+				// Not set, retrieve from memory
+				value = _fetch();
 			} else {
 				// Set a new value
-				shared_itype	value = base::getRight()->eval();
-				if (value == nullptr)
-					throw RhsNotSet();
-				shared_function	f_ptr = std::dynamic_pointer_cast<Function>(value);
-				if (f_ptr != nullptr) {
-					if (!_extra.empty()) {
-						Computor::create_context(_name, f_ptr->getVarName());
-					} else {
-						throw BadFunctionDefinition();
-					}
-				}
+				value = _evalRhs();
 				Computor::push(_name, value);
-				return value;
 			}
+			return value;
 		}
 
 		void					print() {
@@ -131,7 +109,8 @@ class Identifier: public ATreeNode {
 		}
 
 		Indeterminates			collapse() const {
-			const shared_itype		value = eval();
+			const shared_itype		value =
+				base::getRight() == nullptr ? _fetch() : _evalRhs();
 			if (value == nullptr) {
 				// This identifier is an indeterminate
 				if (!_context.empty()) {
@@ -149,6 +128,7 @@ class Identifier: public ATreeNode {
 				std::dynamic_pointer_cast<Function>(value);
 			const shared_rational	factor =
 				std::dynamic_pointer_cast<Rational>(value);
+
 			if (f_ptr == nullptr && factor == nullptr) {
 				DEBUG("Here");
 				throw Indeterminates::ExpansionNotSupported();
@@ -206,7 +186,38 @@ class Identifier: public ATreeNode {
 		const std::string		_name;
 		const std::string		_context;
 		const std::string		_extra;
-		std::string				_buffer_name;
+
+		shared_itype			_fetch() const {
+			shared_itype	value = Computor::find(_name, _context);
+			shared_itype	global = Computor::find(_name);
+			shared_function	f_ptr = std::dynamic_pointer_cast<Function>(global);
+
+			if (f_ptr != nullptr && _extra.empty()) {
+				throw MissingVariableName();
+			} else if (global != nullptr) {
+				return global;
+			} else if (value == nullptr
+				&& Computor::to_compute()
+				&& !Computor::to_solve()) {
+				throw ValueNotSet(_name, _context);
+			}
+			return value;
+		}
+
+		shared_itype			_evalRhs() const {
+			shared_itype	value = base::getRight()->eval();
+			if (value == nullptr)
+				throw RhsNotSet();
+			shared_function	f_ptr = std::dynamic_pointer_cast<Function>(value);
+			if (f_ptr != nullptr) {
+				if (!_extra.empty()) {
+					Computor::create_context(_name, f_ptr->getVarName());
+				} else {
+					throw BadFunctionDefinition();
+				}
+			}
+			return value;
+		}
 };
 
 #endif
