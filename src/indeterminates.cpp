@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/30 14:55:11 by eli              ###   ########.fr       */
+/*   Updated: 2023/03/30 18:10:40 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ Indeterminates::Indeterminates(
 ) {
 	if (factor == nullptr) {
 		factor = std::make_shared<Rational>(Indeterminates::unit);
+	} else if (*factor == Indeterminates::null) {
+		return;
 	}
 	key_type	weighted_value(var_name, exponent);
 	key_set		keys;
