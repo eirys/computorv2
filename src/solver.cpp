@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 12:30:40 by eli               #+#    #+#             */
-/*   Updated: 2023/03/29 14:06:53 by eli              ###   ########.fr       */
+/*   Updated: 2023/04/03 19:56:07 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ void	Solver::_rootSquare(const std::string& var) const {
 		const Rational	sqrt_delta = math::sqrt(discriminant.getVal());
 		cout	<< "Solutions (Δ > 0): " << NL
 				<< var << "\t= (-" << b << " - √" << discriminant
-				<< ") / 2 * " << a << NL
+				<< ") / (2 * " << a << ")" << NL
 				<< "\t= " << ((-b - sqrt_delta) / (a * Rational(2))) << NL
 				<< " OR" << NL
 				<< var << "\t= (-" << b << " + √" << discriminant
-				<< ") / 2 * " << a << NL
+				<< ") / (2 * " << a << ")" << NL
 				<< "\t= " << ((-b + sqrt_delta) / (a * Rational(2))) << NL;
 	} else if (discriminant < 0) {
 		// x1, x2 in C
@@ -98,17 +98,17 @@ void	Solver::_rootSquare(const std::string& var) const {
 		const Rational	real = - b / (a * Rational(2));
 		const Rational	im = sqrt_delta / (a * Rational(2));
 		cout	<< "Solutions (Δ < 0): " << NL
-				<< var << "\t= (-" << b << " - √|" << discriminant
-				<< "|) / 2 * " << a << NL
+				<< var << "\t= (-" << b << " - i√|" << discriminant
+				<< ") / (2 * " << a << ")" << NL
 				<< "\t= " << Complex(real, -im) << NL
 				<< " OR" << NL
-				<< var << "\t= (-" << b << " + √|" << discriminant
-				<< "|) / 2 * " << a << NL
+				<< var << "\t= (-" << b << " + i√|" << discriminant
+				<< ") / (2 * " << a << ")" << NL
 				<< "\t= " << Complex(real, im) << NL;
 	} else {
 		// single x 
 		cout	<< "Solution (Δ == 0): " << NL
-				<< var << "\t= (-" << b << ") / 2 * " << a << NL
-				<< "\t= " << - b / 2 * a << NL;
+				<< var << "\t= -" << b << " / (2 * " << a << ')' << NL
+				<< "\t= " << - b / (Rational(2) * a) << NL;
 	}
 }

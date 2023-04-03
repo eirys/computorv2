@@ -6,7 +6,7 @@
 /*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 11:26:28 by etran             #+#    #+#             */
-/*   Updated: 2023/03/30 18:10:40 by eli              ###   ########.fr       */
+/*   Updated: 2023/04/03 19:55:17 by eli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,9 @@ Indeterminates	Indeterminates::operator*(const Indeterminates& other) const {
 }
 
 Indeterminates	Indeterminates::operator/(const Indeterminates& other) const {
+	if (other.getMap().empty())
+		throw math::operation_undefined();
+	
 	data_map			new_map(other.getMap());
 
 	for (data_map::iterator it = new_map.begin();
@@ -256,9 +259,7 @@ int	Indeterminates::getMaxExponent() const {
 		for (key_set::const_iterator ite = current_set.begin();
 		ite != current_set.end();
 		++ite) {
-			if (ite->exponent > Indeterminates::two) {
-				return -1;
-			} else if (ite->variable_name != UNIT_VALUE
+			if (ite->variable_name != UNIT_VALUE
 				&& ite->exponent > max_exp) {
 				max_exp = ite->exponent;
 			}
