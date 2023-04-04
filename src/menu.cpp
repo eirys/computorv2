@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eli <eli@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: etran <etran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:28:07 by eli               #+#    #+#             */
-/*   Updated: 2023/03/30 14:50:42 by eli              ###   ########.fr       */
+/*   Updated: 2023/04/04 15:58:52 by etran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "utils.hpp"
 #include "parser.hpp"
 #include "solver.hpp"
+#include <string.h>
 
 using std::cout;
 using std::cin;
@@ -27,9 +28,13 @@ Menu::Menu() {
 	cout <<	"Welcome to computorv2 (v1.0.0, 2023) made with love by @etran.\n"
 			"Type '" __DISPLAY_COMMANDS
 			"' to display the list of available commands.\n";
+
+	_setupSignal(INIT_SIGNAL);
 }
 
-Menu::~Menu() {}
+Menu::~Menu() {
+	_setupSignal(RESET_SIGNAL);
+}
 
 void	Menu::prompt() {
 	cout << PROMPT;
@@ -138,4 +143,17 @@ void	Menu::_compute(const std::string& entry) {
 		cerr << "Error: " << e.what() << NL;
 	}
 	_computor_context.flush();
+}
+
+void	Menu::_setupSignal(SignalState value) {
+	if (value == INIT_SIGNAL) {
+		struct sigaction	sa_sigint;
+		bzero(&sa_sigint, sizeof(struct sigaction));
+		bzero(&_old_sigint, sizeof(struct sigaction));
+		sa_sigint.sa_flags = SA_RESTART;
+		sa_sigint.sa_handler = SIG_IGN;
+		sigaction(SIGINT, &sa_sigint, &_old_sigint);
+	} else {
+		sigaction(SIGINT, &_old_sigint, NULL);
+	}
 }
