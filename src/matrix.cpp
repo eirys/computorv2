@@ -385,7 +385,7 @@ Matrix Matrix::operator^(const Rational& rhs) const {
 		tmp = Matrix(getNbColumns(), Rational(1));
 	} else {
 		const Rational	rhs_copy(rhs);
-		for (Rational i = Rational(0); i < rhs_copy; ++i) {
+		for (Rational i = Rational(1); i < rhs_copy; ++i) {
 			tmp.operator*=(*this);
 		}
 	}
